@@ -3189,3 +3189,197 @@ svg {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------------------------------- mundo (jogo) ----------------------------- */
+
+.game-shell {
+  width: min(980px, 100%);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-hud {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+}
+
+.game-score {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.game-frame {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow);
+  background: #050b08;
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1536 / 576;
+  background: #07130d;
+}
+
+.game-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(3, 8, 5, 0.66);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.game-overlay__panel {
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  box-shadow: var(--shadow);
+}
+
+.game-overlay__title {
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  color: var(--text);
+}
+
+.game-overlay__text {
+  color: var(--text-soft);
+  font-size: 0.92rem;
+}
+
+.game-overlay__tips {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.game-overlay__actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.game-overlay__panel .btn {
+  min-width: 150px;
+}
+
+.game-overlay__panel kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  background: var(--panel-3);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.game-controls {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 6;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.game-controls__row {
+  display: flex;
+  gap: 8px;
+}
+
+.game-control {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.game-control:active {
+  background: var(--panel-3);
+}
+
+.game-control svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.game-control--jump {
+  width: 54px;
+  height: 54px;
+}
+
+@media (pointer: coarse) {
+  .game-controls {
+    display: flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .game-frame {
+    border-radius: var(--radius-md);
+  }
+
+  .game-overlay {
+    padding: 12px;
+    align-items: flex-start;
+  }
+
+  .game-overlay__panel {
+    padding: 18px;
+    gap: 10px;
+  }
+
+  .game-hud {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+}

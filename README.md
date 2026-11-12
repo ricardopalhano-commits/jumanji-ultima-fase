@@ -61,6 +61,15 @@ Cada jogada rende **gemas** em caso de vitória, custa **uma vida** em caso de d
 - **Reiniciar jornada** restaura vidas, zera gemas/progresso e apaga o diário.
 - **Ranking** por gemas e capítulos, com pódio, estatísticas gerais e status (*Pronto*, *Em aventura*, *Lenda da selva*, *Sem vidas*).
 
+### Mundo Jumanji (modo plataforma)
+- **Novo modo de jogo** inspirado em Mario: o aventureiro corre, pula, esmaga inimigos e enfrenta obstáculos.
+- **Inimigos para derrotar**: mandris (guardiões de madeira), raptor velociraptor e o **T-Rex de Jurgen** (chefe com 3 fases de golpe — esmague com quedas).
+- **Obstáculos**: buracos no terreno, rajadas de areia (pedras) e o próprio deserto.
+- **Moedas de gema** espalhadas pela trilha; coletar soma pontos.
+- **Vitória**: derrotar o T-Rex de Jurgen e alcançar o **portal dourado**.
+- **Controles**: `←`/`→` ou `WASD` para correr, `Espaço`/`W` para pular; controles touch (mobile) incluídos.
+- **HUD**: vidas (3 corações), gemas, pontuação e fase; telas de início, fim do tabuleiro e vitória.
+
 ### Interface
 - Layout **responsivo** (desktop, tablet e celular), com linha do tempo da jornada e painel da fase.
 - **No celular**, a navegação vira uma **barra inferior fixa** com ícones e rótulos, o cabeçalho fica compacto, os diálogos ocupam a tela e as áreas seguras de iPhone (`safe-area-inset`) são respeitadas.
@@ -149,6 +158,7 @@ A camada `server/db.js` traduz parâmetros nomeados (`:nome`) para o driver em u
 │   │   ├── app.js              # estado, renderização e eventos da interface
 │   │   ├── api.js              # cliente da API + tratamento de erros
 │   │   ├── format.js           # números, datas, rótulos e utilidades
+│   │   ├── game.js             # modo plataforma "Mundo Jumanji" (canvas, física, inimigos)
 │   │   └── pwa.js              # registro do SW e instalação
 │   └── icons/                  # ícones PNG/SVG (gerados por script)
 ├── server/

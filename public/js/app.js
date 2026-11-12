@@ -13,6 +13,7 @@ import {
   statusTone
 } from './format.js';
 import { initPWA } from './pwa.js';
+import { startGame } from './game.js';
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
@@ -27,7 +28,7 @@ const FALLBACK_AVATAR = {
   attributes: { forca: 2, agilidade: 2, conhecimento: 2 }
 };
 
-const VIEWS = ['aventura', 'aventureiros', 'fases', 'ranking'];
+const VIEWS = ['aventura', 'aventureiros', 'fases', 'ranking', 'jogo'];
 
 const state = {
   view: 'aventura',
@@ -132,6 +133,17 @@ const els = {
   year: $('#year'),
   themeBtn: $('#theme-btn')
 };
+
+let gameInstance = null;
+
+function startJungleGame() {
+  if (gameInstance) gameInstance.destroy();
+  gameInstance = startGame($('#game-canvas'), {
+    mount: $('#game-mount'),
+    playerName: selectedPlayer()?.name || 'Aventureiro',
+    onExit: () => setView('aventura')
+  });
+}
 
 /* ------------------------------- utilitários ------------------------------- */
 
@@ -477,6 +489,10 @@ function renderHeroCard() {
         <button class="btn btn--primary btn--sm" type="button" data-action="focus-mission">
           <svg class="icon" aria-hidden="true"><use href="#i-play"></use></svg>
           Ir para a fase
+        </button>
+        <button class="btn btn--primary btn--sm" type="button" data-action="play-game">
+          <svg class="icon" aria-hidden="true"><use href="#i-gamepad"></use></svg>
+          Jogar no mundo
         </button>
         <button class="btn btn--ghost btn--sm" type="button" data-action="edit-player" data-id="${player.id}">
           <svg class="icon" aria-hidden="true"><use href="#i-edit"></use></svg>
@@ -1582,7 +1598,10 @@ function bindEvents() {
   });
 
   $$('.nav__link').forEach((button) => {
-    button.addEventListener('click', () => setView(button.dataset.view));
+    button.addEventListener('click', () => {
+      setView(button.dataset.view);
+      if (button.dataset.view === 'jogo') startJungleGame();
+    });
   });
 
   window.addEventListener('hashchange', () => {
@@ -1717,6 +1736,10 @@ function bindEvents() {
         break;
       case 'focus-mission':
         $('#mission-panel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        break;
+      case 'play-game':
+        setView('jogo');
+        startJungleGame();
         break;
       case 'new-mission':
         openMissionDialog();
