@@ -10,6 +10,7 @@ Jogo de **aventura narrativa** inspirado em *Jumanji: Próxima Fase*, com **CRUD
   <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql&logoColor=white" />
   <img alt="PWA" src="https://img.shields.io/badge/PWA-instalável-5A0FC8?logo=pwa&logoColor=white" />
   <img alt="Render" src="https://img.shields.io/badge/Deploy-Render-46E3B7?logo=render&logoColor=white" />
+  <a href="https://github.com/ricardopalhano-commits/jumanji-ultima-fase/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/ricardopalhano-commits/jumanji-ultima-fase/actions/workflows/ci.yml/badge.svg" /></a>
   <img alt="Licença" src="https://img.shields.io/badge/licença-MIT-blue" />
 </p>
 
