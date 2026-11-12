@@ -12,6 +12,7 @@
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
     "test": "node scripts/smoke-test.js",
+    "check:prod": "node scripts/prod-check.mjs",
     "icons": "node scripts/generate-icons.js"
   },
   "keywords": [
