@@ -1,0 +1,65 @@
+{
+  "id": "/",
+  "name": "Jumanji: A Última Fase — aventura narrativa",
+  "short_name": "Jumanji",
+  "description": "Entre no tabuleiro: crie aventureiros, atravesse o deserto, fuja das avestruzes, encare os mandris e derrote Jurgen em uma aventura com CRUD, banco de dados e modo offline.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#07110d",
+  "theme_color": "#07110d",
+  "categories": ["games", "entertainment", "education"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Jogar a aventura",
+      "short_name": "Aventura",
+      "description": "Abrir a jornada do aventureiro selecionado",
+      "url": "/?view=aventura",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Aventureiros",
+      "short_name": "Aventureiros",
+      "description": "Gerenciar os personagens do tabuleiro",
+      "url": "/?view=aventureiros",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Ranking da selva",
+      "short_name": "Ranking",
+      "description": "Ver a classificação das gemas e capítulos",
+      "url": "/?view=ranking",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

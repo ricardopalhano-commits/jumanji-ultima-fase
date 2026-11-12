@@ -1,0 +1,29 @@
+# Blueprint do Render: cria o banco PostgreSQL e o serviço web de uma só vez.
+# No Render: New + Blueprint -> conecte o repositório do GitHub.
+databases:
+  - name: jumanji-db
+    databaseName: jumanji
+    user: jumanji
+    plan: free
+    region: oregon
+
+services:
+  - type: web
+    name: jumanji-ultima-fase
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "24"
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: jumanji-db
+          property: connectionString

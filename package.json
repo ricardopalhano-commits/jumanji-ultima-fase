@@ -1,0 +1,34 @@
+{
+  "name": "jumanji-ultima-fase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Jumanji: A Última Fase - jogo de aventura narrativa com CRUD de aventureiros e fases, banco de dados, API REST e PWA instalável.",
+  "type": "module",
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node scripts/smoke-test.js",
+    "icons": "node scripts/generate-icons.js"
+  },
+  "keywords": [
+    "jumanji",
+    "game",
+    "aventura",
+    "pwa",
+    "crud",
+    "node",
+    "express",
+    "postgres",
+    "sqlite",
+    "render"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  }
+}
