@@ -1,11 +1,12 @@
-# Blueprint do Render: cria o banco PostgreSQL e o serviço web de uma só vez.
-# No Render: New + Blueprint -> conecte o repositório do GitHub.
-databases:
-  - name: jumanji-db
-    databaseName: jumanji
-    user: jumanji
-    plan: free
-    region: oregon
+# Blueprint do Render: cria o serviço web do jogo.
+#
+# O PostgreSQL do Render permite apenas UM banco gratuito por workspace.
+# Por isso este Blueprint não cria um banco novo: ele espera que a variável
+# DATABASE_URL seja informada no momento do deploy (sync: false), apontando
+# para um PostgreSQL existente (Render, Neon, Supabase etc.).
+#
+# No Render: New + Blueprint -> conecte o repositório do GitHub -> informe
+# DATABASE_URL quando solicitado.
 
 services:
   - type: web
@@ -24,6 +25,4 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        fromDatabase:
-          name: jumanji-db
-          property: connectionString
+        sync: false
