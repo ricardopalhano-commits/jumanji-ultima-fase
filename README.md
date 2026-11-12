@@ -20,10 +20,10 @@ Jogo de **aventura narrativa** inspirado em *Jumanji: Próxima Fase*, com **CRUD
 | O que | Link |
 | --- | --- |
 | 🌐 Jogo funcionando (Render) | `https://SEU-APP.onrender.com` |
-| 💻 Repositório público (GitHub) | `https://github.com/SEU-USUARIO/jumanji-ultima-fase` |
+| 💻 Repositório público (GitHub) | [github.com/ricardopalhano-commits/jumanji-ultima-fase](https://github.com/ricardopalhano-commits/jumanji-ultima-fase) |
 
-> **Importante:** substitua os dois links acima depois de publicar. O passo a passo está em
-> [Publicar no GitHub](#-publicar-no-github) e [Publicar no Render](#-publicar-no-render).
+> **Importante:** o link do Render será preenchido depois do deploy. O passo a passo está em
+> [Publicar no Render](#-publicar-no-render).
 
 ---
 
@@ -175,7 +175,7 @@ A camada `server/db.js` traduz parâmetros nomeados (`:nome`) para o driver em u
 
 ```bash
 # 1. clone o repositório
-git clone https://github.com/SEU-USUARIO/jumanji-ultima-fase.git
+git clone https://github.com/ricardopalhano-commits/jumanji-ultima-fase.git
 cd jumanji-ultima-fase
 
 # 2. instale as dependências
@@ -480,30 +480,25 @@ O PostgreSQL free do Render pode expirar. Para manter os dados por mais tempo:
 
 ---
 
-## 🐙 Publicar no GitHub
+## 🐙 Repositório no GitHub
+
+O código está publicado em um repositório público:
+
+**https://github.com/ricardopalhano-commits/jumanji-ultima-fase**
+
+Para enviar novas alterações:
 
 ```bash
-# na pasta do projeto
-git init
 git add .
-git commit -m "feat: Jumanji A Última Fase - CRUD, jogo narrativo e PWA"
-git branch -M main
-
-# crie o repositório vazio em https://github.com/new (nome: jumanji-ultima-fase)
-git remote add origin https://github.com/SEU-USUARIO/jumanji-ultima-fase.git
-git push -u origin main
+git commit -m "descreva a alteração"
+git push
 ```
 
-Alternativa com GitHub CLI:
+Se precisar recriar o repositório do zero:
 
 ```bash
 gh repo create jumanji-ultima-fase --public --source=. --remote=origin --push
 ```
-
-Depois de publicar, atualize:
-- o link **Repositório** no rodapé (`public/index.html`);
-- os links no topo deste README;
-- (opcional) a URL do jogo na seção “Links do projeto”.
 
 ---
 
