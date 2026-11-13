@@ -764,7 +764,8 @@
         }
       },
       coin(c, row) {
-        coins.push({ x: c * TILE + TILE / 2, y: row * TILE + TILE / 2, taken: false, phase: hash(c, row) * TAU });
+        // gemas posicionadas na altura do peito do personagem (cerca de 16px acima do topo da tile)
+        coins.push({ x: c * TILE + TILE / 2, y: row * TILE - 16, taken: false, phase: hash(c, row) * TAU });
       },
       coinLine(c0, c1, row) {
         for (let c = c0; c <= c1; c += 1) B.coin(c, row);
@@ -2035,6 +2036,22 @@
 
     drawDunes(theme.mid, 0.3, 470, 90, 520);
 
+    // ondas distantes de dunas para dar sensação de profundidade
+    const ridge = ctx.createLinearGradient(0, 0, 0, 452);
+    ridge.addColorStop(0, theme.farDark);
+    ridge.addColorStop(1, theme.far);
+    ctx.fillStyle = ridge;
+    ctx.beginPath();
+    const ridgeAmp = 40 + hash(9, 77) * 30;
+    for (let x = -20; x <= VIEW_W + 20; x += 8) {
+      const y = 452 - (ridgeAmp * (0.5 + 0.5 * Math.sin(x * 0.012 + 3)) + hash(Math.floor(x), 77) * ridgeAmp * 0.4);
+      if (x === -20) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.lineTo(VIEW_W + 20, 452);
+    ctx.closePath();
+    ctx.fill();
+
     const rockSpan = 300;
     for (let i = -1; i < Math.ceil(VIEW_W / rockSpan) + 1; i += 1) {
       const scrolled = camera * 0.46;
@@ -2111,6 +2128,27 @@
     }
     ctx.globalAlpha = 1;
 
+    // linha distante de árvores para fundo
+    const farTreeSpan = 240;
+    for (let i = -1; i < Math.ceil(VIEW_W / farTreeSpan) + 1; i += 1) {
+      const scrolled = camera * 0.08;
+      const cycle = Math.floor(scrolled / farTreeSpan);
+      const off = scrolled - cycle * farTreeSpan;
+      const x = i * farTreeSpan - off;
+      const seed = i + cycle;
+      const th = 120 + hash(seed, 88) * 70;
+      ctx.globalAlpha = 0.35;
+      ctx.fillStyle = theme.farDark;
+      ctx.beginPath();
+      ctx.arc(x, 452 - th * 0.7, th * 0.55, 0, TAU);
+      ctx.fill();
+      ctx.fillStyle = theme.far;
+      ctx.beginPath();
+      ctx.arc(x - th * 0.28, 452 - th * 0.85, th * 0.4, 0, TAU);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
     ctx.fillStyle = theme.farDark;
     const span = 300;
     for (let i = -1; i < Math.ceil(VIEW_W / span) + 1; i += 1) {
@@ -2162,6 +2200,20 @@
 
   function drawTempleBackground(theme) {
     const span = 640;
+
+    // silhueta distante de templo para fundo
+    for (let i = -1; i < Math.ceil(VIEW_W / span) + 1; i += 1) {
+      const scrolled = camera * 0.12;
+      const cycle = Math.floor(scrolled / span);
+      const off = scrolled - cycle * span;
+      const x = i * span - off;
+      const h = 130 + hash(i + cycle, 55) * 70;
+      ctx.fillStyle = theme.farDark;
+      ctx.fillRect(x + span * 0.2, 452 - h, span * 0.2, h);
+      ctx.fillRect(x + span * 0.62, 452 - h * 0.8, span * 0.16, h * 0.8);
+      ctx.fillRect(x + span * 0.4, 452 - h * 1.1, span * 0.12, h * 1.1);
+    }
+
     for (let i = -1; i < Math.ceil(VIEW_W / span) + 1; i += 1) {
       const scrolled = camera * 0.15;
       const cycle = Math.floor(scrolled / span);
@@ -3076,6 +3128,8 @@
     ctx.stroke();
     ctx.fillStyle = '#e0554a';
     dot(w / 2 - 4, -11, 1.3);
+    ctx.fillStyle = '#e8d9b8';
+    dot(w / 2 - 2, -17, 1.7);
     ctx.restore();
   }
 
@@ -3180,6 +3234,20 @@
     ctx.fillStyle = '#241608';
     dot(-3, -31, 1.4);
     dot(3, -31, 1.4);
+    // orelhas do mandril
+    ctx.fillStyle = '#8a5a33';
+    ctx.beginPath();
+    ctx.moveTo(-13, -28);
+    ctx.lineTo(-20, -36);
+    ctx.lineTo(-8, -28);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(13, -28);
+    ctx.lineTo(20, -36);
+    ctx.lineTo(8, -28);
+    ctx.closePath();
+    ctx.fill();
     ctx.restore();
   }
 
@@ -3223,9 +3291,10 @@
   function drawCobra(enemy) {
     enemyOrigin(enemy);
     const sway = Math.sin(time * 2.4 + enemy.phase);
+    const hood = 1 + 0.14 * Math.max(0, Math.sin(time * 5 + enemy.phase * 2));
     ctx.fillStyle = '#2f6b3a';
     ctx.beginPath();
-    ctx.ellipse(0, -6, 12, 7, 0, 0, TAU);
+    ctx.ellipse(0, -6, 12 * hood, 7, 0, 0, TAU);
     ctx.fill();
     ctx.strokeStyle = '#1f4a29';
     ctx.lineWidth = 1.5;
@@ -3259,6 +3328,21 @@
   function drawRaptor(enemy) {
     enemyOrigin(enemy);
     const run = Math.sin(time * 10 + enemy.phase);
+    const wing = 0.55 + 0.45 * Math.abs(run);
+    // alas do rapto
+    ctx.fillStyle = '#3f8a42';
+    ctx.save();
+    ctx.rotate(-0.6 - wing * 0.8);
+    ctx.beginPath();
+    ctx.ellipse(-10, -24, 13, 4, -0.4, 0, TAU);
+    ctx.fill();
+    ctx.restore();
+    ctx.save();
+    ctx.rotate(0.6 + wing * 0.8);
+    ctx.beginPath();
+    ctx.ellipse(10, -24, 13, 4, 0.4, 0, TAU);
+    ctx.fill();
+    ctx.restore();
     ctx.strokeStyle = '#2f6b34';
     ctx.lineWidth = 4;
     ctx.beginPath();
@@ -3336,6 +3420,13 @@
     ctx.moveTo(-24, -52);
     ctx.lineTo(-34, -20);
     ctx.stroke();
+    // joelhos/armadura dos ombros do Jurgen
+    ctx.fillStyle = '#6b4226';
+    rr(-30, -50, 14, 20, 6);
+    ctx.fill();
+    ctx.fillStyle = '#8a5a33';
+    rr(16, -50, 14, 20, 6);
+    ctx.fill();
     ctx.fillStyle = '#cfd6dd';
     ctx.beginPath();
     ctx.moveTo(-40, -24);
