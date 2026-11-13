@@ -20,12 +20,12 @@ Jogo de **aventura narrativa** inspirado em *Jumanji: Próxima Fase*, com **CRUD
 
 | O que | Link |
 | --- | --- |
-| 🌐 Jogo funcionando (Render) | `https://SEU-APP.onrender.com` |
+| 🌐 Jogo funcionando (Render) | [jumanji-ultima-fase.onrender.com](https://jumanji-ultima-fase.onrender.com) |
 | 💻 Repositório público (GitHub) | [github.com/ricardopalhano-commits/jumanji-ultima-fase](https://github.com/ricardopalhano-commits/jumanji-ultima-fase) |
-| 🎮 Jogo de plataforma (standalone) | `/jogo/` — aberto pelo botão *Jogar agora* na aba **Mundo** |
+| 🎮 Jogo de plataforma (standalone) | [jumanji-ultima-fase.onrender.com/jogo/](https://jumanji-ultima-fase.onrender.com/jogo/) — ou pelo botão *Jogar agora* na aba **Mundo** |
 
-> **Importante:** o link do Render será preenchido depois do deploy. O passo a passo está em
-> [Publicar no Render](#-publicar-no-render).
+> **Nota:** no plano gratuito do Render o serviço "hiberna" após alguns minutos sem acesso; a primeira
+> visita pode levar de 30 a 60 segundos para acordar.
 
 ---
 
