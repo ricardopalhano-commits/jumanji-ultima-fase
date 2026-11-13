@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Jumanji: A Última Fase — aventura narrativa</title>
+    <meta
+      name="description"
+      content="Entre no tabuleiro de Jumanji: A Última Fase. Crie aventureiros, atravesse o deserto, fuja das avestruzes, encare os mandris e derrote Jurgen em uma aventura com CRUD, banco de dados e PWA."
+    />
+    <meta name="theme-color" content="#07110d" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Jumanji" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/icons/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="m15.5 8.5-2.2 5.3-5.3 2.2 2.2-5.3 5.3-2.2Z" /></symbol>
+      <symbol id="i-sword" viewBox="0 0 24 24"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" /><line x1="13" y1="19" x2="19" y2="13" /><line x1="16" y1="16" x2="20" y2="20" /><line x1="19" y1="21" x2="21" y2="19" /><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" /><line x1="5" y1="14" x2="9" y2="18" /><line x1="7" y1="17" x2="4" y2="20" /><line x1="3" y1="19" x2="5" y2="21" /></symbol>
+      <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 8h9a3 3 0 1 0-3-3" /><path d="M3 12h13a3 3 0 1 1-3 3" /><path d="M3 16h6" /></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h6v18H6a2 2 0 0 1-2-2Z" /><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" /><path d="M8 7h2M8 11h2" /></symbol>
+      <symbol id="i-mask" viewBox="0 0 24 24"><path d="M3 6c3-2 6-2 9 0 3-2 6-2 9 0 0 7-3 12-9 15-6-3-9-8-9-15Z" /><path d="M8 10h.01M16 10h.01" /><path d="M9 15c2 1 4 1 6 0" /></symbol>
+      <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7 3.5C19 15.6 12 20 12 20Z" /></symbol>
+      <symbol id="i-gem" viewBox="0 0 24 24"><path d="m12 2 6 7-6 13L6 9Z" /><path d="M6 9h12M12 2v20" /></symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0Z" /><path d="M8 6H4v2a4 4 0 0 0 4 4M16 6h4v2a4 4 0 0 1-4 4" /><path d="M12 13v4M8 21h8M10 17h4" /></symbol>
+      <symbol id="i-skull" viewBox="0 0 24 24"><path d="M5 11a7 7 0 1 1 14 0v3l-2 2v3H7v-3l-2-2Z" /><path d="M9 11h.01M15 11h.01" /><path d="M10 17h4" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a7.1 7.1 0 1 0 10.7 10.7Z" /></symbol>
+      <symbol id="i-coins" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3" /><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6" /><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" /></symbol>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4 9 4 16c0 2 1 4 1 4s1-7 10-9c-4 4-6 7-6 9 8 1 11-6 11-16Z" /></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5 19 12 7 19.5Z" /></symbol>
+      <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6" /></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12" /></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5" /></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01" /><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" /></symbol>
+      <symbol id="i-offline" viewBox="0 0 24 24"><path d="M2 2l20 20" /><path d="M8.5 16.5a5 5 0 0 1 7 0" /><path d="M5 12.9a10 10 0 0 1 4-2.5" /><path d="M15 10.4a10 10 0 0 1 4 2.5" /><path d="M2 8.8a15 15 0 0 1 5-3" /><path d="M12 20h.01" /></symbol>
+      <symbol id="i-install" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3" /><path d="M12 7v6M9 10l3 3 3-3" /></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.4 1.3a11.6 11.6 0 0 0-6 0C6.8 2.8 5.8 3.1 5.8 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4.4 9.5c0 4.6 2.7 5.7 5.5 6-.5.6-.5 1.2-.5 2V21" /></symbol>
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7" /><path d="M21 3v6h-6" /></symbol>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="m9 4 6 2 6-2v14l-6 2-6-2-6 2V6Z" /><path d="M9 4v14M15 6v14" /></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 22c4 0 6-2.7 6-6 0-4-3-5-3-9 0 0-3 1-3 5-1-1-2-2-2-4-2 2-4 5-4 8 0 3.3 2 6 6 6Z" /></symbol>
+      <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" /><path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01" /></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5" /></symbol>
+      <symbol id="i-gamepad" viewBox="0 0 24 24"><path d="M8 3h8a2.2 2.2 0 0 1 2.2 2.2v6a2.2 2.2 0 0 1-2.2 2.2h-2.4v4.6a2.2 2.2 0 0 1-4.4 0V13H8A2.2 2.2 0 0 1 5.8 8.2V5.2A2.2 2.2 0 0 1 8 3Z" /><path d="M9.5 9.5v5M11.5 9.5v5" /></symbol>
+    </svg>
+
+    <div class="offline-bar" id="offline-banner" role="status" hidden>
+      <svg class="icon" aria-hidden="true"><use href="#i-offline" /></svg>
+      Você está offline — exibindo os dados salvos no dispositivo.
+    </div>
+
+    <header class="topbar">
+      <div class="topbar__inner container">
+        <a class="brand" href="#aventura" aria-label="Jumanji: A Última Fase, início">
+          <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
+            <defs>
+              <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#14523a" />
+                <stop offset="0.65" stop-color="#0d3527" />
+                <stop offset="1" stop-color="#08221a" />
+              </linearGradient>
+            </defs>
+            <rect width="48" height="48" rx="13" fill="url(#brandGrad)" />
+            <circle cx="24" cy="24" r="14" fill="none" stroke="#f2b13c" stroke-opacity=".38" />
+            <path d="M24 7.5 27.6 20.4 40.5 24 27.6 27.6 24 40.5 20.4 27.6 7.5 24 20.4 20.4Z" fill="#f2b13c" />
+            <circle cx="24" cy="24" r="3.1" fill="#0a2018" />
+          </svg>
+          <span class="brand__text">
+            <span class="brand__name">Jumanji</span>
+            <span class="brand__badge">A Última Fase</span>
+          </span>
+        </a>
+
+        <nav class="nav" aria-label="Seções do jogo">
+          <button class="nav__link is-active" type="button" data-view="aventura" aria-current="page">
+            <svg class="icon" aria-hidden="true"><use href="#i-compass" /></svg>
+            <span>Aventura</span>
+          </button>
+          <button class="nav__link" type="button" data-view="aventureiros">
+            <svg class="icon" aria-hidden="true"><use href="#i-user" /></svg>
+            <span>Aventureiros</span>
+          </button>
+          <button class="nav__link" type="button" data-view="fases">
+            <svg class="icon" aria-hidden="true"><use href="#i-map" /></svg>
+            <span>Fases</span>
+          </button>
+          <button class="nav__link" type="button" data-view="ranking">
+            <svg class="icon" aria-hidden="true"><use href="#i-trophy" /></svg>
+            <span>Ranking</span>
+          </button>
+          <button class="nav__link" type="button" data-view="jogo">
+            <svg class="icon" aria-hidden="true"><use href="#i-gamepad" /></svg>
+            <span>Mundo</span>
+          </button>
+        </nav>
+
+        <div class="topbar__actions">
+          <button class="btn btn--ghost btn--sm install-btn" id="install-btn" type="button" aria-label="Instalar o jogo" hidden>
+            <svg class="icon" aria-hidden="true"><use href="#i-install" /></svg>
+            <span>Instalar</span>
+          </button>
+          <button class="icon-btn" id="theme-btn" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema">
+            <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun" /></svg>
+            <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon" /></svg>
+          </button>
+          <button class="btn btn--primary" type="button" data-action="new-player" aria-label="Novo aventureiro">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>
+            <span class="btn__long">Novo aventureiro</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="mobile-nav" aria-label="Seções do jogo">
+      <button class="nav__link is-active" type="button" data-view="aventura" aria-current="page">
+        <svg class="icon" aria-hidden="true"><use href="#i-compass" /></svg>
+        <span>Aventura</span>
+      </button>
+      <button class="nav__link" type="button" data-view="aventureiros">
+        <svg class="icon" aria-hidden="true"><use href="#i-user" /></svg>
+        <span>Aventureiros</span>
+      </button>
+      <button class="nav__link" type="button" data-view="fases">
+        <svg class="icon" aria-hidden="true"><use href="#i-map" /></svg>
+        <span>Fases</span>
+      </button>
+      <button class="nav__link" type="button" data-view="ranking">
+        <svg class="icon" aria-hidden="true"><use href="#i-trophy" /></svg>
+        <span>Ranking</span>
+      </button>
+      <button class="nav__link" type="button" data-view="jogo">
+        <svg class="icon" aria-hidden="true"><use href="#i-gamepad" /></svg>
+        <span>Mundo</span>
+      </button>
+    </nav>
+
+    <main id="conteudo" class="container">
+      <section class="view" id="view-aventura" data-view-panel="aventura" aria-labelledby="hero-title">
+        <div class="hero">
+          <div class="hero__copy">
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Jumanji · capítulo final</p>
+            <h1 id="hero-title">O deserto guarda a primeira prova.</h1>
+            <p class="hero__subtitle">
+              Escolha um aventureiro, encare o tabuleiro e avance pelas fases: dunas, avestruzes,
+              capangas, mandris e o temível Jurgen. Cada escolha pode custar uma vida.
+            </p>
+          </div>
+          <div class="hero__emblem" aria-hidden="true">
+            <svg viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="92" fill="none" stroke="currentColor" stroke-opacity=".18" stroke-dasharray="2 7" />
+              <circle cx="100" cy="100" r="72" fill="none" stroke="currentColor" stroke-opacity=".3" />
+              <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" stroke-opacity=".16" />
+              <path d="M100 16 112 82 178 94 112 106 100 178 88 106 22 94 88 82Z" fill="url(#emblemGold)" />
+              <circle cx="100" cy="100" r="10" fill="#07110d" stroke="currentColor" stroke-width="2" />
+              <defs>
+                <linearGradient id="emblemGold" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffe0a3" />
+                  <stop offset=".55" stop-color="#f2b13c" />
+                  <stop offset="1" stop-color="#c07a1f" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <div class="empty-state" id="adventure-empty" hidden>
+          <svg class="empty-state__art" viewBox="0 0 160 120" aria-hidden="true">
+            <circle cx="80" cy="60" r="46" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 7" opacity=".4" />
+            <path d="M80 14 89 51 126 60 89 69 80 106 71 69 34 60 71 51Z" fill="currentColor" opacity=".22" />
+            <circle cx="80" cy="60" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+          </svg>
+          <h2 class="empty-state__title">Nenhum aventureiro no tabuleiro</h2>
+          <p class="empty-state__text">
+            Crie o primeiro personagem para começar a história. Escolha um avatar, entre no deserto e
+            tente chegar ao portal dourado.
+          </p>
+          <button class="btn btn--primary" type="button" data-action="new-player">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>
+            Criar aventureiro
+          </button>
+        </div>
+
+        <div id="adventure-content" hidden>
+          <section class="switcher" id="player-switcher" aria-label="Escolher aventureiro"></section>
+
+          <section class="hero-card" id="player-hero" aria-label="Resumo do aventureiro"></section>
+
+          <div class="journey-grid">
+            <aside class="panel timeline-panel">
+              <header class="panel__head">
+                <div>
+                  <h2 class="panel__title">
+                    <svg class="icon" aria-hidden="true"><use href="#i-map" /></svg>
+                    Jornada
+                  </h2>
+                  <p class="panel__sub" id="journey-summary">Carregando a jornada…</p>
+                </div>
+              </header>
+              <ol class="timeline" id="journey-timeline"></ol>
+            </aside>
+
+            <article class="panel mission-panel" id="mission-panel" aria-live="polite"></article>
+          </div>
+
+          <section class="panel attempts-panel">
+            <header class="panel__head">
+              <div>
+                <h2 class="panel__title">
+                  <svg class="icon" aria-hidden="true"><use href="#i-dice" /></svg>
+                  Diário de bordo
+                </h2>
+                <p class="panel__sub" id="attempts-summary">As jogadas mais recentes deste aventureiro.</p>
+              </div>
+            </header>
+            <ul class="attempts" id="attempts-list"></ul>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-aventureiros" data-view-panel="aventureiros" hidden aria-labelledby="players-title">
+        <header class="view-head">
+          <div>
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Quem entra no jogo</p>
+            <h1 id="players-title">Aventureiros</h1>
+            <p class="view-head__sub">
+              Cada avatar tem força, agilidade e conhecimento diferentes. Cadastre, edite, reinicie ou
+              exclua personagens — tudo fica salvo no banco de dados.
+            </p>
+          </div>
+          <button class="btn btn--primary" type="button" data-action="new-player">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>
+            Novo aventureiro
+          </button>
+        </header>
+
+        <div class="player-grid" id="player-grid"></div>
+
+        <div class="empty-state" id="players-empty" hidden>
+          <svg class="empty-state__art" viewBox="0 0 160 120" aria-hidden="true">
+            <rect x="38" y="26" width="84" height="68" rx="18" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 7" opacity=".5" />
+            <circle cx="80" cy="54" r="14" fill="currentColor" opacity=".2" />
+            <path d="M56 86c3-12 12-18 24-18s21 6 24 18" fill="currentColor" opacity=".2" />
+          </svg>
+          <h2 class="empty-state__title">O elenco está vazio</h2>
+          <p class="empty-state__text">Cadastre o primeiro aventureiro para montar sua equipe de Jumanji.</p>
+          <button class="btn btn--primary" type="button" data-action="new-player">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>
+            Criar aventureiro
+          </button>
+        </div>
+      </section>
+
+      <section class="view" id="view-fases" data-view-panel="fases" hidden aria-labelledby="missions-title">
+        <header class="view-head">
+          <div>
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> O tabuleiro</p>
+            <h1 id="missions-title">Fases da história</h1>
+            <p class="view-head__sub">
+              As fases formam a campanha, em ordem. Crie, edite, ative ou exclua capítulos — o progresso
+              dos aventureiros acompanha o tabuleiro.
+            </p>
+          </div>
+          <button class="btn btn--primary" type="button" data-action="new-mission">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>
+            Nova fase
+          </button>
+        </header>
+
+        <div class="panel-list" id="mission-list"></div>
+
+        <div class="empty-state" id="missions-empty" hidden>
+          <svg class="empty-state__art" viewBox="0 0 160 120" aria-hidden="true">
+            <path d="M24 34 60 24l40 10 36-10v62l-36 10-40-10-36 10Z" fill="none" stroke="currentColor" stroke-width="2" opacity=".5" />
+            <path d="M60 24v62M100 34v62" stroke="currentColor" stroke-width="2" opacity=".3" />
+          </svg>
+          <h2 class="empty-state__title">Nenhuma fase cadastrada</h2>
+          <p class="empty-state__text">Crie a primeira fase da campanha para liberar a aventura.</p>
+          <button class="btn btn--primary" type="button" data-action="new-mission">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg>
+            Criar fase
+          </button>
+        </div>
+      </section>
+
+      <section class="view" id="view-ranking" data-view-panel="ranking" hidden aria-labelledby="ranking-title">
+        <header class="view-head">
+          <div>
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Quem chega mais longe</p>
+            <h1 id="ranking-title">Ranking da selva</h1>
+            <p class="view-head__sub">
+              A classificação soma gemas conquistadas e capítulos concluídos. Quem zerar as vidas sai do
+              tabuleiro — mas pode reiniciar a jornada.
+            </p>
+          </div>
+        </header>
+
+        <div class="rank-stats" id="rank-stats"></div>
+        <div class="podium" id="podium"></div>
+
+        <section class="panel rank-panel" aria-label="Classificação completa">
+          <header class="panel__head">
+            <div>
+              <h2 class="panel__title">
+                <svg class="icon" aria-hidden="true"><use href="#i-trophy" /></svg>
+                Classificação completa
+              </h2>
+              <p class="panel__sub">Atualizada a cada jogada.</p>
+            </div>
+          </header>
+          <ol class="rank-list" id="rank-list"></ol>
+          <p class="empty-inline" id="ranking-empty" hidden>Nenhum aventureiro no ranking ainda.</p>
+        </section>
+      </section>
+
+      <section class="view" id="view-jogo" data-view-panel="jogo" hidden aria-labelledby="game-title">
+        <header class="view-head">
+          <div>
+            <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Novo modo de jogo</p>
+            <h1 id="game-title">Mundo Jumanji</h1>
+            <p class="view-head__sub">
+              Plataforma com cara de Mario, alma de Jumanji: corra pelas dunas, pule nas pedras, esmague
+              mandris e raptors e enfante o T-Rex de Jurgen rumo ao portal dourado.
+            </p>
+          </div>
+        </header>
+
+        <div class="game-shell" id="game-mount">
+          <a class="jogo-cta" href="./jogo/">
+            <span class="jogo-cta__art" aria-hidden="true">
+              <svg viewBox="0 0 96 96">
+                <circle cx="48" cy="48" r="40" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-dasharray="2 7" />
+                <circle cx="48" cy="48" r="29" fill="none" stroke="currentColor" stroke-opacity=".35" />
+                <path d="M48 16 54.5 41.5 80 48 54.5 54.5 48 80 41.5 54.5 16 48 41.5 41.5Z" fill="url(#jogoCtaGold)" />
+                <circle cx="48" cy="48" r="6" fill="#07110d" stroke="currentColor" stroke-width="2" />
+                <defs>
+                  <linearGradient id="jogoCtaGold" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#ffe0a3" />
+                    <stop offset=".55" stop-color="#f2b13c" />
+                    <stop offset="1" stop-color="#c07a1f" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
+            <span class="jogo-cta__body">
+              <span class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Jogo de plataforma completo</span>
+              <span class="jogo-cta__title">Jumanji: O Tabuleiro Selvagem</span>
+              <span class="jogo-cta__text">
+                Inspirado nos clássicos de plataforma: corra pelas dunas, salte entre templos, esmague
+                mandris, cobras e raptores — e derrote <strong>Jurgen, o Brutal</strong> para abrir o portal
+                dourado. Três fases, power-ups, checkpoints e chefão.
+              </span>
+              <span class="jogo-cta__meta">
+                <span class="chip"><svg class="icon" aria-hidden="true"><use href="#i-map" /></svg> 3 fases</span>
+                <span class="chip"><svg class="icon" aria-hidden="true"><use href="#i-skull" /></svg> 7 inimigos</span>
+                <span class="chip chip--gold"><svg class="icon" aria-hidden="true"><use href="#i-trophy" /></svg> Chefe Jurgen</span>
+              </span>
+            </span>
+            <span class="jogo-cta__go">
+              <svg class="icon" aria-hidden="true"><use href="#i-play" /></svg>
+              Jogar agora
+            </span>
+          </a>
+
+          <div class="game-hud" id="game-hud" aria-label="Indicadores do jogo">
+            <span class="hearts" id="game-hearts" role="img" aria-label="3 de 3 vidas">
+              <span class="heart" aria-hidden="true"><svg class="icon"><use href="#i-heart" /></use></svg></span>
+              <span class="heart" aria-hidden="true"><svg class="icon"><use href="#i-heart" /></use></svg></span>
+              <span class="heart" aria-hidden="true"><svg class="icon"><use href="#i-heart" /></use></svg></span>
+            </span>
+            <span class="gem-pill" id="game-gems"><svg class="icon" aria-hidden="true"><use href="#i-gem" /></use></svg><span id="game-gems-value">0</span></span>
+            <span class="game-score" id="game-score">0</span>
+            <span class="chip" id="game-level">Fase 1 · Deserto</span>
+          </div>
+
+          <div class="game-frame">
+            <canvas id="game-canvas" width="1536" height="576" aria-label="Mundo de Jumanji: A Última Fase"></canvas>
+            <div class="game-overlay" id="game-overlay">
+              <div class="game-overlay__panel" id="game-panel-start">
+                <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Mesa final</p>
+                <h2 class="game-overlay__title" id="game-start-title">O portal dourado te espera</h2>
+                <p class="game-overlay__text">
+                  Corra pelas dunas, pule nas pedras, esmague os guardiões do tabuleiro. Quanto mais rápido,
+                  mais perigoso — e o T-Rex de Jurgen não perdoa quem desvia errado.
+                </p>
+                <ul class="game-overlay__tips">
+                  <li><kbd>←</kbd><kbd>→</kbd> ou <kbd>WASD</kbd> para correr</li>
+                  <li><kbd>Espaço</kbd> ou <kbd>W</kbd> para pular</li>
+                  <li>Esmerde em inimigos pulando em cima</li>
+                </ul>
+                <button class="btn btn--primary" type="button" data-game-action="start">
+                  <svg class="icon" aria-hidden="true"><use href="#i-play" /></use></svg>
+                  <span class="btn__label">Começar a aventura</span>
+                </button>
+              </div>
+
+              <div class="game-overlay__panel" id="game-panel-over" hidden>
+                <div class="confirm-icon" id="game-over-icon">
+                  <svg class="icon" aria-hidden="true"><use href="#i-skull" /></use></svg>
+                </div>
+                <h2 class="dialog__title game-overlay__title" id="game-over-title">Fim do tabuleiro</h2>
+                <p class="game-overlay__text">As três vidas se esgotaram. A selva guardou seu segredo por hoje.</p>
+                <div class="game-overlay__actions">
+                  <button class="btn btn--ghost" type="button" data-game-action="restart">Jogar novamente</button>
+                  <button class="btn btn--primary" type="button" data-game-action="exit">Escolher aventureiro</button>
+                </div>
+              </div>
+
+              <div class="game-overlay__panel" id="game-panel-won" hidden>
+                <div class="confirm-icon is-gold" id="game-won-icon">
+                  <svg class="icon" aria-hidden="true"><use href="#i-trophy" /></use></svg>
+                </div>
+                <h2 class="dialog__title game-overlay__title" id="game-won-title">O portal se abriu!</h2>
+                <p class="game-overlay__text">Jurgen foi derrotado e o caminho para casa ficou livre.</p>
+                <div class="game-overlay__actions">
+                  <button class="btn btn--ghost" type="button" data-game-action="restart">Jogar novamente</button>
+                  <button class="btn btn--primary" type="button" data-game-action="exit">Escolher aventureiro</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <p class="footer__brand">
+          <svg class="brand__mark brand__mark--sm" viewBox="0 0 48 48" aria-hidden="true">
+            <rect width="48" height="48" rx="13" fill="#0d3527" />
+            <path d="M24 7.5 27.6 20.4 40.5 24 27.6 27.6 24 40.5 20.4 27.6 7.5 24 20.4 20.4Z" fill="#f2b13c" />
+            <circle cx="24" cy="24" r="3.1" fill="#0a2018" />
+          </svg>
+          <span>Jumanji: A Última Fase</span>
+        </p>
+        <p class="footer__meta">
+          <span class="status" id="db-status" title="Status do banco de dados">
+            <i class="status__dot"></i> <span id="db-status-text">verificando…</span>
+          </span>
+          <span aria-hidden="true">•</span>
+          <span>© <span id="year">2026</span> Projeto acadêmico</span>
+        </p>
+        <p class="footer__links">
+          <a href="https://github.com/ricardopalhano-commits/jumanji-ultima-fase" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true"><use href="#i-github" /></svg>
+            Repositório
+          </a>
+          <span aria-hidden="true">•</span>
+          <span>Feito com OpenCode + IA</span>
+        </p>
+      </div>
+    </footer>
+
+    <dialog class="dialog" id="player-dialog" aria-labelledby="player-dialog-title">
+      <div class="dialog__panel">
+        <header class="dialog__head">
+          <div>
+            <p class="eyebrow" id="player-dialog-eyebrow">Novo registro</p>
+            <h2 class="dialog__title" id="player-dialog-title">Novo aventureiro</h2>
+          </div>
+          <button class="icon-btn" type="button" data-close="player-dialog" aria-label="Fechar formulário">
+            <svg class="icon" aria-hidden="true"><use href="#i-close" /></svg>
+          </button>
+        </header>
+
+        <form id="player-form" novalidate>
+          <input type="hidden" id="player-id" />
+
+          <div class="field field--full">
+            <label class="field__label" for="player-name">Nome do aventureiro</label>
+            <input class="input" id="player-name" name="name" type="text" maxlength="40" placeholder="Ex.: Nina, Lara, Téo…" autocomplete="off" required />
+            <p class="field__error" id="error-player-name"></p>
+          </div>
+
+          <fieldset class="field field--full avatar-field">
+            <legend class="field__label">Escolha o avatar</legend>
+            <div class="avatar-picker" id="avatar-picker"></div>
+            <p class="field__error" id="error-player-avatar"></p>
+          </fieldset>
+
+          <p class="form-error" id="player-form-error" role="alert" hidden></p>
+
+          <footer class="dialog__foot">
+            <button class="btn btn--ghost" type="button" data-close="player-dialog">Cancelar</button>
+            <button class="btn btn--primary" id="player-submit" type="submit">
+              <span class="spinner" aria-hidden="true" hidden></span>
+              <svg class="icon btn__icon" aria-hidden="true"><use href="#i-check" /></svg>
+              <span class="btn__label">Salvar aventureiro</span>
+            </button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog class="dialog dialog--wide" id="mission-dialog" aria-labelledby="mission-dialog-title">
+      <div class="dialog__panel">
+        <header class="dialog__head">
+          <div>
+            <p class="eyebrow" id="mission-dialog-eyebrow">Nova fase</p>
+            <h2 class="dialog__title" id="mission-dialog-title">Nova fase da história</h2>
+          </div>
+          <button class="icon-btn" type="button" data-close="mission-dialog" aria-label="Fechar formulário">
+            <svg class="icon" aria-hidden="true"><use href="#i-close" /></svg>
+          </button>
+        </header>
+
+        <form id="mission-form" novalidate>
+          <input type="hidden" id="mission-id" />
+
+          <div class="field field--full">
+            <label class="field__label" for="mission-title">Título da fase</label>
+            <input class="input" id="mission-title" type="text" maxlength="80" placeholder="Ex.: Fuga das Avestruzes" autocomplete="off" required />
+            <p class="field__error" id="error-mission-title"></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="mission-scene">Cenário</label>
+            <div class="select-wrap">
+              <svg class="icon select-wrap__icon" aria-hidden="true"><use href="#i-map" /></svg>
+              <select class="input input--select" id="mission-scene" required></select>
+            </div>
+            <p class="field__error" id="error-mission-scene"></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="mission-enemy">Inimigo / obstáculo</label>
+            <input class="input" id="mission-enemy" type="text" maxlength="60" placeholder="Ex.: Avestruzes gigantes" autocomplete="off" required />
+            <p class="field__error" id="error-mission-enemy"></p>
+          </div>
+
+          <fieldset class="field field--full challenge-field">
+            <legend class="field__label">Abordagem recomendada</legend>
+            <div class="challenge-picker" id="challenge-picker"></div>
+            <p class="field__error" id="error-mission-challenge"></p>
+          </fieldset>
+
+          <div class="field">
+            <label class="field__label" for="mission-difficulty">Dificuldade <output class="field__output" id="difficulty-output">3</output>/10</label>
+            <input class="input input--range" id="mission-difficulty" type="range" min="1" max="10" step="1" value="3" />
+            <p class="field__error" id="error-mission-difficulty"></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="mission-reward">Recompensa (gemas)</label>
+            <input class="input" id="mission-reward" type="number" min="0" max="1000" step="5" value="10" />
+            <p class="field__error" id="error-mission-reward"></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="mission-order">Posição na campanha</label>
+            <input class="input" id="mission-order" type="number" min="1" max="99" step="1" placeholder="Automática" />
+            <p class="field__error" id="error-mission-order"></p>
+          </div>
+
+          <div class="field field--switch">
+            <label class="switch">
+              <input type="checkbox" id="mission-active" checked />
+              <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+              <span class="switch__label">Fase ativa na campanha</span>
+            </label>
+          </div>
+
+          <div class="field field--full">
+            <label class="field__label" for="mission-intro">Introdução da fase</label>
+            <textarea class="input input--textarea" id="mission-intro" rows="3" maxlength="900" placeholder="Descreva o cenário e o desafio…" required></textarea>
+            <div class="field__foot">
+              <p class="field__error" id="error-mission-intro"></p>
+              <span class="field__counter" id="intro-count">0/900</span>
+            </div>
+          </div>
+
+          <div class="field field--full">
+            <label class="field__label" for="mission-success">Texto de vitória</label>
+            <textarea class="input input--textarea" id="mission-success" rows="3" maxlength="900" placeholder="O que acontece quando o aventureiro vence…" required></textarea>
+            <div class="field__foot">
+              <p class="field__error" id="error-mission-success"></p>
+              <span class="field__counter" id="success-count">0/900</span>
+            </div>
+          </div>
+
+          <div class="field field--full">
+            <label class="field__label" for="mission-failure">Texto de derrota</label>
+            <textarea class="input input--textarea" id="mission-failure" rows="3" maxlength="900" placeholder="O que acontece quando o aventureiro perde uma vida…" required></textarea>
+            <div class="field__foot">
+              <p class="field__error" id="error-mission-failure"></p>
+              <span class="field__counter" id="failure-count">0/900</span>
+            </div>
+          </div>
+
+          <p class="form-error" id="mission-form-error" role="alert" hidden></p>
+
+          <footer class="dialog__foot">
+            <button class="btn btn--ghost" type="button" data-close="mission-dialog">Cancelar</button>
+            <button class="btn btn--primary" id="mission-submit" type="submit">
+              <span class="spinner" aria-hidden="true" hidden></span>
+              <svg class="icon btn__icon" aria-hidden="true"><use href="#i-check" /></svg>
+              <span class="btn__label">Salvar fase</span>
+            </button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <dialog class="dialog dialog--sm" id="confirm-dialog" aria-labelledby="confirm-title">
+      <div class="dialog__panel">
+        <div class="confirm-icon" id="confirm-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-alert" /></svg>
+        </div>
+        <h2 class="dialog__title" id="confirm-title">Tem certeza?</h2>
+        <p class="dialog__text" id="confirm-text"></p>
+        <footer class="dialog__foot dialog__foot--split">
+          <button class="btn btn--ghost" type="button" data-close="confirm-dialog">Cancelar</button>
+          <button class="btn btn--danger" id="confirm-action" type="button">
+            <span class="spinner" aria-hidden="true" hidden></span>
+            <span class="btn__label">Confirmar</span>
+          </button>
+        </footer>
+      </div>
+    </dialog>
+
+    <dialog class="dialog dialog--result" id="result-dialog" aria-labelledby="result-title">
+      <div class="dialog__panel">
+        <p class="result__scene" id="result-scene">A fase</p>
+        <div class="dice" id="result-dice" aria-hidden="true">
+          <span class="dice__number" id="result-number">--</span>
+          <span class="dice__label">de 100</span>
+        </div>
+        <p class="result__chance" id="result-chance"></p>
+        <h2 class="dialog__title result__title" id="result-title">Rolando o dado…</h2>
+        <p class="result__narrative" id="result-narrative">Segure a respiração. O tabuleiro está decidindo.</p>
+        <ul class="result__rewards" id="result-rewards"></ul>
+        <footer class="dialog__foot">
+          <button class="btn btn--primary" id="result-continue" type="button" disabled>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right" /></svg>
+            <span>Continuar a jornada</span>
+          </button>
+        </footer>
+      </div>
+    </dialog>
+
+    <div class="toasts" id="toasts" role="status" aria-live="polite" aria-atomic="false"></div>
+
+    <noscript>
+      <p style="padding: 16px; text-align: center">
+        Este jogo precisa de JavaScript ativado para funcionar.
+      </p>
+    </noscript>
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

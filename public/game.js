@@ -34,6 +34,7 @@
 
   const BEST_KEY = 'jumanji-tabuleiro-best';
   const MUTE_KEY = 'jumanji-tabuleiro-mute';
+  const PROGRESS_KEY = 'jumanji-tabuleiro-progress';
   const TAU = Math.PI * 2;
 
   /* ----------------------------------- dom ---------------------------------- */
@@ -62,6 +63,7 @@
   const winGemsEl = document.getElementById('win-gems');
   const winBestEl = document.getElementById('win-best');
   const muteBtn = document.querySelector('[data-action="mute"]');
+  const levelCards = Array.prototype.slice.call(document.querySelectorAll('[data-level]'));
 
   const screens = {};
   document.querySelectorAll('[data-screen]').forEach((el) => {
@@ -731,6 +733,7 @@
   let gems = 0;
   let score = 0;
   let best = Number(readStorage(BEST_KEY, '0')) || 0;
+  let progress = clamp(Number(readStorage(PROGRESS_KEY, '0')) || 0, 0, LEVELS.length - 1);
   let camera = 0;
   let time = 0;
   let introTimer = 0;
@@ -885,14 +888,42 @@
     document.querySelectorAll('[data-hold]').forEach((btn) => btn.classList.remove('is-down'));
   }
 
-  function startNewGame() {
+  function startAtLevel(index) {
     lives = START_LIVES;
     gems = 0;
     score = 0;
     hideOverlay();
-    loadLevel(0);
+    loadLevel(clamp(index, 0, LEVELS.length - 1));
     syncHud();
     sfx('start');
+  }
+
+  function startNewGame() {
+    startAtLevel(0);
+  }
+
+  function openScreen(name) {
+    if (name === 'levels') syncLevelSelect();
+    showOverlay(name);
+  }
+
+  function unlockLevel(index) {
+    if (index > progress && index < LEVELS.length) {
+      progress = index;
+      writeStorage(PROGRESS_KEY, String(progress));
+    }
+    syncLevelSelect();
+  }
+
+  function syncLevelSelect() {
+    levelCards.forEach((card) => {
+      const index = Number(card.dataset.level);
+      const locked = index > progress;
+      card.classList.toggle('is-locked', locked);
+      card.setAttribute('aria-disabled', locked ? 'true' : 'false');
+      if (locked) card.setAttribute('tabindex', '-1');
+      else card.removeAttribute('tabindex');
+    });
   }
 
   function nextLevel() {
@@ -933,6 +964,7 @@
   function completeLevel() {
     if (state !== 'playing') return;
     saveBest();
+    unlockLevel(levelIndex + 1);
     if (levelIndex >= LEVELS.length - 1) {
       state = 'win';
       winScoreEl.textContent = formatScore(score);
@@ -1044,6 +1076,13 @@
     else if (action === 'pause') pauseGame();
     else if (action === 'mute') setMuted(!muted);
     else if (action === 'fullscreen') toggleFullscreen();
+    else if (action === 'levels') openScreen('levels');
+    else if (action === 'howto') openScreen('howto');
+    else if (action === 'back') showOverlay('title');
+    else if (action === 'level') {
+      const index = Number(button.dataset.level);
+      if (index <= progress) startAtLevel(index);
+    }
   });
 
   function setMuted(value) {
@@ -2874,6 +2913,7 @@
   showOverlay('title');
   syncHud();
   syncBest();
+  syncLevelSelect();
   camera = 0;
   lastTime = performance.now();
   window.requestAnimationFrame(frame);

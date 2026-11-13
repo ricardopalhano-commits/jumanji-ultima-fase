@@ -1,18 +1,18 @@
 {
   "id": "/",
-  "name": "Jumanji: A Última Fase — aventura narrativa",
+  "name": "Jumanji: O Tabuleiro Selvagem — jogo de plataforma",
   "short_name": "Jumanji",
-  "description": "Entre no tabuleiro: crie aventureiros, atravesse o deserto, fuja das avestruzes, encare os mandris e derrote Jurgen em uma aventura com CRUD, banco de dados e modo offline.",
+  "description": "Jogo de plataforma 2D em pixel-art inspirado nos clássicos de 16 bits. Corra pelas dunas, salte entre templos, esmague inimigos e derrote Jurgen — direto no navegador, com controles de toque e modo offline.",
   "lang": "pt-BR",
   "dir": "ltr",
-  "start_url": "/?source=pwa",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui", "browser"],
-  "orientation": "portrait-primary",
-  "background_color": "#07110d",
-  "theme_color": "#07110d",
-  "categories": ["games", "entertainment", "education"],
+  "display_override": ["fullscreen", "standalone", "minimal-ui", "browser"],
+  "orientation": "landscape",
+  "background_color": "#060a04",
+  "theme_color": "#0b1206",
+  "categories": ["games", "entertainment"],
   "icons": [
     {
       "src": "/icons/icon-192.png",
@@ -41,24 +41,10 @@
   ],
   "shortcuts": [
     {
-      "name": "Jogar a aventura",
-      "short_name": "Aventura",
-      "description": "Abrir a jornada do aventureiro selecionado",
-      "url": "/?view=aventura",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Aventureiros",
-      "short_name": "Aventureiros",
-      "description": "Gerenciar os personagens do tabuleiro",
-      "url": "/?view=aventureiros",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Ranking da selva",
-      "short_name": "Ranking",
-      "description": "Ver a classificação das gemas e capítulos",
-      "url": "/?view=ranking",
+      "name": "Jogar agora",
+      "short_name": "Jogar",
+      "description": "Começar uma nova partida",
+      "url": "/",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
