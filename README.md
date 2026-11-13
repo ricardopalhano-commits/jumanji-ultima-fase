@@ -22,6 +22,7 @@ Jogo de **aventura narrativa** inspirado em *Jumanji: Próxima Fase*, com **CRUD
 | --- | --- |
 | 🌐 Jogo funcionando (Render) | `https://SEU-APP.onrender.com` |
 | 💻 Repositório público (GitHub) | [github.com/ricardopalhano-commits/jumanji-ultima-fase](https://github.com/ricardopalhano-commits/jumanji-ultima-fase) |
+| 🎮 Jogo de plataforma (standalone) | `/jogo/` — aberto pelo botão *Jogar agora* na aba **Mundo** |
 
 > **Importante:** o link do Render será preenchido depois do deploy. O passo a passo está em
 > [Publicar no Render](#-publicar-no-render).
@@ -69,6 +70,15 @@ Cada jogada rende **gemas** em caso de vitória, custa **uma vida** em caso de d
 - **Vitória**: derrotar o T-Rex de Jurgen e alcançar o **portal dourado**.
 - **Controles**: `←`/`→` ou `WASD` para correr, `Espaço`/`W` para pular; controles touch (mobile) incluídos.
 - **HUD**: vidas (3 corações), gemas, pontuação e fase; telas de início, fim do tabuleiro e vitória.
+
+### Jumanji: O Tabuleiro Selvagem (jogo independente em `/jogo/`)
+Um jogo de plataforma **completo e separado**, aberto pelo botão *Jogar agora* na aba **Mundo** (ou direto em `/jogo/`), feito em Canvas + Web Audio, **sem dependências externas** e com sprites e sons 100% procedurais.
+- **3 fases**: *Deserto das Dunas*, *Selva dos Mandris* e *Templo de Jurgen* — cada uma com tema, paleta e trilha próprios.
+- **7 tipos de inimigos**: escorpião, capanga, urubu, mandril, vespa, cobra (que cospe projéteis) e raptor.
+- **Chefão Jurgen** no Templo: 3 pontos de vida; o portal dourado só abre depois de derrotá-lo.
+- **Plataforma no capricho**: pulo variável com *coyote time* e *jump buffer*, corrida/dash (`Shift`), esmagar inimigos caindo na cabeça.
+- **Itens e progressão**: gemas (vida extra a cada 50), coração (recupera vida) e máscara (invencibilidade por 8 s), checkpoints e recorde salvo em `localStorage`.
+- **Telas e controles**: título, pausa, fim de jogo, fase concluída e vitória; teclado (`←`/`→`, `A`/`D`, `Espaço`, `W`, `Shift`, `Esc`) e controles de toque no celular; botões de som e tela cheia.
 
 ### Interface
 - Layout **responsivo** (desktop, tablet e celular), com linha do tempo da jornada e painel da fase.
@@ -160,6 +170,10 @@ A camada `server/db.js` traduz parâmetros nomeados (`:nome`) para o driver em u
 │   │   ├── format.js           # números, datas, rótulos e utilidades
 │   │   ├── game.js             # modo plataforma "Mundo Jumanji" (canvas, física, inimigos)
 │   │   └── pwa.js              # registro do SW e instalação
+│   ├── jogo/                   # jogo de plataforma independente "O Tabuleiro Selvagem"
+│   │   ├── index.html          # página do jogo (canvas 960×544, HUD e telas)
+│   │   ├── style.css           # visual selva/dourado, telas e controles de toque
+│   │   └── game.js             # motor: física, inimigos, chefe, fases e áudio
 │   └── icons/                  # ícones PNG/SVG (gerados por script)
 ├── server/
 │   ├── index.js                # Express, estáticos, health check, erros
@@ -196,7 +210,7 @@ npm install
 npm start
 ```
 
-Abra **http://localhost:3000**.
+Abra **http://localhost:3000**. O jogo de plataforma independente fica em **http://localhost:3000/jogo/** (ou pelo botão *Jogar agora* na aba **Mundo**).
 
 ```bash
 npm run dev    # reinicia automaticamente ao salvar (node --watch)

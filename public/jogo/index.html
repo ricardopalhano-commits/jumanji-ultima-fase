@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07130d" />
+    <meta name="color-scheme" content="dark" />
+    <title>Jumanji: O Tabuleiro Selvagem — jogo de plataforma</title>
+    <meta
+      name="description"
+      content="Jogo de plataforma 2D inspirado em Mario com o mundo de Jumanji. Corra pelas dunas, pule entre os templos, esmague mandris e derrote Jurgen."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <a class="back-link" href="../">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+      <span>Voltar ao acampamento</span>
+    </a>
+
+    <main class="shell">
+      <section class="game" aria-label="Jumanji: O Tabuleiro Selvagem">
+        <header class="hud" id="hud">
+          <div class="hud__group">
+            <span class="hearts" id="hearts" role="img" aria-label="3 vidas"></span>
+            <span class="pill pill--gems" aria-label="Gemas coletadas">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 6 7-6 13L6 9Z" /><path d="M6 9h12" /></svg>
+              <b id="gems">0</b>
+            </span>
+            <span class="hud__score" id="score" aria-label="Pontuação">000000</span>
+          </div>
+          <div class="hud__group hud__group--right">
+            <span class="hud__level" id="level-name">Fase 1 · Deserto das Dunas</span>
+            <button class="icon-btn" type="button" data-action="mute" aria-label="Desativar som" aria-pressed="false" title="Som">
+              <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a9 9 0 0 1 0 12" /></svg>
+              <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4Z" /><path d="m16 9 5 6M21 9l-5 6" /></svg>
+            </button>
+            <button class="icon-btn" type="button" data-action="pause" aria-label="Pausar jogo" title="Pausar (Esc)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14" /></svg>
+            </button>
+            <button class="icon-btn" type="button" data-action="fullscreen" aria-label="Tela cheia" title="Tela cheia">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="stage" id="stage">
+          <canvas
+            id="game"
+            width="960"
+            height="544"
+            role="img"
+            aria-label="Jogo de plataforma: um aventureiro atravessa o deserto, a selva e o templo de Jurgen"
+          >
+            Seu navegador precisa de JavaScript para jogar.
+          </canvas>
+
+          <div class="banner" id="banner" hidden aria-live="polite">
+            <span class="banner__kicker" id="banner-kicker">Fase 1</span>
+            <strong class="banner__title" id="banner-title">Deserto das Dunas</strong>
+            <span class="banner__sub" id="banner-sub">O tabuleiro começa a vibrar…</span>
+          </div>
+
+          <div class="overlay" id="overlay">
+            <section class="screen" id="screen-title" data-screen="title">
+              <div class="panel panel--hero">
+                <p class="eyebrow"><span></span> O tabuleiro despertou</p>
+                <h1 class="logo">
+                  <span class="logo__word">JUMANJI</span>
+                  <span class="logo__sub">O Tabuleiro Selvagem</span>
+                </h1>
+                <p class="panel__text">
+                  Um jogo de plataforma com alma de Mario e coração de Jumanji. Corra pelas dunas, pule
+                  entre templos, esmague mandris, cobras e raptores — e derrote <strong>Jurgen, o Brutal</strong>
+                  para abrir o portal dourado.
+                </p>
+                <ul class="feature-row" aria-label="Destaques">
+                  <li><span>3</span>fases</li>
+                  <li><span>7</span>tipos de inimigos</li>
+                  <li><span>1</span>chefão</li>
+                </ul>
+                <button class="btn btn--gold" type="button" data-action="start">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5 19 12 7 19.5Z" /></svg>
+                  Entrar no tabuleiro
+                </button>
+                <p class="panel__best">Recorde da selva: <strong id="title-best">0</strong> pontos</p>
+                <div class="key-guide">
+                  <span><kbd>←</kbd><kbd>→</kbd> mover</span>
+                  <span><kbd>Espaço</kbd> pular</span>
+                  <span><kbd>Shift</kbd> correr</span>
+                  <span><kbd>Esc</kbd> pausar</span>
+                </div>
+              </div>
+            </section>
+
+            <section class="screen" id="screen-pause" data-screen="pause" hidden>
+              <div class="panel">
+                <p class="eyebrow"><span></span> O tabuleiro espera</p>
+                <h2 class="panel__title">Pausa na aventura</h2>
+                <p class="panel__text">Respire fundo. A selva não vai a lugar nenhum.</p>
+                <div class="stack">
+                  <button class="btn btn--gold" type="button" data-action="resume">Continuar</button>
+                  <button class="btn btn--ghost" type="button" data-action="restart">Recomeçar do zero</button>
+                  <button class="btn btn--ghost" type="button" data-action="menu">Voltar ao menu</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="screen" id="screen-over" data-screen="over" hidden>
+              <div class="panel">
+                <p class="eyebrow eyebrow--danger"><span></span> O tabuleiro venceu</p>
+                <h2 class="panel__title">Fim da jornada</h2>
+                <p class="panel__text">Suas vidas se esgotaram. A selva guardou o portal mais um dia.</p>
+                <div class="stats">
+                  <div><span>Pontuação</span><strong id="over-score">0</strong></div>
+                  <div><span>Recorde</span><strong id="over-best">0</strong></div>
+                </div>
+                <div class="stack">
+                  <button class="btn btn--gold" type="button" data-action="restart">Tentar de novo</button>
+                  <button class="btn btn--ghost" type="button" data-action="menu">Voltar ao menu</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="screen" id="screen-clear" data-screen="clear" hidden>
+              <div class="panel">
+                <p class="eyebrow"><span></span> Fase concluída</p>
+                <h2 class="panel__title" id="clear-title">Deserto das Dunas</h2>
+                <p class="panel__text" id="clear-text">O portal vibrou e abriu passagem para o próximo perigo.</p>
+                <div class="stats">
+                  <div><span>Gemas nesta jornada</span><strong id="clear-gems">0</strong></div>
+                  <div><span>Pontuação</span><strong id="clear-score">0</strong></div>
+                </div>
+                <div class="stack">
+                  <button class="btn btn--gold" type="button" data-action="next">Próxima fase</button>
+                  <button class="btn btn--ghost" type="button" data-action="menu">Voltar ao menu</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="screen" id="screen-win" data-screen="win" hidden>
+              <div class="panel panel--win">
+                <p class="eyebrow eyebrow--gold"><span></span> A selva se curva</p>
+                <h2 class="panel__title">O portal se abriu!</h2>
+                <p class="panel__text">
+                  Jurgen caiu, o tambor silenciou e o caminho de casa brilhou em ouro. Você é uma lenda
+                  do tabuleiro.
+                </p>
+                <div class="stats stats--three">
+                  <div><span>Pontuação</span><strong id="win-score">0</strong></div>
+                  <div><span>Gemas</span><strong id="win-gems">0</strong></div>
+                  <div><span>Recorde</span><strong id="win-best">0</strong></div>
+                </div>
+                <div class="stack">
+                  <button class="btn btn--gold" type="button" data-action="restart">Jogar outra vez</button>
+                  <button class="btn btn--ghost" type="button" data-action="menu">Voltar ao menu</button>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="touch" id="touch" aria-hidden="true">
+            <div class="touch__pad">
+              <button class="touch__btn" type="button" data-hold="left" aria-label="Mover para a esquerda">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg>
+              </button>
+              <button class="touch__btn" type="button" data-hold="right" aria-label="Mover para a direita">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+              </button>
+            </div>
+            <div class="touch__actions">
+              <button class="touch__btn touch__btn--sprint" type="button" data-hold="sprint" aria-label="Correr">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h12M11 6l6 6-6 6M18 6l3 6-3 6" /></svg>
+              </button>
+              <button class="touch__btn touch__btn--jump" type="button" data-hold="jump" aria-label="Pular">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V6M6 12l6-6 6 6" /></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="hints">
+          <span><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd> mover</span>
+          <span><kbd>Espaço</kbd> / <kbd>W</kbd> pular</span>
+          <span><kbd>Shift</kbd> correr</span>
+          <span>Pule na cabeça dos inimigos</span>
+        </p>
+      </section>
+    </main>
+
+    <script src="game.js" defer></script>
+  </body>
+</html>
