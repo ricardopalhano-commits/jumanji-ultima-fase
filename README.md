@@ -58,6 +58,8 @@ Derrote **Jurgen, o Brutal** (3 pontos de vida) no Templo para abrir o **portal 
 **Mecânicas de plataforma:**
 
 - **Pulo variável** com *coyote time* e *jump buffer* — segure para pular mais alto.
+- **Pulo duplo**: penas de coruja (`feather`) aparecem ao longo de cada terço da fase — colete uma para ganhar um pulo extra.
+
 - **Esmagar inimigos** caindo em cima da cabeça.
 - **Gemas**: a cada **50** você ganha uma vida extra (até 5).
 - **Coração** recupera uma vida; **máscara** dá **invencibilidade** por 8 segundos.
@@ -73,7 +75,9 @@ Derrote **Jurgen, o Brutal** (3 pontos de vida) no Templo para abrir o **portal 
 - **7 tipos de inimigos**: escorpião, capanga, urubu, mandril, vespa, cobra (projétil) e raptor, além do **chefe Jurgen**.
 - Física de plataforma caprichada: aceleração, atrito, *dash*, gravidade e colisão por tiles.
 - Efeitos: partículas, tremores de tela, *floaters* de pontos, ambiente (areia/folhas/brasas) e HUD animado.
-- **Áudio procedural** (Web Audio) para pulo, moedas, dano, chefe e telas.
+- **Áudio procedural** (Web Audio) para pulo, moedas, dano, chefe e telas — além de uma **trilha chiptune** gerada em tempo real para cada tema.
+- **Juice arcade**: hit-stop, flash de tela, tremor, *floaters*, partículas, squash & stretch, respiração de corrida, *combo* de inimigos e indicador de pulo duplo.
+- **Chefe Jurgen** com fases de fúria e rajadas de fogo telegrafadas.
 
 ### Interface
 - **Menu principal** com logo em pixel-art, **seleção de fases** com progresso desbloqueável e tela de **como jogar**.
