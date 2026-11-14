@@ -765,7 +765,7 @@
       },
       coin(c, row) {
         // gemas posicionadas na altura do peito do personagem (cerca de 16px acima do topo da tile)
-        coins.push({ x: c * TILE + TILE / 2, y: row * TILE - 16, taken: false, phase: hash(c, row) * TAU });
+        coins.push({ x: c * TILE + TILE / 2, y: row * TILE - 12, taken: false, phase: hash(c, row) * TAU });
       },
       coinLine(c0, c1, row) {
         for (let c = c0; c <= c1; c += 1) B.coin(c, row);
