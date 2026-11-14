@@ -2949,7 +2949,7 @@
     const st = clamp(p.stretch / 0.24, 0, 1);
     ctx.scale(1 + sq * 0.2 - st * 0.12, 1 - sq * 0.18 + st * 0.17);
 
-    if (p.invuln > 0) ctx.globalAlpha = 0.45 + 0.55 * Math.abs(Math.sin(time * 24));
+    if (p.invuln > 0) ctx.globalAlpha = 0.45 + 0.55 * Math.abs(Math.sin(time * 3));
 
     if (p.star > 0) {
       const aura = ctx.createRadialGradient(0, -20, 2, 0, -20, 38);
