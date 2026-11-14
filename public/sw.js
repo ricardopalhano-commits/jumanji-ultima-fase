@@ -6,7 +6,7 @@
  * - APIs de leitura: network-first com cópia em cache (dados do último acesso).
  * - Assets estáticos: stale-while-revalidate.
  */
-const VERSION = 'v3.1.0';
+const VERSION = 'v4.0.0';
 const STATIC_CACHE = `jumanji-static-${VERSION}`;
 const API_CACHE = `jumanji-api-${VERSION}`;
 const OFFLINE_URL = '/offline.html';
