@@ -3530,7 +3530,18 @@
   function frame(timestamp) {
     const dt = Math.min(0.033, Math.max(0, (timestamp - lastTime) / 1000));
     lastTime = timestamp;
-    tick(dt);
+    try {
+      tick(dt);
+    } catch (err) {
+      // evita que uma exceção derrube o loop: mantém o jogo em funcionamento
+      console.error('Erro no loop do jogo:', err);
+      try {
+        if (hitStop > 0) hitStop = 0;
+        if (flash > 0) flash = 0;
+        if (fade > 0) fade = 0;
+        state = state === 'over' || state === 'win' ? state : 'playing';
+      } catch (e) { /* noop */ }
+    }
     window.requestAnimationFrame(frame);
   }
 
