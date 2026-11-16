@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.7.0';
+  window.__JUMANJI_VERSION__ = '5.7.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -3566,49 +3566,54 @@
     enemyOrigin(enemy);
     const run = Math.sin(time * 9 + enemy.phase);
 
-    // patas (traseira e dianteira), alternando
-    px(-9 + run * 2, -9, 5, 9, '#6e5330');
-    px(-10 + run * 2, -2, 6, 2, '#3a2a16');
-    px(4 - run * 2, -9, 5, 9, '#7a5a32');
-    px(4 - run * 2, -2, 6, 2, '#3a2a16');
+    // pernas
+    px(-8 + run * 2, -10, 5, 10, '#5a3f20');
+    px(-8 + run * 2, 0, 6, 2, '#2a1a0c');
+    px(3 - run * 2, -10, 5, 10, '#5a3f20');
+    px(3 - run * 2, 0, 6, 2, '#2a1a0c');
 
     // cauda curta erguida
-    px(-13, -25, 3, 6, '#7a5a32');
-    px(-14, -29, 3, 4, '#6e5330');
-    px(-14, -31, 2, 2, '#8a6a3c');
+    px(-12, -20, 3, 5, '#6e5330');
+    px(-13, -23, 2, 3, '#5a3f20');
 
-    // corpo peludo e barriga clara
-    px(-10, -23, 18, 13, '#8a6a3c');
-    px(-9, -24, 15, 2, '#a07c46');
-    px(-10, -23, 4, 11, '#a07c46');
-    px(-8, -12, 15, 2, '#b08a52');
+    // corpo peludo
+    px(-10, -24, 18, 14, '#8a6a3c');
+    px(-9, -23, 16, 3, '#a07c46');
+    px(-10, -12, 18, 2, '#7a5a32');
 
-    // juba dourada no ombro/pescoço
-    px(4, -25, 7, 8, '#8a6a3c');
-    px(5, -27, 5, 4, '#c9a15c');
+    // braços
+    px(-12, -22, 4, 12, '#7a5a32');
+    px(8, -22, 4, 12, '#7a5a32');
+    px(-12, -10, 5, 2, '#5a3f20');
+    px(8, -10, 5, 2, '#5a3f20');
 
-    // cabeça e focinho canino
-    px(8, -31, 8, 8, '#a9713c');
-    px(9, -32, 6, 2, '#b98a4a');
-    px(14, -28, 7, 7, '#c98a4a');
-    px(15, -27, 6, 2, '#d9a05a');
-    px(15, -23, 6, 2, '#8a5a33');
-    px(16, -22, 4, 1, '#e0554a');
+    // cabeça
+    px(6, -34, 12, 11, '#a9713c');
+    px(7, -35, 10, 2, '#b98a4a');
 
-    // rosto colorido do mandril (azul e vermelho)
-    px(11, -29, 1, 6, '#3f6bb0');
-    px(13, -29, 1, 6, '#3f6bb0');
-    px(15, -27, 4, 1, '#e0554a');
-    px(17, -26, 1, 1, '#7d1712');
-    px(9, -30, 1, 1, '#241608');
-    px(12, -30, 1, 1, '#241608');
-    px(10, -29, 1, 1, '#f2d13c');
-    px(13, -29, 1, 1, '#f2d13c');
+    // focinho alongado
+    px(16, -30, 9, 9, '#c98a4a');
+    px(17, -31, 7, 2, '#d9a05a');
+    px(17, -24, 7, 3, '#8a5a33');
 
-    // orelha e barba
-    px(7, -33, 3, 3, '#8a6a3c');
-    px(8, -32, 1, 1, '#c98a7a');
-    px(13, -22, 4, 3, '#e0c070');
+    // nariz colorido do mandril (azul e vermelho)
+    px(18, -29, 2, 4, '#3f6bb0');
+    px(21, -29, 2, 4, '#3f6bb0');
+    px(19, -25, 5, 2, '#e0554a');
+    px(20, -23, 3, 1, '#7d1712');
+
+    // olhos
+    px(13, -32, 2, 2, '#241608');
+    px(16, -32, 2, 2, '#241608');
+    px(13, -32, 1, 1, '#f2d13c');
+    px(16, -32, 1, 1, '#f2d13c');
+
+    // orelhas
+    px(5, -33, 3, 4, '#8a6a3c');
+    px(6, -32, 1, 2, '#c98a7a');
+
+    // barba amarela
+    px(13, -22, 6, 4, '#e0c070');
     ctx.restore();
   }
 
@@ -3617,40 +3622,44 @@
     const flap = Math.sin(time * 26 + enemy.phase);
 
     // asas translúcidas batendo
-    ctx.globalAlpha = 0.5;
-    px(-3, -20 - flap * 2, 9, 3, '#dff3ff');
-    px(-1, -23 - flap * 2, 7, 2, '#bfe8ff');
-    px(2, -19 - flap * 2, 8, 2, '#dff3ff');
+    ctx.globalAlpha = 0.55;
+    px(-4, -22 - Math.abs(flap) * 2, 10, 4, '#dff3ff');
+    px(0, -24 - Math.abs(flap) * 2, 8, 3, '#bfe8ff');
     ctx.globalAlpha = 1;
 
-    // pernas finas
-    px(-4, -7, 1, 4, '#2a1a0c');
-    px(-1, -7, 1, 3, '#2a1a0c');
-    px(2, -7, 1, 3, '#2a1a0c');
+    // pernas
+    px(-5, -7, 1, 4, '#2a1a0c');
+    px(-2, -7, 1, 4, '#2a1a0c');
+    px(1, -7, 1, 4, '#2a1a0c');
 
     // abdômen listrado (amarelo e preto)
-    px(-13, -13, 11, 7, '#e8c23c');
-    px(-13, -13, 3, 7, '#241608');
-    px(-8, -13, 2, 7, '#241608');
-    px(-4, -13, 1, 7, '#241608');
-    px(-11, -14, 8, 1, '#f6d968');
-    px(-11, -6, 8, 1, '#b98f1e');
+    px(-14, -13, 12, 8, '#e8c23c');
+    px(-14, -13, 4, 8, '#241608');
+    px(-8, -13, 3, 8, '#241608');
+    px(-4, -13, 2, 8, '#241608');
+    px(-12, -14, 9, 1, '#f6d968');
+    px(-12, -6, 9, 1, '#b98f1e');
+
     // ferrão
-    px(-16, -10, 3, 2, '#241608');
-    px(-17, -9, 1, 1, '#3a2a12');
+    px(-17, -10, 4, 2, '#241608');
+    px(-18, -9, 2, 1, '#3a2a12');
 
-    // tórax peludo
-    px(-4, -14, 8, 8, '#3a2a12');
-    px(-3, -15, 6, 2, '#5a3f1f');
+    // tórax
+    px(-3, -15, 7, 9, '#3a2a12');
+    px(-2, -16, 5, 2, '#5a3f1f');
 
-    // cabeça, olhos e antenas
-    px(4, -14, 7, 6, '#2a1a0c');
-    px(9, -13, 2, 3, '#f2b13c');
-    px(9, -12, 1, 1, '#1a0f07');
-    px(7, -17, 1, 3, '#2a1a0c');
-    px(10, -17, 1, 3, '#2a1a0c');
-    px(6, -18, 2, 1, '#2a1a0c');
-    px(10, -18, 2, 1, '#2a1a0c');
+    // cabeça e olhos
+    px(4, -15, 6, 7, '#2a1a0c');
+    px(5, -14, 3, 3, '#f2b13c');
+    px(5, -13, 2, 2, '#1a0f07');
+    px(9, -14, 2, 3, '#f2b13c');
+    px(9, -13, 1, 1, '#1a0f07');
+
+    // antenas
+    px(5, -18, 1, 3, '#2a1a0c');
+    px(8, -18, 1, 3, '#2a1a0c');
+    px(4, -19, 2, 1, '#2a1a0c');
+    px(8, -19, 2, 1, '#2a1a0c');
     ctx.restore();
   }
 
