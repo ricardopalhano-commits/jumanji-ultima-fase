@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.6.2';
+  window.__JUMANJI_VERSION__ = '5.6.3';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1316,10 +1316,10 @@
     const c0 = Math.floor(entity.x / TILE);
     const c1 = Math.floor((entity.x + entity.w - 1) / TILE);
     if (entity.vy > 0) {
-      const r = Math.floor((entity.y + entity.h - 1) / TILE);
+      const r = Math.floor((entity.y + entity.h) / TILE);
       for (let c = c0; c <= c1; c += 1) {
         if (tileSolid(c, r)) {
-          entity.y = r * TILE - entity.h - 0.01;
+          entity.y = r * TILE - entity.h;
           entity.vy = 0;
           entity.grounded = true;
           return;
