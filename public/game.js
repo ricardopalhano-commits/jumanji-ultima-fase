@@ -40,7 +40,7 @@
   /* ----------------------------------- dom ---------------------------------- */
 
   const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
+  const displayCtx = canvas.getContext('2d');
   const overlay = document.getElementById('overlay');
   const banner = document.getElementById('banner');
   const bannerKicker = document.getElementById('banner-kicker');
@@ -70,12 +70,21 @@
     screens[el.dataset.screen] = el;
   });
 
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.round(VIEW_W * DPR);
-  canvas.height = Math.round(VIEW_H * DPR);
-  ctx.scale(DPR, DPR);
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
+  // Renderização em pixel art: o jogo é desenhado num buffer de baixa
+  // resolução e ampliado com nearest-neighbor (sem suavização), garantindo
+  // o visual 16-bit em todos os elementos do canvas.
+  const PIXEL_SCALE = 2;
+  const pixelCanvas = document.createElement('canvas');
+  pixelCanvas.width = Math.ceil(VIEW_W / PIXEL_SCALE);
+  pixelCanvas.height = Math.ceil(VIEW_H / PIXEL_SCALE);
+  const ctx = pixelCanvas.getContext('2d');
+  ctx.scale(1 / PIXEL_SCALE, 1 / PIXEL_SCALE);
+  ctx.lineJoin = 'miter';
+  ctx.lineCap = 'butt';
+
+  canvas.width = VIEW_W;
+  canvas.height = VIEW_H;
+  displayCtx.imageSmoothingEnabled = false;
 
   /* -------------------------------- utilitários ----------------------------- */
 
@@ -764,8 +773,20 @@
         }
       },
       coin(c, row) {
-        // gemas posicionadas na altura do peito do personagem (cerca de 16px acima do topo da tile)
-        coins.push({ x: c * TILE + TILE / 2, y: row * TILE - 12, taken: false, phase: hash(c, row) * TAU });
+        // Gemas sempre na altura do peito do personagem: procura o apoio
+        // (chão/plataforma) logo abaixo e coloca a gema ~20px acima dele.
+        // Sem apoio próximo, mantém a gema no ar, um pouco abaixo do centro
+        // da tile, para continuar alcançável em saltos.
+        let supportRow = -1;
+        for (let r = row; r < ROWS; r += 1) {
+          if (solid[r * cols + c]) {
+            supportRow = r;
+            break;
+          }
+        }
+        const snap = supportRow >= 0 && supportRow - row <= 2;
+        const y = snap ? supportRow * TILE - 20 : row * TILE + 8;
+        coins.push({ x: c * TILE + TILE / 2, y, taken: false, phase: hash(c, row) * TAU });
       },
       coinLine(c0, c1, row) {
         for (let c = c0; c <= c1; c += 1) B.coin(c, row);
@@ -2783,7 +2804,7 @@
 
   function drawFloaters() {
     ctx.textAlign = 'center';
-    ctx.font = '700 13px "Segoe UI", system-ui, sans-serif';
+    ctx.font = '14px "Press Start 2P", ui-monospace, monospace';
     for (const f of floaters) {
       const alpha = clamp(f.life / f.maxLife, 0, 1);
       ctx.globalAlpha = alpha;
@@ -2891,7 +2912,7 @@
     ctx.stroke();
     ctx.textAlign = 'center';
     ctx.fillStyle = '#ffe6a6';
-    ctx.font = '700 14px "Palatino Linotype", Georgia, serif';
+    ctx.font = '18px "Press Start 2P", ui-monospace, monospace';
     ctx.fillText('JURGEN, O BRUTAL', VIEW_W / 2, y - 8);
     ctx.textAlign = 'left';
   }
@@ -2909,7 +2930,7 @@
       rr(x - 8, y - 16, 158, 40, 7);
       ctx.fill();
       ctx.fillStyle = '#ffd36b';
-      ctx.font = 'bold 17px ui-monospace, monospace';
+      ctx.font = '16px "Press Start 2P", ui-monospace, monospace';
       ctx.textBaseline = 'alphabetic';
       ctx.fillText(`x${combo} COMBO`, x, y + 3);
       ctx.fillStyle = 'rgba(255, 255, 255, 0.16)';
@@ -2923,9 +2944,9 @@
       rr(x - 8, by, 132, 24, 6);
       ctx.fill();
       ctx.fillStyle = '#bff2ff';
-      ctx.font = 'bold 12px ui-monospace, monospace';
+      ctx.font = '12px "Press Start 2P", ui-monospace, monospace';
       ctx.textBaseline = 'alphabetic';
-      ctx.fillText('✦ PULO DUPLO', x, by + 16);
+      ctx.fillText('PULO DUPLO', x, by + 16);
     }
     ctx.restore();
   }
@@ -2967,112 +2988,146 @@
     const lean = air ? (p.vy < 0 ? -0.07 : 0.09) : clamp(p.vx / 950, -0.08, 0.08);
     ctx.rotate(lean);
 
-    // pernas
-    const swing = moving ? run * 5 : 0;
-    ctx.fillStyle = '#3f2a16';
-    rr(-8 + swing, -9 - bob, 7, 9, 2.4);
-    ctx.fill();
-    rr(1 - swing, -9 - bob, 7, 9 + (air ? 2 : 0), 2.4);
-    ctx.fill();
-    ctx.fillStyle = '#241608';
-    rr(-9 + swing, -3 - bob, 8, 4, 1.6);
-    ctx.fill();
-    rr(0 - swing, -3 - bob, 8, 4, 1.6);
-    ctx.fill();
+    // ---- mascote CEPK: jaguatirica aventureira em pixel art ----
+    const P = (px, py, pw, ph, color) => {
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.round(px), Math.round(py), Math.round(pw), Math.round(ph));
+    };
 
-    // mochila
-    ctx.fillStyle = '#7a4a21';
-    rr(-13, -28 - bob, 8, 17, 3);
-    ctx.fill();
-    ctx.fillStyle = '#5b3a1e';
-    rr(-12, -23 - bob, 6, 3, 1);
-    ctx.fill();
-    ctx.fillStyle = '#c9a15c';
-    ctx.fillRect(-12, -26 - bob, 6, 2);
+    // paleta da jaguatirica + roupa de aventureiro
+    const FUR = '#e6b877';
+    const FUR_LT = '#f7dcaa';
+    const FUR_DK = '#c58f4b';
+    const SPOT = '#5d3c1e';
+    const SPOT_LT = '#8a5b2c';
+    const CREAM = '#fdf1d4';
+    const VEST = '#7f6b34';
+    const VEST_DK = '#5d4c24';
+    const SHIRT = '#dcca93';
+    const PANTS = '#5e5232';
+    const BOOT = '#3a2a16';
+    const SOLE = '#231608';
+    const HAT = '#7c5a30';
+    const HAT_DK = '#5a3f1f';
+    const BAND = '#e8a52e';
+    const SCARF = '#c23a2c';
+    const SCARF_DK = '#8e251b';
 
-    // lenço esvoaçante
-    const flap = Math.sin(time * 9) * 2 + (moving ? 3 : 0);
-    ctx.fillStyle = '#c0392b';
-    ctx.beginPath();
-    ctx.moveTo(-6, -29 - bob);
-    ctx.quadraticCurveTo(-17 - flap, -27 - bob, -15 - flap * 1.4, -20 - bob);
-    ctx.quadraticCurveTo(-10, -25 - bob, -5, -26 - bob);
-    ctx.closePath();
-    ctx.fill();
-
-    // tronco
-    ctx.fillStyle = '#c9a15c';
-    rr(-9, -29 - bob, 18, 20, 4);
-    ctx.fill();
-    ctx.fillStyle = '#b88f4d';
-    rr(-9, -29 - bob, 18, 5, 3);
-    ctx.fill();
-    ctx.fillStyle = '#6b4a2a';
-    rr(-9, -29 - bob, 6, 20, 3);
-    ctx.fill();
-    ctx.fillStyle = '#4a3320';
-    ctx.fillRect(-9, -15 - bob, 18, 3);
-    ctx.fillStyle = '#f2b13c';
-    ctx.fillRect(-9, -17.5 - bob, 18, 2);
-    ctx.fillStyle = '#8a5a10';
-    ctx.fillRect(-2.5, -18.5 - bob, 5, 4);
-
-    // braços
+    const swing = moving ? run * 4 : 0;
     const arm = moving ? run * 4 : 0;
-    ctx.fillStyle = '#d9b07f';
-    rr(-12 - arm, -27 - bob, 5, 13, 2.6);
-    ctx.fill();
-    rr(7 + arm, -27 - bob, 5, 13, 2.6);
-    ctx.fill();
-    ctx.fillStyle = '#e8c49a';
-    rr(-12 - arm, -15 - bob, 5, 4, 2);
-    ctx.fill();
-    rr(7 + arm, -15 - bob, 5, 4, 2);
-    ctx.fill();
 
-    // cabeça
-    ctx.fillStyle = '#e8b98a';
-    dot(2, -34 - bob, 7.4);
-    ctx.fillStyle = '#d9a678';
-    ctx.beginPath();
-    ctx.arc(4, -32 - bob, 4.5, -0.4, 1.5);
-    ctx.fill();
-    ctx.fillStyle = '#d9a678';
-    dot(-4, -34 - bob, 2);
+    // cauda listrada (atrás do corpo)
+    const tw = Math.sin(time * 3.4) * 2.4 + (moving ? 2.4 : 0);
+    P(-9, -17 - bob, 6, 5, FUR);
+    P(-14, -20 - bob, 6, 5, FUR_DK);
+    P(-19, -24 - bob, 6, 5, FUR);
+    P(-23, -29 - bob + tw * 0.5, 5, 5, FUR_DK);
+    P(-25, -34 - bob + tw, 5, 5, SPOT);
+    P(-11, -19 - bob, 2, 2, SPOT);
+    P(-17, -23 - bob, 2, 2, SPOT);
+    P(-22, -28 - bob + tw * 0.5, 2, 2, SPOT_LT);
 
-    // cabelo
-    ctx.fillStyle = '#5b3a1e';
-    ctx.beginPath();
-    ctx.arc(2, -35 - bob, 7.3, Math.PI * 1.02, Math.PI * 1.98);
-    ctx.fill();
+    // mochila de explorador
+    P(-14, -28 - bob, 8, 16, '#7a4a21');
+    P(-14, -28 - bob, 8, 3, '#9a6330');
+    P(-13, -23 - bob, 6, 3, '#5b3a1e');
+    P(-12, -26 - bob, 4, 2, '#c9a15c');
 
-    // olho (pisca de vez em quando)
-    if (Math.sin(time * 1.9) > 0.985) {
-      ctx.fillStyle = '#241608';
-      ctx.fillRect(3.5, -35 - bob, 5, 1.6);
+    // braço de trás
+    P(-13 + arm * 0.4, -26 - bob, 5, 12, FUR_DK);
+    P(-13 + arm * 0.4, -16 - bob, 5, 4, FUR);
+
+    // pernas
+    P(-8 + swing, -11 - bob, 7, 9, PANTS);
+    P(-6 + swing, -11 - bob, 2, 9, '#6c5f3a');
+    P(-9 + swing, -4 - bob, 8, 4, BOOT);
+    P(-9 + swing, -1 - bob, 8, 1, SOLE);
+    P(1 - swing, -11 - bob, 7, 9 + (air ? 2 : 0), PANTS);
+    P(5 - swing, -11 - bob, 2, 9, '#6c5f3a');
+    P(0 - swing, -4 - bob, 8, 4, BOOT);
+    P(0 - swing, -1 - bob, 8, 1, SOLE);
+
+    // tronco: camisa clara com colete de aventureiro
+    P(-9, -29 - bob, 18, 19, SHIRT);
+    P(-9, -29 - bob, 18, 3, '#efe0b4');
+    P(-9, -29 - bob, 5, 16, VEST);
+    P(4, -29 - bob, 5, 16, VEST);
+    P(-9, -29 - bob, 5, 2, '#96803f');
+    P(4, -29 - bob, 5, 2, '#96803f');
+    P(-8, -22 - bob, 4, 4, VEST_DK);
+    P(4, -22 - bob, 4, 4, VEST_DK);
+    P(-8, -21 - bob, 4, 1, '#8a743a');
+    P(4, -21 - bob, 4, 1, '#8a743a');
+    // cinto com fivela dourada
+    P(-9, -14 - bob, 18, 3, '#4a3320');
+    P(-3, -14.5 - bob, 5, 4, '#d9a52c');
+    P(-2, -13.5 - bob, 3, 2, '#f2c75c');
+
+    // lenço vermelho de aventureiro
+    P(-7, -31 - bob, 15, 3, SCARF);
+    P(-7, -31 - bob, 15, 1, '#e05a45');
+    P(-9, -32 - bob, 4, 4, SCARF_DK);
+    const flap = Math.sin(time * 8) * 1.6 + (moving ? 2 : 0);
+    P(-11 - flap * 0.5, -30 - bob, 4, 2, SCARF);
+    P(-14 - flap, -28 - bob, 4, 2, SCARF_DK);
+
+    // orelhas pontudas com ponta escura
+    P(-11, -43 - bob, 5, 5, FUR);
+    P(-10, -44 - bob, 3, 2, SPOT);
+    P(-10, -41 - bob, 2, 2, '#d99a86');
+    P(7, -43 - bob, 5, 5, FUR);
+    P(8, -44 - bob, 3, 2, SPOT);
+    P(9, -41 - bob, 2, 2, '#d99a86');
+
+    // cabeça redondinha (pixel)
+    P(-6, -44 - bob, 13, 2, FUR);
+    P(-8, -42 - bob, 17, 9, FUR);
+    P(-7, -33 - bob, 15, 4, FUR);
+    P(-5, -44 - bob, 11, 1, FUR_LT);
+    // pintas de jaguatirica
+    P(-6, -42 - bob, 2, 2, SPOT);
+    P(4, -42 - bob, 2, 2, SPOT);
+    P(-8, -38 - bob, 2, 3, FUR_DK);
+    P(7, -38 - bob, 2, 3, FUR_DK);
+    P(-7, -36 - bob, 5, 3, FUR_LT);
+    P(3, -36 - bob, 6, 3, FUR_LT);
+
+    // focinho claro com nariz e bigodes
+    P(0, -35 - bob, 9, 5, CREAM);
+    P(-1, -34 - bob, 3, 3, CREAM);
+    P(4, -36 - bob, 3, 2, '#2b1a0c');
+    P(4, -36 - bob, 1, 1, '#6b4a3a');
+    P(5, -33 - bob, 3, 1, '#5b4326');
+    P(9, -35 - bob, 5, 1, '#b08a5a');
+    P(9, -33 - bob, 4, 1, '#b08a5a');
+
+    // olhos grandes (pisca de vez em quando)
+    if (Math.sin(time * 1.9) > 0.97) {
+      P(0, -39 - bob, 3, 1, '#2b1a0c');
+      P(5, -39 - bob, 3, 1, '#2b1a0c');
     } else {
-      ctx.fillStyle = '#fff7e6';
-      dot(5, -34 - bob, 2.2);
-      ctx.fillStyle = '#241608';
-      dot(5.8, -34 - bob, 1.1);
+      P(0, -40 - bob, 3, 3, '#fdf6e3');
+      P(5, -40 - bob, 3, 3, '#fdf6e3');
+      P(1.5, -39.5 - bob, 2, 2, '#221a0c');
+      P(6.5, -39.5 - bob, 2, 2, '#221a0c');
+      P(1.5, -40.5 - bob, 1, 1, '#ffffff');
+      P(6.5, -40.5 - bob, 1, 1, '#ffffff');
     }
-    ctx.fillStyle = '#c0392b';
-    ctx.fillRect(1, -29.5 - bob, 5, 1.8);
 
-    // chapéu
-    ctx.fillStyle = '#5b3a1e';
-    ctx.beginPath();
-    ctx.ellipse(2, -39 - bob, 13.5, 4.2, 0, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#6b4226';
-    rr(-4, -47 - bob, 13, 9, 3);
-    ctx.fill();
-    ctx.fillStyle = '#4a2c15';
-    ctx.fillRect(-4, -41.5 - bob, 13, 2);
-    ctx.fillStyle = '#f2b13c';
-    ctx.fillRect(-4, -40 - bob, 13, 2.4);
-    ctx.fillStyle = '#2b1a0c';
-    ctx.fillRect(-1, -46.5 - bob, 7, 1.2);
+    // braço da frente
+    P(8 + arm * 0.4, -26 - bob, 5, 12, FUR);
+    P(8 + arm * 0.4, -16 - bob, 5, 4, FUR_LT);
+    P(9 + arm * 0.4, -23 - bob, 2, 2, SPOT);
+
+    // chapéu de explorador
+    P(-13, -45 - bob, 26, 3, HAT_DK);
+    P(-12, -45 - bob, 24, 1, HAT);
+    P(-8, -49 - bob, 15, 5, HAT);
+    P(-7, -50 - bob, 13, 1, HAT);
+    P(-8, -45 - bob, 15, 1, HAT_DK);
+    P(-8, -47 - bob, 15, 2, BAND);
+    P(-8, -47 - bob, 15, 1, '#f6c65a');
+    P(-3, -49 - bob, 6, 1, HAT_DK);
 
     ctx.restore();
   }
@@ -3453,38 +3508,61 @@
   }
 
   function render() {
+    // Cada camada é desenhada de forma isolada: se uma falhar, as demais
+    // continuam aparecendo (obstáculos, gemas e personagem nunca somem).
+    const guard = (fn) => {
+      try {
+        fn();
+      } catch (err) {
+        console.error('Erro ao desenhar camada:', err);
+      }
+    };
+
     ctx.clearRect(0, 0, VIEW_W, VIEW_H);
-    drawBackground();
+    guard(drawBackground);
 
     ctx.save();
-    if (shake > 0.2) {
-      ctx.translate((Math.random() * 2 - 1) * shake, (Math.random() * 2 - 1) * shake);
+    try {
+      if (shake > 0.2) {
+        ctx.translate((Math.random() * 2 - 1) * shake, (Math.random() * 2 - 1) * shake);
+      }
+      guard(drawTiles);
+      guard(drawCheckpoints);
+      guard(drawExit);
+      guard(drawCoins);
+      guard(drawPowerups);
+      guard(drawProjectiles);
+      guard(() => {
+        for (const enemy of level.enemies) drawEnemy(enemy);
+      });
+      guard(() => {
+        if (state !== 'title') drawPlayer();
+      });
+      guard(drawParticles);
+      guard(drawFloaters);
+      guard(drawAmbient);
+    } finally {
+      ctx.restore();
     }
-    drawTiles();
-    drawCheckpoints();
-    drawExit();
-    drawCoins();
-    drawPowerups();
-    drawProjectiles();
-    for (const enemy of level.enemies) drawEnemy(enemy);
-    if (state !== 'title') drawPlayer();
-    drawParticles();
-    drawFloaters();
-    drawAmbient();
-    ctx.restore();
 
-    drawForeground();
-    drawBossBar();
-    drawComboHud();
+    guard(drawForeground);
+    guard(drawBossBar);
+    guard(drawComboHud);
+    guard(() => {
+      if (flash > 0) {
+        ctx.fillStyle = `rgba(${flashColor}, ${Math.min(0.62, flash * 0.9)})`;
+        ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+      }
+      if (fade > 0) {
+        ctx.fillStyle = `rgba(0, 0, 0, ${Math.min(1, fade)})`;
+        ctx.fillRect(0, 0, VIEW_W, VIEW_H);
+      }
+    });
 
-    if (flash > 0) {
-      ctx.fillStyle = `rgba(${flashColor}, ${Math.min(0.62, flash * 0.9)})`;
-      ctx.fillRect(0, 0, VIEW_W, VIEW_H);
-    }
-    if (fade > 0) {
-      ctx.fillStyle = `rgba(0, 0, 0, ${Math.min(1, fade)})`;
-      ctx.fillRect(0, 0, VIEW_W, VIEW_H);
-    }
+    // Amplia o buffer pixel-art para a tela sem suavização.
+    displayCtx.imageSmoothingEnabled = false;
+    displayCtx.clearRect(0, 0, canvas.width, canvas.height);
+    displayCtx.drawImage(pixelCanvas, 0, 0, canvas.width, canvas.height);
   }
 
   /* ---------------------------------- loop ---------------------------------- */

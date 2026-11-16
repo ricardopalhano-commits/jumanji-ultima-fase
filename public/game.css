@@ -288,6 +288,8 @@ kbd {
   aspect-ratio: 960 / 544;
   background: #07130d;
   touch-action: none;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 }
 
 /* ---------------------------------- telas --------------------------------- */
