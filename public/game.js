@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.7.5';
+  window.__JUMANJI_VERSION__ = '5.8.0';
 
   /* ---------------------------------- base --------------------------------- */
 
