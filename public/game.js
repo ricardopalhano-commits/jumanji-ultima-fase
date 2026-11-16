@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.6.3';
+  window.__JUMANJI_VERSION__ = '5.7.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -399,104 +399,7 @@
 
   const LEVELS = [
     {
-      name: 'Deserto das Dunas',
-      subtitle: 'Sol, escorpiões e capangas de Jurgen.',
-      theme: 'deserto',
-      cols: 236,
-      build(B) {
-        B.spawn(2);
-        B.ground(0, 24);
-        B.ground(28, 52);
-        B.ground(56, 82);
-        B.ground(86, 112);
-        B.ground(116, 146);
-        B.ground(150, 180);
-        B.ground(184, 235);
-
-        B.plat(10, 13, 10, 2);
-        B.plat(18, 22, 9, 3);
-        B.plat(31, 35, 10, 2);
-        B.plat(42, 45, 8, 2);
-        B.plat(60, 64, 10, 3);
-        B.plat(70, 73, 9, 2);
-        B.plat(92, 96, 10, 2);
-        B.plat(102, 105, 8, 2);
-        B.plat(120, 124, 10, 3);
-        B.plat(131, 134, 9, 2);
-        B.plat(158, 162, 10, 2);
-        B.plat(168, 171, 8, 3);
-        B.plat(190, 194, 10, 2);
-        B.plat(203, 207, 9, 3);
-        B.plat(216, 220, 10, 2);
-
-        B.spikes(38, 39);
-        B.spikes(76, 77);
-        B.spikes(108, 109);
-        B.spikes(138, 139);
-        B.spikes(172, 173);
-        B.spikes(198, 199);
-        B.spikes(226, 227);
-
-        B.checkpoint(118);
-        B.exit(231);
-
-        B.power('heart', 57);
-        B.power('mask', 160, 10);
-
-        B.enemy('scorpion', 7);
-        B.enemy('scorpion', 15);
-        B.enemy('scorpion', 33);
-        B.enemy('scorpion', 47);
-        B.enemy('scorpion', 66);
-        B.enemy('scorpion', 90);
-        B.enemy('scorpion', 106);
-        B.enemy('scorpion', 128);
-        B.enemy('scorpion', 145);
-        B.enemy('scorpion', 166);
-        B.enemy('scorpion', 188);
-        B.enemy('scorpion', 210);
-        B.enemy('scorpion', 222);
-        B.enemy('bandit', 30);
-        B.enemy('bandit', 50);
-        B.enemy('bandit', 73);
-        B.enemy('bandit', 95);
-        B.enemy('bandit', 122, 10, { patrol: 26 });
-        B.enemy('bandit', 160);
-        B.enemy('bandit', 191);
-        B.enemy('bandit', 214);
-        B.flyer('vulture', 20, 9);
-        B.flyer('vulture', 44, 7);
-        B.flyer('vulture', 79, 8);
-        B.flyer('vulture', 100, 7);
-        B.flyer('vulture', 135, 8);
-        B.flyer('vulture', 165, 7);
-        B.flyer('vulture', 200, 8);
-
-        B.coinLine(4, 7, 12);
-        B.coinLine(10, 13, 8);
-        B.coinArc(24, 6, 11, 2);
-        B.coinLine(31, 35, 8);
-        B.coinLine(42, 45, 6);
-        B.coinArc(52, 6, 11, 3);
-        B.coinLine(60, 64, 8);
-        B.coinLine(70, 73, 7);
-        B.coinArc(82, 6, 11, 2);
-        B.coinLine(92, 96, 8);
-        B.coinLine(102, 105, 6);
-        B.coinArc(112, 6, 11, 3);
-        B.coinLine(120, 124, 8);
-        B.coinLine(131, 134, 7);
-        B.coinArc(146, 6, 11, 2);
-        B.coinLine(158, 162, 8);
-        B.coinLine(168, 171, 6);
-        B.coinArc(180, 6, 11, 3);
-        B.coinLine(190, 194, 8);
-        B.coinLine(203, 207, 7);
-        B.coinLine(216, 220, 8);
-      }
-    },
-    {
-      name: 'Selva dos Mandris',
+      name: 'A selva',
       subtitle: 'Cipós, cobras e guardiões de madeira.',
       theme: 'selva',
       cols: 242,
@@ -596,8 +499,108 @@
       }
     },
     {
-      name: 'Templo de Jurgen',
-      subtitle: 'Lava, raptores e o chefe final.',
+      name: 'O vilarejo',
+      subtitle: 'Telhados, cipós e guardiões.',
+      theme: 'selva',
+      cols: 242,
+      build(B) {
+        B.spawn(2);
+        B.ground(0, 22);
+        B.ground(26, 54);
+        B.ground(58, 88);
+        B.ground(92, 124);
+        B.ground(128, 160);
+        B.ground(164, 196);
+        B.ground(200, 241);
+
+        B.plat(8, 11, 11, 3);
+        B.plat(16, 20, 9, 2);
+        B.plat(30, 34, 10, 3);
+        B.plat(40, 43, 8, 2);
+        B.plat(48, 52, 10, 3);
+        B.plat(60, 64, 9, 2);
+        B.plat(72, 76, 11, 3);
+        B.plat(82, 86, 8, 2);
+        B.plat(96, 100, 10, 3);
+        B.plat(106, 109, 8, 2);
+        B.plat(114, 118, 10, 3);
+        B.plat(132, 136, 9, 2);
+        B.plat(142, 145, 11, 3);
+        B.plat(150, 154, 8, 2);
+        B.plat(168, 172, 10, 3);
+        B.plat(178, 182, 8, 2);
+        B.plat(188, 192, 10, 3);
+        B.plat(206, 210, 9, 2);
+        B.plat(216, 220, 11, 3);
+        B.plat(226, 230, 9, 2);
+
+        B.spikes(36, 37);
+        B.spikes(68, 69);
+        B.spikes(102, 103);
+        B.spikes(140, 141);
+        B.spikes(174, 175);
+        B.spikes(212, 213);
+        B.spikes(234, 235);
+
+        B.checkpoint(130);
+        B.exit(237);
+
+        B.power('heart', 60);
+        B.power('mask', 170, 10);
+
+        B.enemy('bandit', 12);
+        B.enemy('bandit', 32);
+        B.enemy('mandril', 45);
+        B.enemy('bandit', 62);
+        B.enemy('bandit', 80);
+        B.enemy('mandril', 100);
+        B.enemy('bandit', 118);
+        B.enemy('mandril', 138);
+        B.enemy('bandit', 156);
+        B.enemy('mandril', 176);
+        B.enemy('bandit', 194);
+        B.enemy('mandril', 214);
+        B.enemy('bandit', 228);
+        B.enemy('cobra', 20);
+        B.enemy('cobra', 50);
+        B.enemy('cobra', 86);
+        B.enemy('cobra', 112);
+        B.enemy('cobra', 148);
+        B.enemy('cobra', 186);
+        B.enemy('cobra', 224);
+        B.flyer('wasp', 28, 8);
+        B.flyer('wasp', 56, 9);
+        B.flyer('wasp', 90, 7);
+        B.flyer('wasp', 126, 8);
+        B.flyer('wasp', 160, 9);
+        B.flyer('wasp', 200, 7);
+
+        B.coinLine(8, 11, 9);
+        B.coinLine(16, 20, 7);
+        B.coinArc(23, 6, 11, 2);
+        B.coinLine(30, 34, 8);
+        B.coinLine(40, 43, 6);
+        B.coinArc(55, 6, 11, 3);
+        B.coinLine(60, 64, 7);
+        B.coinLine(72, 76, 9);
+        B.coinArc(89, 6, 11, 2);
+        B.coinLine(96, 100, 8);
+        B.coinLine(106, 109, 6);
+        B.coinArc(125, 6, 11, 3);
+        B.coinLine(132, 136, 7);
+        B.coinLine(142, 145, 9);
+        B.coinArc(161, 6, 11, 2);
+        B.coinLine(168, 172, 8);
+        B.coinLine(178, 182, 6);
+        B.coinArc(197, 6, 11, 3);
+        B.coinLine(206, 210, 7);
+        B.coinLine(216, 220, 9);
+        B.coinLine(226, 230, 7);
+      }
+    },
+    {
+      name: 'O Final',
+      subtitle: 'Lava, raptores e o chefão.',
       theme: 'templo',
       cols: 216,
       build(B) {
@@ -680,6 +683,271 @@
           minX: 176 * TILE,
           maxX: 204 * TILE
         });
+
+        B.coinLine(4, 7, 12);
+        B.coinLine(8, 11, 8);
+        B.coinLine(18, 22, 6);
+        B.coinArc(30, 7, 11, 2);
+        B.coinLine(40, 44, 8);
+        B.coinLine(52, 56, 6);
+        B.coinArc(66, 7, 11, 3);
+        B.coinLine(76, 80, 8);
+        B.coinLine(88, 92, 7);
+        B.coinArc(102, 7, 11, 2);
+        B.coinLine(112, 116, 8);
+        B.coinLine(124, 128, 6);
+        B.coinArc(138, 7, 11, 3);
+        B.coinLine(148, 152, 8);
+        B.coinLine(160, 164, 7);
+        B.coinLine(182, 186, 8);
+        B.coinLine(194, 198, 8);
+      }
+    },
+    {
+      name: 'Deserto',
+      subtitle: 'Sol, escorpiões e capangas.',
+      theme: 'deserto',
+      cols: 236,
+      build(B) {
+        B.spawn(2);
+        B.ground(0, 24);
+        B.ground(28, 52);
+        B.ground(56, 82);
+        B.ground(86, 112);
+        B.ground(116, 146);
+        B.ground(150, 180);
+        B.ground(184, 235);
+
+        B.plat(10, 13, 10, 2);
+        B.plat(18, 22, 9, 3);
+        B.plat(31, 35, 10, 2);
+        B.plat(42, 45, 8, 2);
+        B.plat(60, 64, 10, 3);
+        B.plat(70, 73, 9, 2);
+        B.plat(92, 96, 10, 2);
+        B.plat(102, 105, 8, 2);
+        B.plat(120, 124, 10, 3);
+        B.plat(131, 134, 9, 2);
+        B.plat(158, 162, 10, 2);
+        B.plat(168, 171, 8, 3);
+        B.plat(190, 194, 10, 2);
+        B.plat(203, 207, 9, 3);
+        B.plat(216, 220, 10, 2);
+
+        B.spikes(38, 39);
+        B.spikes(76, 77);
+        B.spikes(108, 109);
+        B.spikes(138, 139);
+        B.spikes(172, 173);
+        B.spikes(198, 199);
+        B.spikes(226, 227);
+
+        B.checkpoint(118);
+        B.exit(231);
+
+        B.power('heart', 57);
+        B.power('mask', 160, 10);
+
+        B.enemy('scorpion', 7);
+        B.enemy('scorpion', 15);
+        B.enemy('scorpion', 33);
+        B.enemy('scorpion', 47);
+        B.enemy('scorpion', 66);
+        B.enemy('scorpion', 90);
+        B.enemy('scorpion', 106);
+        B.enemy('scorpion', 128);
+        B.enemy('scorpion', 145);
+        B.enemy('scorpion', 166);
+        B.enemy('scorpion', 188);
+        B.enemy('scorpion', 210);
+        B.enemy('scorpion', 222);
+        B.enemy('bandit', 30);
+        B.enemy('bandit', 50);
+        B.enemy('bandit', 73);
+        B.enemy('bandit', 95);
+        B.enemy('bandit', 122, 10, { patrol: 26 });
+        B.enemy('bandit', 160);
+        B.enemy('bandit', 191);
+        B.enemy('bandit', 214);
+        B.flyer('vulture', 20, 9);
+        B.flyer('vulture', 44, 7);
+        B.flyer('vulture', 79, 8);
+        B.flyer('vulture', 100, 7);
+        B.flyer('vulture', 135, 8);
+        B.flyer('vulture', 165, 7);
+        B.flyer('vulture', 200, 8);
+
+        B.coinLine(4, 7, 12);
+        B.coinLine(10, 13, 8);
+        B.coinArc(24, 6, 11, 2);
+        B.coinLine(31, 35, 8);
+        B.coinLine(42, 45, 6);
+        B.coinArc(52, 6, 11, 3);
+        B.coinLine(60, 64, 8);
+        B.coinLine(70, 73, 7);
+        B.coinArc(82, 6, 11, 2);
+        B.coinLine(92, 96, 8);
+        B.coinLine(102, 105, 6);
+        B.coinArc(112, 6, 11, 3);
+        B.coinLine(120, 124, 8);
+        B.coinLine(131, 134, 7);
+        B.coinArc(146, 6, 11, 2);
+        B.coinLine(158, 162, 8);
+        B.coinLine(168, 171, 6);
+        B.coinArc(180, 6, 11, 3);
+        B.coinLine(190, 194, 8);
+        B.coinLine(203, 207, 7);
+        B.coinLine(216, 220, 8);
+      }
+    },
+    {
+      name: 'A Fruta do Deserto',
+      subtitle: 'Oásis, frutas e escorpiões.',
+      theme: 'deserto',
+      cols: 236,
+      build(B) {
+        B.spawn(2);
+        B.ground(0, 24);
+        B.ground(28, 52);
+        B.ground(56, 82);
+        B.ground(86, 112);
+        B.ground(116, 146);
+        B.ground(150, 180);
+        B.ground(184, 235);
+
+        B.plat(10, 13, 10, 2);
+        B.plat(18, 22, 9, 3);
+        B.plat(31, 35, 10, 2);
+        B.plat(42, 45, 8, 2);
+        B.plat(60, 64, 10, 3);
+        B.plat(70, 73, 9, 2);
+        B.plat(92, 96, 10, 2);
+        B.plat(102, 105, 8, 2);
+        B.plat(120, 124, 10, 3);
+        B.plat(131, 134, 9, 2);
+        B.plat(158, 162, 10, 2);
+        B.plat(168, 171, 8, 3);
+        B.plat(190, 194, 10, 2);
+        B.plat(203, 207, 9, 3);
+        B.plat(216, 220, 10, 2);
+
+        B.spikes(38, 39);
+        B.spikes(76, 77);
+        B.spikes(108, 109);
+        B.spikes(138, 139);
+        B.spikes(172, 173);
+        B.spikes(198, 199);
+        B.spikes(226, 227);
+
+        B.checkpoint(118);
+        B.exit(231);
+
+        B.power('heart', 57);
+        B.power('heart', 150);
+        B.power('mask', 160, 10);
+
+        B.enemy('scorpion', 7);
+        B.enemy('scorpion', 33);
+        B.enemy('scorpion', 66);
+        B.enemy('scorpion', 90);
+        B.enemy('scorpion', 128);
+        B.enemy('scorpion', 166);
+        B.enemy('scorpion', 188);
+        B.enemy('scorpion', 210);
+        B.enemy('bandit', 30);
+        B.enemy('bandit', 73);
+        B.enemy('bandit', 95);
+        B.enemy('bandit', 122, 10, { patrol: 26 });
+        B.enemy('bandit', 160);
+        B.enemy('bandit', 191);
+        B.flyer('vulture', 20, 9);
+        B.flyer('vulture', 79, 8);
+        B.flyer('vulture', 135, 8);
+        B.flyer('vulture', 200, 8);
+
+        B.coinLine(4, 7, 12);
+        B.coinLine(10, 13, 8);
+        B.coinArc(24, 6, 11, 2);
+        B.coinLine(31, 35, 8);
+        B.coinLine(42, 45, 6);
+        B.coinArc(52, 6, 11, 3);
+        B.coinLine(60, 64, 8);
+        B.coinLine(70, 73, 7);
+        B.coinArc(82, 6, 11, 2);
+        B.coinLine(92, 96, 8);
+        B.coinLine(102, 105, 6);
+        B.coinArc(112, 6, 11, 3);
+        B.coinLine(120, 124, 8);
+        B.coinLine(131, 134, 7);
+        B.coinArc(146, 6, 11, 2);
+        B.coinLine(158, 162, 8);
+        B.coinLine(168, 171, 6);
+        B.coinArc(180, 6, 11, 3);
+        B.coinLine(190, 194, 8);
+        B.coinLine(203, 207, 7);
+        B.coinLine(216, 220, 8);
+      }
+    },
+    {
+      name: 'A Fronteira',
+      subtitle: 'Fronteira, capangas e o portal.',
+      theme: 'templo',
+      cols: 216,
+      build(B) {
+        B.spawn(2);
+        B.ground(0, 215);
+
+        B.plat(8, 11, 10, 4);
+        B.plat(18, 22, 8, 4);
+        B.plat(40, 44, 10, 4);
+        B.plat(52, 56, 8, 4);
+        B.plat(76, 80, 10, 4);
+        B.plat(88, 92, 9, 4);
+        B.plat(112, 116, 10, 4);
+        B.plat(124, 128, 8, 4);
+        B.plat(148, 152, 10, 4);
+        B.plat(160, 164, 9, 4);
+        B.plat(182, 186, 10, 4);
+        B.plat(194, 198, 10, 4);
+
+        B.spikes(24, 25);
+        B.spikes(48, 49);
+        B.spikes(82, 83);
+        B.spikes(118, 119);
+        B.spikes(154, 155);
+        B.spikes(168, 169);
+
+        B.checkpoint(108);
+        B.exit(208);
+
+        B.power('heart', 71);
+        B.power('mask', 150, 10);
+
+        B.enemy('scorpion', 10);
+        B.enemy('scorpion', 44);
+        B.enemy('scorpion', 78);
+        B.enemy('scorpion', 114);
+        B.enemy('scorpion', 150);
+        B.enemy('scorpion', 170);
+        B.enemy('bandit', 20);
+        B.enemy('bandit', 58);
+        B.enemy('bandit', 80);
+        B.enemy('bandit', 100);
+        B.enemy('bandit', 120);
+        B.enemy('bandit', 145);
+        B.enemy('bandit', 165);
+        B.enemy('raptor', 46);
+        B.enemy('raptor', 86);
+        B.enemy('raptor', 126);
+        B.enemy('raptor', 158);
+        B.enemy('cobra', 28);
+        B.enemy('cobra', 72);
+        B.enemy('cobra', 108);
+        B.enemy('cobra', 146);
+        B.flyer('wasp', 35, 8);
+        B.flyer('wasp', 70, 7);
+        B.flyer('wasp', 104, 8);
+        B.flyer('wasp', 140, 7);
 
         B.coinLine(4, 7, 12);
         B.coinLine(8, 11, 8);

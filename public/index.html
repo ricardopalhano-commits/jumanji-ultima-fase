@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=5.6.3" />
+    <link rel="stylesheet" href="/game.css?v=5.7.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -43,7 +43,7 @@
           </div>
 
           <div class="hud__side hud__side--right">
-            <span class="hud__level" id="level-name">Fase 1 · Deserto das Dunas</span>
+            <span class="hud__level" id="level-name">Fase 1 · A selva</span>
             <button class="icon-btn" type="button" data-action="mute" aria-label="Desativar som" aria-pressed="false" title="Som">
               <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4Z" /><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a9 9 0 0 1 0 12" /></svg>
               <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h3l5-4v14l-5-4H4Z" /><path d="m16 9 5 6M21 9l-5 6" /></svg>
@@ -95,7 +95,7 @@
                     <span class="btn__ico" aria-hidden="true">?</span> COMO JOGAR
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v5.6.3</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v5.7.0</span></p>
               </div>
             </section>
 
@@ -107,8 +107,8 @@
                   <button class="level-card" type="button" data-action="level" data-level="0">
                     <span class="level-card__no">1</span>
                     <span class="level-card__body">
-                      <strong>Deserto das Dunas</strong>
-                      <small>Escorpiões e capangas</small>
+                      <strong>A selva</strong>
+                      <small>Cipós, cobras e vespas</small>
                     </span>
                     <span class="level-card__lock" aria-hidden="true">
                       <svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" /><rect x="5" y="10" width="14" height="10" rx="1" /></svg>
@@ -117,7 +117,7 @@
                   <button class="level-card" type="button" data-action="level" data-level="1">
                     <span class="level-card__no">2</span>
                     <span class="level-card__body">
-                      <strong>Selva dos Mandris</strong>
+                      <strong>O vilarejo</strong>
                       <small>Cipós, cobras e vespas</small>
                     </span>
                     <span class="level-card__lock" aria-hidden="true">
@@ -127,13 +127,44 @@
                   <button class="level-card" type="button" data-action="level" data-level="2">
                     <span class="level-card__no">3</span>
                     <span class="level-card__body">
-                      <strong>Templo de Jurgen</strong>
+                      <strong>O Final</strong>
                       <small>Lava, raptores e o chefão</small>
                     </span>
                     <span class="level-card__lock" aria-hidden="true">
                       <svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" /><rect x="5" y="10" width="14" height="10" rx="1" /></svg>
                     </span>
                   </button>
+                   <button class="level-card" type="button" data-action="level" data-level="3">
+                     <span class="level-card__no">4</span>
+                     <span class="level-card__body">
+                       <strong>Deserto</strong>
+                       <small>Sol, escorpiões e capangas</small>
+                     </span>
+                     <span class="level-card__lock" aria-hidden="true">
+                       <svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" /><rect x="5" y="10" width="14" height="10" rx="1" /></svg>
+                     </span>
+                   </button>
+                   <button class="level-card" type="button" data-action="level" data-level="4">
+                     <span class="level-card__no">5</span>
+                     <span class="level-card__body">
+                       <strong>A Fruta do Deserto</strong>
+                       <small>Oásis, frutas e escorpiões</small>
+                     </span>
+                     <span class="level-card__lock" aria-hidden="true">
+                       <svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" /><rect x="5" y="10" width="14" height="10" rx="1" /></svg>
+                     </span>
+                   </button>
+                   <button class="level-card" type="button" data-action="level" data-level="5">
+                     <span class="level-card__no">6</span>
+                     <span class="level-card__body">
+                       <strong>A Fronteira</strong>
+                       <small>Fronteira, capangas e o portal</small>
+                     </span>
+                     <span class="level-card__lock" aria-hidden="true">
+                       <svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3" /><rect x="5" y="10" width="14" height="10" rx="1" /></svg>
+                     </span>
+                   </button>
+
                 </div>
                 <button class="btn btn--ghost" type="button" data-action="back">
                   <span class="btn__ico" aria-hidden="true">◄</span> VOLTAR
@@ -194,7 +225,7 @@
             <section class="screen" id="screen-clear" data-screen="clear" hidden>
               <div class="panel">
                 <p class="tag">★ FASE CONCLUÍDA</p>
-                <h2 class="panel__title" id="clear-title">Deserto das Dunas</h2>
+                <h2 class="panel__title" id="clear-title">A selva</h2>
                 <p class="panel__text" id="clear-text">O portal vibrou e abriu passagem para o próximo perigo.</p>
                 <div class="stats">
                   <div><span>GEMAS</span><strong id="clear-gems">0</strong></div>
@@ -256,10 +287,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=5.6.3" defer></script>
+    <script src="/game.js?v=5.7.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '5.6.3';
+        var GAME_VERSION = '5.7.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
