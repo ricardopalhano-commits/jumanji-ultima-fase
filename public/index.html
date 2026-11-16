@@ -291,9 +291,13 @@
 
           navigator.serviceWorker.addEventListener('controllerchange', function () {
             if (reloading || !hadController) return;
-            if (sessionStorage.getItem('jumanji-sw-reloaded') === '1') return;
+            try {
+              if (sessionStorage.getItem('jumanji-sw-reloaded') === '1') return;
+              sessionStorage.setItem('jumanji-sw-reloaded', '1');
+            } catch (err) {
+              /* armazenamento indisponível: segue com o reload */
+            }
             reloading = true;
-            sessionStorage.setItem('jumanji-sw-reloaded', '1');
             window.location.reload();
           });
 
