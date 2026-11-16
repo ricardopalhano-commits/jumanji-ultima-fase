@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.7.1';
+  window.__JUMANJI_VERSION__ = '5.7.2';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -3565,12 +3565,17 @@
   function drawMandril(enemy) {
     enemyOrigin(enemy);
     const run = Math.sin(time * 9 + enemy.phase);
+    const bob = Math.abs(run) * 1.3;
 
-    // pernas
+    // pernas (ficam no chão, sem bob)
     px(-8 + run * 2, -10, 5, 10, '#5a3f20');
     px(-8 + run * 2, 0, 6, 2, '#2a1a0c');
     px(3 - run * 2, -10, 5, 10, '#5a3f20');
     px(3 - run * 2, 0, 6, 2, '#2a1a0c');
+
+    // o resto do corpo balança com o passo
+    ctx.save();
+    ctx.translate(0, -bob);
 
     // cauda curta erguida
     px(-12, -20, 3, 5, '#6e5330');
@@ -3615,16 +3620,17 @@
     // barba amarela
     px(13, -22, 6, 4, '#e0c070');
     ctx.restore();
+    ctx.restore();
   }
 
   function drawWasp(enemy) {
     enemyOrigin(enemy);
     const flap = Math.sin(time * 26 + enemy.phase);
 
-    // asas translúcidas batendo
+    // asas translúcidas batendo (presas ao tórax)
     ctx.globalAlpha = 0.55;
-    px(-4, -22 - Math.abs(flap) * 2, 10, 4, '#dff3ff');
-    px(0, -24 - Math.abs(flap) * 2, 8, 3, '#bfe8ff');
+    px(-2, -17 - Math.abs(flap) * 2, 9, 4, '#dff3ff');
+    px(2, -18 - Math.abs(flap) * 2, 7, 3, '#bfe8ff');
     ctx.globalAlpha = 1;
 
     // pernas
