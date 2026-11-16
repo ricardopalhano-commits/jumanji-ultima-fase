@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.5.0';
+  window.__JUMANJI_VERSION__ = '5.6.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -3002,155 +3002,148 @@
     };
 
     // paleta do lobo (cinza) + roupa de aventureiro
-    const FUR = '#9aa6b2';
-    const FUR_LT = '#c8d1da';
-    const FUR_DK = '#6b7783';
-    const SPOT = '#3a424b';
-    const CREAM = '#eef3f7';
-    const EAR_IN = '#c98a92';
-    const VEST = '#8a7a3e';
-    const VEST_DK = '#6b5c2e';
-    const SHIRT = '#efe0b4';
-    const PANTS = '#6b5a34';
-    const BOOT = '#4a3520';
-    const SOLE = '#241608';
-    const HAT = '#8a6a34';
-    const HAT_DK = '#5e4620';
-    const BAND = '#e8a52e';
-    const SCARF = '#c23a2c';
-    const SCARF_DK = '#8e251b';
+    const FUR = '#8d99a6';
+    const FUR_LT = '#b9c4cf';
+    const FUR_DK = '#5f6b78';
+    const MARK = '#3c4651';
+    const CREAM = '#e9eef3';
+    const NOSE = '#23282e';
+    const EYE = '#f0be48';
+    const EAR_IN = '#b8797f';
+    const VEST = '#6f6a3a';
+    const VEST_DK = '#55512b';
+    const SHIRT = '#efe6cf';
+    const PANTS = '#4f4a33';
+    const BOOT = '#3d2f1f';
+    const SOLE = '#241a10';
+    const HAT = '#6b5a35';
+    const HAT_DK = '#4a3d22';
+    const BAND = '#c9992e';
+    const SCARF = '#c0392b';
+    const SCARF_DK = '#8e2318';
 
-    const swing = moving ? run * 4.5 : 0;
-    const arm = moving ? run * 4 : 0;
-    const tw = Math.sin(time * 3.2) * 2.4 + (moving ? 2.2 : 0);
+    const swing = moving ? run * 4 : 0;
+    const arm = moving ? run * 3 : 0;
+    const tw = Math.sin(time * 3.2) * 2 + (moving ? 2 : 0);
 
-    // cauda felpuda de lobo (cinza, com ponta escura)
-    P(-12, -20 - bob, 7, 7, FUR);
-    P(-17, -23 - bob + tw * 0.3, 8, 8, FUR_DK);
-    P(-23, -22 - bob + tw * 0.6, 7, 7, FUR);
-    P(-27, -19 - bob + tw, 6, 6, FUR_DK);
-    P(-29, -16 - bob + tw * 1.1, 5, 5, SPOT);
-    P(-18, -22 - bob + tw * 0.3, 8, 2, FUR_LT);
-    P(-24, -21 - bob + tw * 0.6, 7, 2, FUR_LT);
-    P(-22, -17 - bob + tw * 0.8, 4, 2, CREAM);
+    // cauda felpuda (atrás do corpo)
+    P(-9, -19 - bob, 6, 7, FUR);
+    P(-13, -22 - bob + tw * 0.25, 7, 9, FUR);
+    P(-19, -22 - bob + tw * 0.5, 7, 9, FUR_DK);
+    P(-24, -19 - bob + tw * 0.8, 6, 7, FUR);
+    P(-27, -15 - bob + tw, 4, 5, MARK);
+    P(-13, -21 - bob + tw * 0.25, 7, 2, FUR_LT);
+    P(-19, -21 - bob + tw * 0.5, 7, 2, FUR_LT);
 
     // mochila de explorador
-    P(-17, -31 - bob, 9, 18, '#8a5a2e');
-    P(-17, -31 - bob, 9, 3, '#a86e36');
-    P(-16, -25 - bob, 7, 3, '#5e3a1c');
-    P(-14, -29 - bob, 4, 2, '#d9b56a');
-    P(-11, -32 - bob, 2, 12, '#5e3a1c');
+    P(-12, -29 - bob, 7, 14, '#6b4a2a');
+    P(-12, -29 - bob, 7, 2, '#8a6236');
+    P(-11, -24 - bob, 5, 3, '#4a3018');
+    P(-10, -27 - bob, 3, 2, '#d9b56a');
+    P(-6, -30 - bob, 2, 6, '#4a3018');
 
     // braço de trás
-    P(-15 + arm * 0.4, -29 - bob, 5, 12, FUR_DK);
-    P(-15 + arm * 0.4, -18 - bob, 5, 4, CREAM);
-    P(-14 + arm * 0.4, -26 - bob, 2, 2, SPOT);
+    P(-10 + arm * 0.3, -27 - bob, 4, 10, FUR_DK);
+    P(-10 + arm * 0.3, -18 - bob, 4, 3, CREAM);
 
     // pernas com pelagem e botas
-    P(-9 + swing, -14 - bob, 7, 8, FUR);
-    P(-9 + swing, -14 - bob, 2, 8, FUR_DK);
-    P(-7 + swing, -12 - bob, 2, 2, SPOT);
-    P(-10 + swing, -7 - bob, 8, 4, PANTS);
-    P(-10 + swing, -4 - bob, 9, 3, BOOT);
-    P(-10 + swing, -2 - bob, 9, 1, SOLE);
-    P(1 - swing, -14 - bob, 7, 8 + (air ? 2 : 0), FUR);
-    P(5 - swing, -14 - bob, 2, 8, FUR_DK);
-    P(2 - swing, -11 - bob, 2, 2, SPOT);
-    P(0 - swing, -7 - bob, 8, 4, PANTS);
-    P(0 - swing, -4 - bob, 9, 3, BOOT);
-    P(0 - swing, -2 - bob, 9, 1, SOLE);
+    P(-7 + swing, -14 - bob, 5, 6, FUR);
+    P(-7 + swing, -14 - bob, 2, 6, FUR_DK);
+    P(-7 + swing, -8 - bob, 5, 4, PANTS);
+    P(-7 + swing, -4 - bob, 6, 3, BOOT);
+    P(-7 + swing, -1 - bob, 6, 1, SOLE);
+    P(2 - swing, -14 - bob, 5, 6 + (air ? 2 : 0), FUR);
+    P(5 - swing, -14 - bob, 2, 6, FUR_DK);
+    P(2 - swing, -8 - bob, 5, 4, PANTS);
+    P(2 - swing, -4 - bob, 6, 3, BOOT);
+    P(2 - swing, -1 - bob, 6, 1, SOLE);
 
     // tronco: camisa clara com colete de aventureiro
-    P(-10, -32 - bob, 20, 20, SHIRT);
-    P(-10, -32 - bob, 20, 2, '#fff8e6');
-    P(-10, -32 - bob, 6, 18, VEST);
-    P(5, -32 - bob, 6, 18, VEST);
-    P(-10, -32 - bob, 6, 2, '#a8944c');
-    P(5, -32 - bob, 6, 2, '#a8944c');
-    P(-9, -25 - bob, 5, 5, VEST_DK);
-    P(5, -25 - bob, 5, 5, VEST_DK);
-    P(-9, -24 - bob, 5, 1, '#a8944c');
-    P(5, -24 - bob, 5, 1, '#a8944c');
+    P(-7, -30 - bob, 14, 16, SHIRT);
+    P(-7, -30 - bob, 14, 1, '#fbf5e6');
+    P(-7, -30 - bob, 3, 14, VEST);
+    P(4, -30 - bob, 3, 14, VEST);
+    P(-7, -30 - bob, 3, 2, '#8a8348');
+    P(4, -30 - bob, 3, 2, '#8a8348');
+    P(-7, -24 - bob, 3, 4, VEST_DK);
+    P(4, -24 - bob, 3, 4, VEST_DK);
+    P(-7, -23 - bob, 3, 1, '#8a8348');
+    P(4, -23 - bob, 3, 1, '#8a8348');
     // emblema com pata (mascote CEPK)
-    P(-9, -20 - bob, 4, 4, '#e8b23c');
-    P(-8, -18 - bob, 2, 2, '#5c3a0d');
-    P(-8, -19 - bob, 1, 1, '#5c3a0d');
-    P(-6, -19 - bob, 1, 1, '#5c3a0d');
+    P(-2, -26 - bob, 4, 4, '#e8b23c');
+    P(-1, -24 - bob, 2, 2, '#5c3a0d');
+    P(-1, -25 - bob, 1, 1, '#5c3a0d');
+    P(1, -25 - bob, 1, 1, '#5c3a0d');
     // cinto com fivela dourada
-    P(-10, -16 - bob, 20, 3, '#4a3320');
-    P(-3, -16.5 - bob, 6, 4, '#e8b23c');
-    P(-2, -15.5 - bob, 4, 2, '#ffe08a');
+    P(-7, -17 - bob, 14, 3, '#3a2f1d');
+    P(-2, -17.5 - bob, 5, 4, '#c9992e');
+    P(-1, -16.5 - bob, 3, 2, '#f2d06a');
 
-    // chapéu de explorador (atrás da cabeça, deixando as orelhas à mostra)
-    P(-16, -47 - bob, 32, 3, HAT_DK);
-    P(-15, -47 - bob, 30, 1, HAT);
-    P(-9, -53 - bob, 18, 8, HAT);
-    P(-8, -54 - bob, 16, 1, HAT);
-    P(-9, -50 - bob, 18, 2, BAND);
-    P(-9, -50 - bob, 18, 1, '#f6c65a');
-    P(-3, -53 - bob, 6, 1, HAT_DK);
+    // cabeça de lobo
+    P(-9, -42 - bob, 18, 11, FUR);
+    P(-8, -43 - bob, 16, 1, FUR_DK);
+    P(-10, -35 - bob, 4, 4, FUR_LT);
+    P(-9, -33 - bob, 9, 2, FUR_LT);
 
-    // cabeça de lobo: crânio, bochecha clara e testa iluminada
-    P(-10, -45 - bob, 20, 2, FUR_DK);
-    P(-11, -43 - bob, 22, 11, FUR);
-    P(-10, -44 - bob, 19, 2, FUR_LT);
-    P(-11, -33 - bob, 20, 3, FUR);
-    P(-11, -35 - bob, 5, 4, CREAM);
-    P(-10, -32 - bob, 9, 3, CREAM);
+    // focinho: ponte cinza, ponta creme e nariz escuro
+    P(1, -36 - bob, 8, 5, FUR_LT);
+    P(1, -37 - bob, 8, 1, FUR_DK);
+    P(2, -32 - bob, 7, 2, CREAM);
+    P(8, -36 - bob, 3, 3, NOSE);
+    P(9, -36 - bob, 1, 1, '#4a515a');
+    P(3, -32 - bob, 5, 1, FUR_DK);
 
     // olhos âmbar de lobo (piscam de vez em quando)
     if (Math.sin(time * 1.9) > 0.97) {
-      P(-7, -39 - bob, 6, 1, SPOT);
-      P(1, -39 - bob, 6, 1, SPOT);
+      P(-7, -38 - bob, 5, 1, MARK);
+      P(-1, -38 - bob, 5, 1, MARK);
     } else {
-      P(-8, -43 - bob, 4, 1, FUR_DK);
-      P(1, -43 - bob, 4, 1, FUR_DK);
-      P(-7, -41 - bob, 6, 4, SPOT);
-      P(-6, -40 - bob, 5, 3, '#f2c451');
-      P(-5, -39 - bob, 2, 2, '#2b3038');
-      P(-5, -40 - bob, 1, 1, '#ffffff');
-      P(1, -41 - bob, 6, 4, SPOT);
-      P(2, -40 - bob, 5, 3, '#f2c451');
-      P(3, -39 - bob, 2, 2, '#2b3038');
-      P(3, -40 - bob, 1, 1, '#ffffff');
+      P(-8, -40 - bob, 6, 1, FUR_DK);
+      P(-1, -40 - bob, 6, 1, FUR_DK);
+      P(-7, -39 - bob, 5, 4, MARK);
+      P(-6, -38 - bob, 4, 3, EYE);
+      P(-5, -37 - bob, 2, 2, NOSE);
+      P(-5, -38 - bob, 1, 1, '#ffffff');
+      P(-1, -39 - bob, 5, 4, MARK);
+      P(0, -38 - bob, 4, 3, EYE);
+      P(1, -37 - bob, 2, 2, NOSE);
+      P(1, -38 - bob, 1, 1, '#ffffff');
     }
 
-    // focinho comprido, nariz escuro e linha da boca
-    P(1, -37 - bob, 12, 6, CREAM);
-    P(2, -38 - bob, 10, 1, '#f8fbfd');
-    P(9, -37 - bob, 4, 3, '#2b3038');
-    P(10, -37 - bob, 2, 1, '#4b515a');
-    P(5, -33 - bob, 7, 1, FUR_DK);
-    P(11, -33 - bob, 3, 1, FUR_DK);
-    P(4, -32 - bob, 2, 1, FUR_DK);
-
     // lenço vermelho de aventureiro, sob o queixo
-    P(-9, -30 - bob, 19, 5, SCARF);
-    P(-9, -30 - bob, 19, 1, '#e86a52');
-    P(-9, -27 - bob, 19, 1, SCARF_DK);
-    P(-9, -30 - bob, 3, 5, SCARF_DK);
-    const flap = Math.sin(time * 8) * 1.8 + (moving ? 2 : 0);
-    P(-12 - flap * 0.5, -29 - bob, 4, 2, SCARF);
-    P(-16 - flap, -27 - bob, 5, 2, SCARF_DK);
+    P(-7, -30 - bob, 14, 4, SCARF);
+    P(-7, -30 - bob, 14, 1, '#e06a52');
+    P(-7, -27 - bob, 14, 1, SCARF_DK);
+    P(-9, -30 - bob, 4, 4, SCARF_DK);
+    const flap = Math.sin(time * 8) * 1.6 + (moving ? 2 : 0);
+    P(-11 - flap * 0.4, -30 - bob, 5, 2, SCARF);
+    P(-14 - flap * 0.7, -28 - bob, 5, 3, SCARF_DK);
+
+    // orelhas pontudas de lobo (atrás do chapéu, saindo por cima da aba)
+    P(-12, -45 - bob, 5, 4, FUR);
+    P(-11, -48 - bob, 4, 4, FUR);
+    P(-11, -50 - bob, 3, 3, FUR);
+    P(-10, -51 - bob, 2, 2, MARK);
+    P(-10, -46 - bob, 2, 3, EAR_IN);
+    P(7, -45 - bob, 5, 4, FUR);
+    P(7, -48 - bob, 4, 4, FUR);
+    P(7, -50 - bob, 3, 3, FUR);
+    P(8, -51 - bob, 2, 2, MARK);
+    P(8, -46 - bob, 2, 3, EAR_IN);
+
+    // chapéu de explorador sobre a cabeça
+    P(-11, -45 - bob, 22, 3, HAT_DK);
+    P(-10, -45 - bob, 20, 1, HAT);
+    P(-6, -51 - bob, 12, 6, HAT);
+    P(-5, -52 - bob, 10, 1, HAT);
+    P(-6, -48 - bob, 12, 2, BAND);
+    P(-6, -48 - bob, 12, 1, '#e8b84a');
+    P(-3, -51 - bob, 6, 1, HAT_DK);
 
     // braço da frente com pata
-    P(9 + arm * 0.4, -29 - bob, 5, 12, FUR);
-    P(9 + arm * 0.4, -18 - bob, 5, 4, CREAM);
-    P(10 + arm * 0.4, -26 - bob, 2, 2, SPOT);
-
-    // orelhas pontudas de lobo em primeiro plano (ponta escura)
-    P(-14, -49 - bob, 8, 7, FUR);
-    P(-13, -52 - bob, 6, 4, FUR);
-    P(-12, -55 - bob, 4, 4, FUR);
-    P(-12, -56 - bob, 3, 2, SPOT);
-    P(-11, -52 - bob, 3, 5, EAR_IN);
-    P(-11, -49 - bob, 2, 2, CREAM);
-    P(6, -49 - bob, 8, 7, FUR);
-    P(7, -52 - bob, 6, 4, FUR);
-    P(8, -55 - bob, 4, 4, FUR);
-    P(8, -56 - bob, 3, 2, SPOT);
-    P(9, -52 - bob, 3, 5, EAR_IN);
-    P(9, -49 - bob, 2, 2, CREAM);
+    P(7 + arm * 0.3, -28 - bob, 4, 10, FUR);
+    P(7 + arm * 0.3, -19 - bob, 4, 3, FUR_LT);
+    P(8 + arm * 0.3, -26 - bob, 2, 2, FUR_DK);
 
     ctx.restore();
   }
