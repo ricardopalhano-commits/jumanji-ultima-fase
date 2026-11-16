@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.2.0';
+  window.__JUMANJI_VERSION__ = '5.3.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -108,6 +108,11 @@
     ctx.arcTo(x, y + h, x, y, rad);
     ctx.arcTo(x, y, x + w, y, rad);
     ctx.closePath();
+  }
+
+  function px(x, y, w, h, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
   }
 
   function dot(x, y, r) {
@@ -3144,289 +3149,335 @@
 
   function drawScorpion(enemy) {
     enemyOrigin(enemy);
-    const w = enemy.w;
-    ctx.strokeStyle = '#5a3418';
-    ctx.lineWidth = 2;
-    for (let i = 0; i < 3; i += 1) {
-      const bx = -8 + i * 8;
-      ctx.beginPath();
-      ctx.moveTo(bx, -6);
-      ctx.lineTo(bx - 5, 0);
-      ctx.moveTo(-bx, -6);
-      ctx.lineTo(-bx + 5, 0);
-      ctx.stroke();
+    const sway = Math.sin(time * 3 + enemy.phase);
+
+    // patas articuladas (visão lateral: 4 patas), em pixel art
+    for (let i = 0; i < 4; i += 1) {
+      const lift = Math.sin(time * 10 + enemy.phase + i * 1.5) > 0 ? 1 : 0;
+      const lx = -6 + i * 4;
+      px(lx, -5, 2, 2, '#7a4a21');
+      px(lx - 1, -4 + lift, 2, 3, '#8a5a33');
+      px(lx - 2, -2 + lift, 2, 2, '#5a3418');
     }
-    ctx.strokeStyle = '#7a4a21';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(-w / 2 + 4, -8);
-    ctx.quadraticCurveTo(-w / 2 - 4, -14, -w / 2 + 2, -20);
-    ctx.stroke();
-    ctx.fillStyle = '#8a5a33';
-    dot(-w / 2 + 2, -21, 3);
-    ctx.fillStyle = '#3a2412';
-    ctx.beginPath();
-    ctx.moveTo(-w / 2 + 2, -24);
-    ctx.lineTo(-w / 2 + 5, -19);
-    ctx.lineTo(-w / 2 - 1, -19);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#b06a32';
-    ctx.beginPath();
-    ctx.ellipse(0, -8, w * 0.42, 6, 0, 0, TAU);
-    ctx.fill();
-    ctx.strokeStyle = '#6b3a17';
-    ctx.lineWidth = 1.4;
-    ctx.stroke();
-    ctx.strokeStyle = '#b06a32';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(w / 2 - 2, -9, 4, Math.PI * 0.2, Math.PI * 1.4);
-    ctx.stroke();
-    ctx.fillStyle = '#e0554a';
-    dot(w / 2 - 4, -11, 1.3);
-    ctx.fillStyle = '#e8d9b8';
-    dot(w / 2 - 2, -17, 1.7);
+
+    // corpo segmentado (cefalotórax + abdômen)
+    px(-10, -9, 18, 7, '#a8642c');
+    px(-9, -10, 14, 1, '#d08a45');
+    px(-10, -4, 18, 2, '#5c3312');
+    px(-3, -9, 2, 7, '#7a4520');
+    px(3, -9, 2, 7, '#7a4520');
+    px(-8, -8, 5, 2, '#b87434');
+
+    // cefalotórax e olhos
+    px(7, -9, 6, 6, '#8a4f22');
+    px(8, -10, 4, 1, '#b87434');
+    px(10, -8, 1, 1, '#1a0f07');
+    px(11, -7, 1, 1, '#1a0f07');
+
+    // quelíceras/pinças na frente
+    px(11, -11, 4, 2, '#a8642c');
+    px(14, -12, 4, 2, '#d08a45');
+    px(17, -11, 2, 2, '#8a4f22');
+    px(15, -10, 3, 1, '#5c3312');
+    px(11, -4, 4, 2, '#a8642c');
+    px(14, -4, 4, 2, '#d08a45');
+    px(17, -4, 2, 2, '#8a4f22');
+
+    // cauda curvada para cima, com ferrão
+    px(-12, -6, 4, 4, '#8a4f22');
+    px(-15, -10, 4, 5, '#a8642c');
+    px(-16 + sway, -14, 4, 5, '#8a4f22');
+    px(-14 + sway, -18, 4, 5, '#a8642c');
+    px(-10 + sway, -21, 4, 4, '#b87434');
+    px(-8 + sway, -23, 3, 3, '#e0554a');
+    px(-6 + sway, -22, 2, 2, '#f2b13c');
     ctx.restore();
   }
 
   function drawBandit(enemy) {
     enemyOrigin(enemy);
-    ctx.fillStyle = '#3a2412';
-    rr(-8, -8, 6, 8, 2);
-    ctx.fill();
-    rr(2, -8, 6, 8, 2);
-    ctx.fill();
-    ctx.fillStyle = '#7d3b2a';
-    rr(-8, -26, 16, 19, 4);
-    ctx.fill();
-    ctx.fillStyle = '#5a2a1d';
-    rr(-8, -26, 6, 19, 3);
-    ctx.fill();
-    ctx.fillStyle = '#d9b07f';
-    dot(0, -30, 6.5);
-    ctx.fillStyle = '#3f2a16';
-    ctx.beginPath();
-    ctx.ellipse(0, -35, 9, 4, 0, 0, TAU);
-    ctx.fill();
-    rr(-6, -39, 12, 7, 3);
-    ctx.fill();
-    ctx.fillStyle = '#e0554a';
-    ctx.fillRect(-9, -36, 18, 2.5);
-    ctx.fillStyle = '#241608';
-    dot(3, -30, 1.2);
-    ctx.strokeStyle = '#cfd6dd';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.moveTo(8, -24);
-    ctx.quadraticCurveTo(18, -30, 20, -18);
-    ctx.stroke();
+    const step = Math.sin(time * 9 + enemy.phase) * 2;
+
+    // pernas e botas
+    px(-6 + step, -10, 5, 6, '#4a3320');
+    px(2 - step, -10, 5, 6, '#4a3320');
+    px(-6 + step, -4, 5, 3, '#2a1a0c');
+    px(2 - step, -4, 5, 3, '#2a1a0c');
+
+    // túnica e cinto
+    px(-8, -24, 16, 15, '#7d3b2a');
+    px(-8, -24, 5, 15, '#5a2a1d');
+    px(-8, -13, 16, 3, '#2a1a0c');
+    px(-2, -13, 4, 3, '#d9a52c');
+
+    // braços
+    px(-10, -23, 3, 10, '#6b3224');
+    px(7, -23, 3, 10, '#6b3224');
+
+    // cabeça e bandana
+    px(-5, -31, 10, 8, '#d9b07f');
+    px(-4, -30, 8, 2, '#e8c49a');
+    px(-7, -35, 14, 4, '#3f2a16');
+    px(-6, -31, 12, 1, '#241608');
+    px(-7, -32, 14, 2, '#e0554a');
+    px(-4, -26, 10, 2, '#2a1a0c');
+    px(1, -29, 2, 2, '#fff7e6');
+    px(2, -29, 1, 1, '#241608');
+    px(4, -29, 2, 2, '#fff7e6');
+    px(5, -29, 1, 1, '#241608');
+
+    // cimitarra
+    px(9, -14, 4, 2, '#8a5a10');
+    px(11, -22, 2, 8, '#cfd6dd');
+    px(12, -25, 2, 4, '#e8eef2');
     ctx.restore();
   }
 
   function drawVulture(enemy) {
     enemyOrigin(enemy);
-    const flap = Math.sin(time * 10 + enemy.phase);
-    ctx.fillStyle = '#2f2a26';
-    ctx.beginPath();
-    ctx.ellipse(0, -12, 9, 6, 0, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#413a33';
-    ctx.save();
-    ctx.rotate(flap * 0.5);
-    ctx.beginPath();
-    ctx.ellipse(-12, -14, 11, 4, -0.3, 0, TAU);
-    ctx.fill();
-    ctx.restore();
-    ctx.save();
-    ctx.rotate(-flap * 0.5);
-    ctx.beginPath();
-    ctx.ellipse(12, -14, 11, 4, 0.3, 0, TAU);
-    ctx.fill();
-    ctx.restore();
-    ctx.fillStyle = '#c98a7a';
-    dot(6, -18, 4);
-    ctx.fillStyle = '#e0a63c';
-    ctx.beginPath();
-    ctx.moveTo(10, -18);
-    ctx.lineTo(16, -16);
-    ctx.lineTo(10, -15);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#241608';
-    dot(7, -19, 1);
+    const flap = Math.sin(time * 8 + enemy.phase);
+    const lift = flap * 3;
+
+    // asa de trás
+    px(-22, -16 - lift * 0.7, 8, 3, '#191512');
+    px(-17, -17 - lift * 0.7, 7, 4, '#241f1c');
+    px(-11, -18 - lift * 0.7, 6, 4, '#2f2a26');
+    px(-21, -18 - lift * 0.7, 2, 2, '#100d0b');
+    px(-18, -19 - lift * 0.7, 2, 2, '#100d0b');
+    px(-15, -19 - lift * 0.7, 2, 2, '#100d0b');
+
+    // asa da frente (mais clara)
+    px(15, -18 - lift, 8, 3, '#241f1c');
+    px(11, -19 - lift, 7, 4, '#2f2a26');
+    px(6, -20 - lift, 6, 5, '#3a332e');
+    px(16, -20 - lift, 2, 2, '#191512');
+    px(19, -19 - lift, 2, 2, '#191512');
+    px(13, -22 - lift, 2, 2, '#191512');
+
+    // cauda e corpo
+    px(-16, -17, 6, 2, '#191512');
+    px(-13, -18, 6, 4, '#241f1c');
+    px(-8, -20, 14, 8, '#2f2a26');
+    px(-6, -21, 10, 2, '#3a332e');
+    px(-6, -13, 10, 2, '#1d1917');
+
+    // colar de penas claras
+    px(3, -22, 6, 2, '#e8e0d0');
+    px(4, -20, 4, 2, '#d0c8b8');
+
+    // pescoço e cabeça careca (abutre)
+    px(5, -24, 4, 5, '#c98a7a');
+    px(7, -27, 6, 5, '#d9a08c');
+    px(8, -28, 4, 2, '#e6b9a6');
+    px(10, -26, 1, 1, '#1a0f07');
+
+    // bico curvo
+    px(12, -27, 4, 2, '#e0a63c');
+    px(15, -26, 3, 2, '#d09a34');
+    px(17, -25, 2, 2, '#b07f24');
+    px(18, -24, 1, 1, '#8a6018');
+
+    // patas recolhidas
+    px(0, -13, 2, 3, '#c9a15c');
+    px(-1, -11, 4, 1, '#8a6a44');
     ctx.restore();
   }
 
   function drawMandril(enemy) {
     enemyOrigin(enemy);
-    ctx.strokeStyle = '#5a3a1c';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(-8, -8);
-    ctx.quadraticCurveTo(-20, -14, -16, -26);
-    ctx.stroke();
-    ctx.fillStyle = '#7a4a21';
-    rr(-9, -22, 18, 16, 6);
-    ctx.fill();
-    ctx.fillStyle = '#8a5a33';
-    rr(-11, -24, 6, 12, 3);
-    ctx.fill();
-    rr(5, -24, 6, 12, 3);
-    ctx.fill();
-    ctx.fillStyle = '#a9713c';
-    dot(0, -30, 9);
-    ctx.fillStyle = '#c98a4a';
-    ctx.beginPath();
-    ctx.ellipse(0, -30, 12, 10, 0, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#3f6bb0';
-    ctx.beginPath();
-    ctx.ellipse(0, -29, 7, 6, 0, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#e0554a';
-    ctx.beginPath();
-    ctx.ellipse(0, -25, 4, 3, 0, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#241608';
-    dot(-3, -31, 1.4);
-    dot(3, -31, 1.4);
-    // orelhas do mandril
-    ctx.fillStyle = '#8a5a33';
-    ctx.beginPath();
-    ctx.moveTo(-13, -28);
-    ctx.lineTo(-20, -36);
-    ctx.lineTo(-8, -28);
-    ctx.closePath();
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(13, -28);
-    ctx.lineTo(20, -36);
-    ctx.lineTo(8, -28);
-    ctx.closePath();
-    ctx.fill();
+    const run = Math.sin(time * 9 + enemy.phase);
+
+    // patas (traseira e dianteira), alternando
+    px(-9 + run * 2, -9, 5, 9, '#6e5330');
+    px(-10 + run * 2, -2, 6, 2, '#3a2a16');
+    px(4 - run * 2, -9, 5, 9, '#7a5a32');
+    px(4 - run * 2, -2, 6, 2, '#3a2a16');
+
+    // cauda curta erguida
+    px(-13, -25, 3, 6, '#7a5a32');
+    px(-14, -29, 3, 4, '#6e5330');
+    px(-14, -31, 2, 2, '#8a6a3c');
+
+    // corpo peludo e barriga clara
+    px(-10, -23, 18, 13, '#8a6a3c');
+    px(-9, -24, 15, 2, '#a07c46');
+    px(-10, -23, 4, 11, '#a07c46');
+    px(-8, -12, 15, 2, '#b08a52');
+
+    // juba dourada no ombro/pescoço
+    px(4, -25, 7, 8, '#8a6a3c');
+    px(5, -27, 5, 4, '#c9a15c');
+
+    // cabeça e focinho canino
+    px(8, -31, 8, 8, '#a9713c');
+    px(9, -32, 6, 2, '#b98a4a');
+    px(14, -28, 7, 7, '#c98a4a');
+    px(15, -27, 6, 2, '#d9a05a');
+    px(15, -23, 6, 2, '#8a5a33');
+    px(16, -22, 4, 1, '#e0554a');
+
+    // rosto colorido do mandril (azul e vermelho)
+    px(11, -29, 1, 6, '#3f6bb0');
+    px(13, -29, 1, 6, '#3f6bb0');
+    px(15, -27, 4, 1, '#e0554a');
+    px(17, -26, 1, 1, '#7d1712');
+    px(9, -30, 1, 1, '#241608');
+    px(12, -30, 1, 1, '#241608');
+    px(10, -29, 1, 1, '#f2d13c');
+    px(13, -29, 1, 1, '#f2d13c');
+
+    // orelha e barba
+    px(7, -33, 3, 3, '#8a6a3c');
+    px(8, -32, 1, 1, '#c98a7a');
+    px(13, -22, 4, 3, '#e0c070');
     ctx.restore();
   }
 
   function drawWasp(enemy) {
     enemyOrigin(enemy);
-    const flap = Math.sin(time * 22 + enemy.phase);
-    ctx.globalAlpha = 0.55;
-    ctx.fillStyle = '#dff3ff';
-    ctx.save();
-    ctx.rotate(flap * 0.4);
-    ctx.beginPath();
-    ctx.ellipse(-4, -20, 8, 4, -0.5, 0, TAU);
-    ctx.fill();
-    ctx.restore();
-    ctx.save();
-    ctx.rotate(-flap * 0.4);
-    ctx.beginPath();
-    ctx.ellipse(4, -20, 8, 4, 0.5, 0, TAU);
-    ctx.fill();
-    ctx.restore();
+    const flap = Math.sin(time * 26 + enemy.phase);
+
+    // asas translúcidas batendo
+    ctx.globalAlpha = 0.5;
+    px(-3, -20 - flap * 2, 9, 3, '#dff3ff');
+    px(-1, -23 - flap * 2, 7, 2, '#bfe8ff');
+    px(2, -19 - flap * 2, 8, 2, '#dff3ff');
     ctx.globalAlpha = 1;
-    ctx.fillStyle = '#e0b93c';
-    ctx.beginPath();
-    ctx.ellipse(0, -11, 9, 7, 0, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#2a1a0c';
-    ctx.fillRect(-4, -16, 3, 11);
-    ctx.fillRect(2, -15, 3, 9);
-    ctx.fillStyle = '#2a1a0c';
-    dot(-7, -13, 4);
-    ctx.fillStyle = '#3a2412';
-    ctx.beginPath();
-    ctx.moveTo(-11, -11);
-    ctx.lineTo(-17, -8);
-    ctx.lineTo(-11, -6);
-    ctx.closePath();
-    ctx.fill();
+
+    // pernas finas
+    px(-4, -7, 1, 4, '#2a1a0c');
+    px(-1, -7, 1, 3, '#2a1a0c');
+    px(2, -7, 1, 3, '#2a1a0c');
+
+    // abdômen listrado (amarelo e preto)
+    px(-13, -13, 11, 7, '#e8c23c');
+    px(-13, -13, 3, 7, '#241608');
+    px(-8, -13, 2, 7, '#241608');
+    px(-4, -13, 1, 7, '#241608');
+    px(-11, -14, 8, 1, '#f6d968');
+    px(-11, -6, 8, 1, '#b98f1e');
+    // ferrão
+    px(-16, -10, 3, 2, '#241608');
+    px(-17, -9, 1, 1, '#3a2a12');
+
+    // tórax peludo
+    px(-4, -14, 8, 8, '#3a2a12');
+    px(-3, -15, 6, 2, '#5a3f1f');
+
+    // cabeça, olhos e antenas
+    px(4, -14, 7, 6, '#2a1a0c');
+    px(9, -13, 2, 3, '#f2b13c');
+    px(9, -12, 1, 1, '#1a0f07');
+    px(7, -17, 1, 3, '#2a1a0c');
+    px(10, -17, 1, 3, '#2a1a0c');
+    px(6, -18, 2, 1, '#2a1a0c');
+    px(10, -18, 2, 1, '#2a1a0c');
     ctx.restore();
   }
 
   function drawCobra(enemy) {
     enemyOrigin(enemy);
-    const sway = Math.sin(time * 2.4 + enemy.phase);
-    const hood = 1 + 0.14 * Math.max(0, Math.sin(time * 5 + enemy.phase * 2));
-    ctx.fillStyle = '#2f6b3a';
-    ctx.beginPath();
-    ctx.ellipse(0, -6, 12 * hood, 7, 0, 0, TAU);
-    ctx.fill();
-    ctx.strokeStyle = '#1f4a29';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-    ctx.strokeStyle = '#3f8a4c';
-    ctx.lineWidth = 7;
-    ctx.beginPath();
-    ctx.moveTo(0, -6);
-    ctx.quadraticCurveTo(sway * 6, -18, sway * 4, -26);
-    ctx.stroke();
-    ctx.fillStyle = '#4f9c58';
-    ctx.beginPath();
-    ctx.ellipse(sway * 4, -28, 8, 6, sway * 0.1, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#e0554a';
-    dot(sway * 4 - 3, -29, 1.3);
-    dot(sway * 4 + 3, -29, 1.3);
-    if (Math.sin(time * 6) > 0.4) {
-      ctx.strokeStyle = '#e0554a';
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(sway * 4, -25);
-      ctx.lineTo(sway * 4 + 4, -20);
-      ctx.moveTo(sway * 4, -25);
-      ctx.lineTo(sway * 4 - 4, -20);
-      ctx.stroke();
+    const sway = Math.sin(time * 2.3 + enemy.phase);
+    const sx = sway * 3;
+
+    // corpo enrolado no chão
+    px(-10, -8, 20, 8, '#336b3a');
+    px(-8, -7, 16, 2, '#224a2a');
+    px(-6, -5, 12, 1, '#224a2a');
+    px(-9, -3, 18, 1, '#4f9c58');
+    px(-10, -1, 20, 1, '#1c3a22');
+
+    // corpo em S subindo
+    px(-4 + sx * 0.5, -14, 7, 7, '#3f8a4c');
+    px(-3 + sx * 0.8, -20, 6, 8, '#3f8a4c');
+    px(-2 + sx, -26, 6, 7, '#4f9c58');
+    px(-4 + sx * 0.5, -13, 7, 1, '#2f6b3a');
+    px(-3 + sx * 0.8, -19, 6, 1, '#2f6b3a');
+
+    // capelo (hood) aberto
+    px(-10 + sx, -33, 20, 9, '#3f8a4c');
+    px(-11 + sx, -32, 2, 8, '#224a2a');
+    px(9 + sx, -32, 2, 8, '#224a2a');
+    px(-8 + sx, -34, 16, 2, '#4f9c58');
+    px(-5 + sx, -28, 10, 2, '#7ac07a');
+
+    // marca de "óculos" no capelo
+    px(-6 + sx, -32, 4, 1, '#224a2a');
+    px(-6 + sx, -28, 4, 1, '#224a2a');
+    px(-6 + sx, -31, 1, 3, '#224a2a');
+    px(-3 + sx, -31, 1, 3, '#224a2a');
+    px(1 + sx, -32, 4, 1, '#224a2a');
+    px(1 + sx, -28, 4, 1, '#224a2a');
+    px(1 + sx, -31, 1, 3, '#224a2a');
+    px(4 + sx, -31, 1, 3, '#224a2a');
+
+    // cabeça e focinho
+    px(-5 + sx, -39, 9, 6, '#4f9c58');
+    px(-1 + sx, -38, 7, 3, '#5aad62');
+    px(-3 + sx, -38, 2, 2, '#f2b13c');
+    px(2 + sx, -38, 2, 2, '#f2b13c');
+    px(-3 + sx, -38, 1, 1, '#1a0f07');
+    px(2 + sx, -38, 1, 1, '#1a0f07');
+    px(5 + sx, -36, 1, 1, '#224a2a');
+
+    // língua bifurcada
+    if (Math.sin(time * 5 + enemy.phase) > 0.1) {
+      px(1 + sx, -42, 1, 3, '#e0554a');
+      px(0 + sx, -43, 1, 1, '#e0554a');
+      px(2 + sx, -43, 1, 1, '#e0554a');
     }
     ctx.restore();
   }
 
   function drawRaptor(enemy) {
     enemyOrigin(enemy);
-    const run = Math.sin(time * 10 + enemy.phase);
-    const wing = 0.55 + 0.45 * Math.abs(run);
-    // alas do rapto
-    ctx.fillStyle = '#3f8a42';
-    ctx.save();
-    ctx.rotate(-0.6 - wing * 0.8);
-    ctx.beginPath();
-    ctx.ellipse(-10, -24, 13, 4, -0.4, 0, TAU);
-    ctx.fill();
-    ctx.restore();
-    ctx.save();
-    ctx.rotate(0.6 + wing * 0.8);
-    ctx.beginPath();
-    ctx.ellipse(10, -24, 13, 4, 0.4, 0, TAU);
-    ctx.fill();
-    ctx.restore();
-    ctx.strokeStyle = '#2f6b34';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(-8, -14);
-    ctx.quadraticCurveTo(-24, -18, -22, -30);
-    ctx.stroke();
-    ctx.fillStyle = '#3f8a42';
-    rr(-10, -22, 20, 15, 6);
-    ctx.fill();
-    ctx.fillStyle = '#2f6b34';
-    ctx.beginPath();
-    ctx.ellipse(4, -26, 9, 7, -0.2, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = '#e0e0d0';
-    ctx.beginPath();
-    ctx.moveTo(11, -26);
-    ctx.lineTo(18, -24);
-    ctx.lineTo(11, -22);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#241608';
-    dot(6, -28, 1.4);
-    ctx.fillStyle = '#2f6b34';
-    rr(-6 + run * 3, -9, 5, 9, 2);
-    ctx.fill();
-    rr(2 - run * 3, -9, 5, 9, 2);
-    ctx.fill();
+    const run = Math.sin(time * 11 + enemy.phase);
+    const tail = Math.sin(time * 5 + enemy.phase) * 1.5;
+
+    // cauda longa e rígida (com leve balanço)
+    px(-30, -19 + tail, 6, 2, '#3a4f20');
+    px(-25, -20 + tail, 8, 3, '#46602a');
+    px(-18, -21, 8, 4, '#4f6b28');
+    px(-26, -18 + tail, 8, 1, '#6b8a38');
+
+    // perna de trás
+    px(-5 - run * 2, -19, 7, 8, '#46602a');
+    px(-2 - run * 2, -12, 4, 8, '#3f5a24');
+    px(-4 - run * 2, -4, 7, 2, '#2f441c');
+    px(-6 - run * 2, -3, 3, 1, '#e8e0d0');
+
+    // corpo e barriga
+    px(-11, -24, 20, 12, '#5a7a2e');
+    px(-10, -25, 17, 2, '#6b8a38');
+    px(-9, -13, 17, 2, '#8a9c4a');
+    px(-8, -22, 7, 1, '#6b8a38');
+
+    // braços pequenos com garras
+    px(8, -21, 4, 2, '#4f6b28');
+    px(11, -20, 2, 2, '#4f6b28');
+    px(13, -19, 2, 1, '#e8e0d0');
+
+    // pescoço em S e cabeça
+    px(7, -30, 6, 8, '#5a7a2e');
+    px(8, -31, 5, 3, '#6b8a38');
+    px(10, -36, 10, 7, '#5a7a2e');
+    px(10, -37, 8, 2, '#6b8a38');
+    px(18, -34, 7, 4, '#6b8a38');
+    px(23, -33, 2, 2, '#5a7a2e');
+    px(18, -30, 8, 2, '#4f6b28');
+    px(19, -32, 1, 1, '#e8e0d0');
+    px(21, -32, 1, 1, '#e8e0d0');
+    px(23, -32, 1, 1, '#e8e0d0');
+    px(23, -35, 1, 1, '#2f441c');
+    px(14, -35, 2, 2, '#f2d13c');
+    px(15, -35, 1, 1, '#241608');
+    px(13, -37, 4, 1, '#3a4f20');
+
+    // perna da frente (em passo)
+    px(1 + run * 3, -20, 7, 9, '#5a7a2e');
+    px(3 + run * 3, -12, 4, 8, '#4f6b28');
+    px(2 + run * 3, -4, 7, 2, '#2f441c');
+    px(8 + run * 3, -3, 3, 1, '#e8e0d0');
     ctx.restore();
   }
 
