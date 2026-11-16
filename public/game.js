@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.0.0';
+  window.__JUMANJI_VERSION__ = '6.0.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1337,6 +1337,7 @@
 
   function openScreen(name) {
     if (name === 'levels') syncLevelSelect();
+    if (name === 'settings') applySettings();
     showOverlay(name);
   }
 
