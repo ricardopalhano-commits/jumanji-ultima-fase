@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.7.3';
+  window.__JUMANJI_VERSION__ = '5.7.4';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -3577,11 +3577,13 @@
     ctx.save();
     ctx.translate(0, -bob);
 
-    // cauda curta erguida (mais visível)
-    px(-13, -18, 3, 6, '#6e5330');
-    px(-14, -22, 3, 4, '#5a3f20');
-    px(-15, -24, 2, 3, '#6e5330');
-    px(-15, -25, 2, 2, '#8a6a3c');
+    // cauda erguida (maior)
+    px(-12, -16, 3, 8, '#6e5330');
+    px(-13, -22, 3, 5, '#5a3f20');
+    px(-14, -26, 3, 4, '#6e5330');
+    px(-15, -29, 2, 4, '#5a3f20');
+    px(-16, -31, 2, 3, '#6e5330');
+    px(-16, -32, 2, 2, '#8a6a3c');
 
     // corpo peludo
     px(-10, -24, 18, 14, '#8a6a3c');
