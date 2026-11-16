@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.6.0';
+  window.__JUMANJI_VERSION__ = '5.6.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -2991,8 +2991,8 @@
     const moving = p.grounded && Math.abs(p.vx) > 25;
     const air = !p.grounded;
     const run = moving ? Math.sin(p.runPhase) : 0;
-    const bob = moving ? Math.abs(Math.sin(p.runPhase)) * 1.4 : Math.sin(time * 2.2) * 0.7;
-    const lean = air ? (p.vy < 0 ? -0.07 : 0.09) : clamp(p.vx / 950, -0.08, 0.08);
+    const bob = moving ? Math.abs(Math.sin(p.runPhase)) * 1.4 : Math.sin(time * 1.4) * 0.35;
+    const lean = air ? (p.vy < 0 ? -0.07 : 0.09) : (moving ? clamp(p.vx / 950, -0.08, 0.08) : 0);
     ctx.rotate(lean);
 
     // ---- mascote CEPK: lobo aventureiro em pixel art ----
@@ -3024,7 +3024,7 @@
 
     const swing = moving ? run * 4 : 0;
     const arm = moving ? run * 3 : 0;
-    const tw = Math.sin(time * 3.2) * 2 + (moving ? 2 : 0);
+    const tw = (moving ? Math.sin(time * 3.2) * 2 + 2 : Math.sin(time * 2) * 0.8);
 
     // cauda felpuda (atrás do corpo)
     P(-9, -19 - bob, 6, 7, FUR);
@@ -3115,7 +3115,7 @@
     P(-7, -30 - bob, 14, 1, '#e06a52');
     P(-7, -27 - bob, 14, 1, SCARF_DK);
     P(-9, -30 - bob, 4, 4, SCARF_DK);
-    const flap = Math.sin(time * 8) * 1.6 + (moving ? 2 : 0);
+    const flap = (moving ? Math.sin(time * 8) * 1.6 + 2 : Math.sin(time * 4) * 0.7);
     P(-11 - flap * 0.4, -30 - bob, 5, 2, SCARF);
     P(-14 - flap * 0.7, -28 - bob, 5, 3, SCARF_DK);
 
