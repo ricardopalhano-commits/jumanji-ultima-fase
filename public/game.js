@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.9.0';
+  window.__JUMANJI_VERSION__ = '6.0.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -38,6 +38,7 @@
   const BEST_KEY = 'jumanji-tabuleiro-best';
   const MUTE_KEY = 'jumanji-tabuleiro-mute';
   const PROGRESS_KEY = 'jumanji-tabuleiro-progress';
+  const SETTINGS_KEY = 'jumanji-tabuleiro-settings';
   const TAU = Math.PI * 2;
 
   /* ----------------------------------- dom ---------------------------------- */
@@ -170,7 +171,8 @@
     osc.frequency.setValueAtTime(freq, t0);
     if (endFreq) osc.frequency.exponentialRampToValueAtTime(Math.max(40, endFreq), t0 + dur);
     gain.gain.setValueAtTime(0.0001, t0);
-    gain.gain.exponentialRampToValueAtTime(vol || 0.06, t0 + 0.012);
+    const scaledVol = (vol || 0.06) * (typeof sfxVolume === 'number' ? sfxVolume : 1);
+    gain.gain.exponentialRampToValueAtTime(scaledVol, t0 + 0.012);
     gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
     osc.connect(gain);
     gain.connect(ac.destination);
@@ -314,8 +316,10 @@
     if (!ac) return;
     if (!musicGain) {
       musicGain = ac.createGain();
-      musicGain.gain.value = 0.5;
+      musicGain.gain.value = 0.5 * (typeof musicVolume === 'number' ? musicVolume : 1);
       musicGain.connect(ac.destination);
+    } else {
+      musicGain.gain.value = 0.5 * (typeof musicVolume === 'number' ? musicVolume : 1);
     }
     if (musicTimer && musicKey === key) return;
     stopMusic();
@@ -1513,6 +1517,8 @@
     else if (action === 'fullscreen') toggleFullscreen();
     else if (action === 'levels') openScreen('levels');
     else if (action === 'howto') openScreen('howto');
+    else if (action === 'settings') openScreen('settings');
+    else if (action === 'reset-progress') resetProgress();
     else if (action === 'back') showOverlay('title');
     else if (action === 'level') {
       const index = Number(button.dataset.level);
@@ -1534,10 +1540,16 @@
   }
 
   function applyMuteUi() {
-    if (!muteBtn) return;
-    muteBtn.classList.toggle('is-muted', muted);
-    muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false');
-    muteBtn.setAttribute('aria-label', muted ? 'Ativar som' : 'Desativar som');
+    if (muteBtn) {
+      muteBtn.classList.toggle('is-muted', muted);
+      muteBtn.setAttribute('aria-pressed', muted ? 'true' : 'false');
+      muteBtn.setAttribute('aria-label', muted ? 'Ativar som' : 'Desativar som');
+    }
+    const sm = document.getElementById('settings-mute');
+    if (sm) {
+      sm.textContent = muted ? 'LIGAR' : 'DESLIGAR';
+      sm.classList.toggle('is-muted', muted);
+    }
   }
 
   function toggleFullscreen() {
@@ -1549,6 +1561,108 @@
       document.exitFullscreen().catch(() => {});
     }
   }
+
+  // --------------------------- configurações ---------------------------
+  const DEFAULT_SETTINGS = { music: 80, sfx: 90, vignette: true, scanlines: false, touch: true };
+  let settings = (function () {
+    try {
+      const raw = readStorage(SETTINGS_KEY, '');
+      const parsed = raw ? JSON.parse(raw) : null;
+      return Object.assign({}, DEFAULT_SETTINGS, parsed || {});
+    } catch (e) {
+      return Object.assign({}, DEFAULT_SETTINGS);
+    }
+  })();
+
+  let musicVolume = settings.music / 100;
+  let sfxVolume = settings.sfx / 100;
+
+  function saveSettings() {
+    writeStorage(SETTINGS_KEY, JSON.stringify(settings));
+  }
+
+  function applySettings() {
+    // vinheta
+    if (document.body) {
+      document.body.classList.toggle('no-vignette', !settings.vignette);
+      // scanlines
+      document.body.classList.toggle('scanlines-on', !!settings.scanlines);
+    }
+    // controles de toque
+    const touchEl = document.getElementById('touch');
+    if (touchEl) touchEl.style.display = settings.touch ? '' : 'none';
+    // volumes
+    musicVolume = settings.music / 100;
+    sfxVolume = settings.sfx / 100;
+    if (musicGain) musicGain.gain.value = 0.5 * musicVolume;
+    // sync UI
+    const musicInput = document.getElementById('settings-music');
+    const sfxInput = document.getElementById('settings-sfx');
+    const vigInput = document.getElementById('settings-vignette');
+    const scanInput = document.getElementById('settings-scanlines');
+    const touchInput = document.getElementById('settings-touch');
+    if (musicInput) musicInput.value = settings.music;
+    if (sfxInput) sfxInput.value = settings.sfx;
+    if (vigInput) vigInput.checked = settings.vignette;
+    if (scanInput) scanInput.checked = settings.scanlines;
+    if (touchInput) touchInput.checked = settings.touch;
+    applyMuteUi();
+  }
+
+  function resetProgress() {
+    progress = 0;
+    writeStorage(PROGRESS_KEY, '0');
+    syncLevelSelect();
+    sfx('ui');
+    showOverlay('title');
+  }
+
+  // wire settings controls
+  (function wireSettings() {
+    const musicInput = document.getElementById('settings-music');
+    const sfxInput = document.getElementById('settings-sfx');
+    const vigInput = document.getElementById('settings-vignette');
+    const scanInput = document.getElementById('settings-scanlines');
+    const touchInput = document.getElementById('settings-touch');
+    const settingsMute = document.getElementById('settings-mute');
+
+    if (musicInput) musicInput.addEventListener('input', (e) => {
+      settings.music = Number(e.target.value);
+      applySettings();
+      saveSettings();
+    });
+    if (sfxInput) sfxInput.addEventListener('input', (e) => {
+      settings.sfx = Number(e.target.value);
+      applySettings();
+      saveSettings();
+    });
+    if (vigInput) vigInput.addEventListener('change', (e) => {
+      settings.vignette = e.target.checked;
+      applySettings();
+      saveSettings();
+    });
+    if (scanInput) scanInput.addEventListener('change', (e) => {
+      settings.scanlines = e.target.checked;
+      applySettings();
+      saveSettings();
+    });
+    if (touchInput) touchInput.addEventListener('change', (e) => {
+      settings.touch = e.target.checked;
+      applySettings();
+      saveSettings();
+    });
+    if (settingsMute) settingsMute.addEventListener('click', () => setMuted(!muted));
+  })();
+
+  // apply on load
+  applySettings();
+
+  // patch tone() volume: scale sfx by sfxVolume (monkey-patch via wrapper not needed; instead scale in sfx calls is hard).
+  // We'll scale by overriding: store original tone? Instead, scale vol in tone by multiplying. Patch tone.
+  const _tone = tone;
+  // redefine tone to apply sfxVolume
+  // (tone is function declaration, can't redefine const easily; instead wrap calls is invasive. Use a global multiplier variable read inside tone.)
+  // Add sfxVolume scaling inside tone by editing? We'll instead set a global and modify tone via redefinition below is not possible. Skip scaling tone; keep sfx volume as stored for future.
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && (state === 'playing' || state === 'intro')) pauseGame();

@@ -267,6 +267,23 @@ kbd {
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0 0 60px rgba(0, 0, 0, 0.18);
 }
 
+body.no-vignette .stage::before {
+  box-shadow: none;
+}
+
+body.scanlines-on .stage::after {
+  opacity: 0.07;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.4) 0 2px,
+    transparent 2px 4px
+  );
+}
+
+body.no-touch .touch {
+  display: none !important;
+}
+
 .stage::after {
   content: "";
   position: absolute;
@@ -696,6 +713,55 @@ kbd {
 .banner__sub {
   color: var(--text-soft);
   font-size: 0.72rem;
+}
+
+/* --------------------------- configurações ------------------------------- */
+
+.settings-group {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 2px solid var(--gold-dk);
+  background: rgba(6, 18, 10, 0.5);
+}
+
+.settings-group__title {
+  margin: 0 0 4px;
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.72rem;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.settings-row span { flex: 1; }
+
+.settings-row input[type="range"] {
+  width: 120px;
+  accent-color: var(--gold);
+}
+
+.settings-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--jade);
+}
+
+.btn--sm {
+  padding: 6px 10px;
+  font-size: 0.5rem;
 }
 
 /* --------------------------- dica de rotação (mobile) --------------------- */

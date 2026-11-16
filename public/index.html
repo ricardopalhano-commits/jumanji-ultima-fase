@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=5.9.0" />
+    <link rel="stylesheet" href="/game.css?v=6.0.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -94,8 +94,11 @@
                   <button class="btn" type="button" data-action="howto">
                     <span class="btn__ico" aria-hidden="true">?</span> COMO JOGAR
                   </button>
+                  <button class="btn" type="button" data-action="settings">
+                    <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
+                  </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v5.9.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.0.0</span></p>
               </div>
             </section>
 
@@ -187,6 +190,67 @@
                   <strong>coração</strong> para recuperar vida e a <strong>máscara</strong> para ficar invencível.
                   Chegue ao <strong>portal dourado</strong> para avançar — no Templo, só depois de derrotar Jurgen.
                 </p>
+                <button class="btn btn--ghost" type="button" data-action="back">
+                  <span class="btn__ico" aria-hidden="true">◄</span> VOLTAR
+                </button>
+              </div>
+            </section>
+
+            <!-- CONFIGURAÇÕES -->
+            <section class="screen" id="screen-settings" data-screen="settings" hidden>
+              <div class="panel">
+                <h2 class="panel__title">CONFIGURAÇÕES</h2>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">ÁUDIO</h3>
+                  <label class="settings-row">
+                    <span>Som</span>
+                    <button class="btn btn--ghost btn--sm" type="button" data-action="mute" id="settings-mute">DESLIGAR</button>
+                  </label>
+                  <label class="settings-row">
+                    <span>Música</span>
+                    <input type="range" id="settings-music" min="0" max="100" value="80" />
+                  </label>
+                  <label class="settings-row">
+                    <span>Efeitos</span>
+                    <input type="range" id="settings-sfx" min="0" max="100" value="90" />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">GRÁFICOS</h3>
+                  <label class="settings-row">
+                    <span>Vinheta</span>
+                    <input type="checkbox" id="settings-vignette" checked />
+                  </label>
+                  <label class="settings-row">
+                    <span>Scanlines</span>
+                    <input type="checkbox" id="settings-scanlines" />
+                  </label>
+                  <label class="settings-row">
+                    <span>Controles de toque</span>
+                    <input type="checkbox" id="settings-touch" checked />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">JOGO</h3>
+                  <label class="settings-row">
+                    <span>Tela cheia</span>
+                    <button class="btn btn--ghost btn--sm" type="button" data-action="fullscreen">ATIVAR</button>
+                  </label>
+                  <label class="settings-row">
+                    <span>Progresso</span>
+                    <button class="btn btn--ghost btn--sm" type="button" data-action="reset-progress">ZERAR</button>
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">SOBRE</h3>
+                  <p class="panel__text">Jumanji: O Tabuleiro Selvagem — v5.9.0</p>
+                  <p class="panel__text">Jogo de plataforma em pixel art. Feito com ♥.</p>
+                </div>
+
                 <button class="btn btn--ghost" type="button" data-action="back">
                   <span class="btn__ico" aria-hidden="true">◄</span> VOLTAR
                 </button>
@@ -295,10 +359,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=5.9.0" defer></script>
+    <script src="/game.js?v=6.0.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '5.9.0';
+        var GAME_VERSION = '6.0.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
