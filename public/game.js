@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.1.0';
+  window.__JUMANJI_VERSION__ = '5.2.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -73,10 +73,9 @@
     screens[el.dataset.screen] = el;
   });
 
-  // Renderização em pixel art: o jogo é desenhado num buffer de baixa
-  // resolução e ampliado com nearest-neighbor (sem suavização), garantindo
-  // o visual 16-bit em todos os elementos do canvas.
-  const PIXEL_SCALE = 2;
+  // Renderização em pixel art com nitidez total: o jogo é desenhado na
+  // resolução cheia (1:1) e ampliado sem suavização para a tela.
+  const PIXEL_SCALE = 1;
   const pixelCanvas = document.createElement('canvas');
   pixelCanvas.width = Math.ceil(VIEW_W / PIXEL_SCALE);
   pixelCanvas.height = Math.ceil(VIEW_H / PIXEL_SCALE);
