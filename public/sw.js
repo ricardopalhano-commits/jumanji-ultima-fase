@@ -6,7 +6,7 @@
  * - APIs de leitura: network-first com cópia em cache (dados do último acesso).
  * - Assets estáticos: stale-while-revalidate.
  */
-const VERSION = 'v5.0.0';
+const VERSION = 'v6.0.0';
 const STATIC_CACHE = `jumanji-static-${VERSION}`;
 const API_CACHE = `jumanji-api-${VERSION}`;
 const OFFLINE_URL = '/offline.html';
@@ -104,8 +104,23 @@ async function handleNavigation(request) {
   }
 }
 
-async function staleWhileRevalidate(request) {
-  const cached = await caches.match(request);
+async function networkFirst(request) {
+  try {
+    const response = await fetch(request);
+    if (response && response.ok) {
+      const cache = await caches.open(STATIC_CACHE);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    const cached =
+      (await caches.match(request, { ignoreSearch: true })) ||
+      (await caches.match(request));
+    return cached || new Response('', { status: 504 });
+  }
+}
+
+async function staleWhileRevalidate(request) {  const cached = await caches.match(request);
 
   const network = fetch(request)
     .then(async (response) => {
@@ -134,6 +149,13 @@ self.addEventListener('fetch', (event) => {
 
   if (request.mode === 'navigate') {
     event.respondWith(handleNavigation(request));
+    return;
+  }
+
+  // Arquivos do jogo: sempre buscam a versão mais nova na rede (offline usa
+  // a cópia em cache). Isso impede que uma versão antiga fique presa.
+  if (url.pathname === '/game.js' || url.pathname === '/game.css' || url.pathname === '/manifest.json') {
+    event.respondWith(networkFirst(request));
     return;
   }
 

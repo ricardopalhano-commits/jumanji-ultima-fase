@@ -32,7 +32,13 @@ app.use(
     maxAge: process.env.NODE_ENV === 'production' ? '1h' : 0,
     setHeaders(res, filePath) {
       const file = path.basename(filePath);
-      if (file === 'sw.js' || file === 'manifest.json' || file.endsWith('.html')) {
+      if (
+        file === 'sw.js' ||
+        file === 'manifest.json' ||
+        file.endsWith('.html') ||
+        file.endsWith('.js') ||
+        file.endsWith('.css')
+      ) {
         res.setHeader('Cache-Control', 'no-cache');
       }
       if (file === 'sw.js') {

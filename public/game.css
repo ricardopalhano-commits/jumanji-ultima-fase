@@ -421,6 +421,13 @@ kbd {
   color: var(--gold);
 }
 
+.ver {
+  margin-left: 10px;
+  color: var(--jade);
+  font-size: 0.42rem;
+  letter-spacing: 0.04em;
+}
+
 /* --------------------------------- botões --------------------------------- */
 
 .menu {

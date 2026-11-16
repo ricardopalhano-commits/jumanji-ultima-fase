@@ -7,6 +7,9 @@
 (() => {
   'use strict';
 
+  // Versão do jogo: usada para detectar cache antigo e forçar atualização.
+  window.__JUMANJI_VERSION__ = '5.1.0';
+
   /* ---------------------------------- base --------------------------------- */
 
   const TILE = 32;
