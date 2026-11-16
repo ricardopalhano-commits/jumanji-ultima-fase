@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '5.6.1';
+  window.__JUMANJI_VERSION__ = '5.6.2';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1423,6 +1423,7 @@
 
     p.squash = Math.max(0, p.squash - dt * 3.4);
     p.stretch = Math.max(0, p.stretch - dt * 3.4);
+    if (p.grounded && Math.abs(p.vx) < 25) { p.squash = 0; p.stretch = 0; }
 
     press.jumpBuffer = Math.max(0, press.jumpBuffer - dt);
     p.coyote = p.grounded ? COYOTE_TIME : Math.max(0, p.coyote - dt);
@@ -1807,7 +1808,8 @@
     const max = Math.max(0, level.cols * TILE - VIEW_W);
     const lead = clamp(player.vx * 0.24, -80, 80);
     const target = clamp(player.x + player.w / 2 - VIEW_W * 0.42 + lead, 0, max);
-    camera = lerp(camera, target, Math.min(1, 8 * dt));
+    if (Math.abs(player.vx) < 25 && player.grounded) camera = target;
+    else camera = lerp(camera, target, Math.min(1, 8 * dt));
     camera = clamp(camera, 0, max);
   }
 
@@ -2991,7 +2993,7 @@
     const moving = p.grounded && Math.abs(p.vx) > 25;
     const air = !p.grounded;
     const run = moving ? Math.sin(p.runPhase) : 0;
-    const bob = moving ? Math.abs(Math.sin(p.runPhase)) * 1.4 : Math.sin(time * 1.4) * 0.35;
+    const bob = moving ? Math.abs(Math.sin(p.runPhase)) * 1.4 : 0;
     const lean = air ? (p.vy < 0 ? -0.07 : 0.09) : (moving ? clamp(p.vx / 950, -0.08, 0.08) : 0);
     ctx.rotate(lean);
 
