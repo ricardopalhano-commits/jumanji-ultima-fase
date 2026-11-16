@@ -698,6 +698,58 @@ kbd {
   font-size: 0.72rem;
 }
 
+/* --------------------------- dica de rotação (mobile) --------------------- */
+
+.rotate-hint {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  background: rgba(5, 11, 8, 0.92);
+  backdrop-filter: blur(2px);
+}
+
+.rotate-hint__box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 320px;
+}
+
+.rotate-hint__ico {
+  font-size: 3.2rem;
+  line-height: 1;
+  color: var(--gold-lt);
+  animation: rotateHintSpin 2s linear infinite;
+  display: block;
+}
+
+@keyframes rotateHintSpin {
+  to { transform: rotate(360deg); }
+}
+
+.rotate-hint strong {
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  color: var(--gold-lt);
+  letter-spacing: 0.04em;
+}
+
+.rotate-hint small {
+  color: var(--text-soft);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .rotate-hint { display: flex; }
+}
+
 /* ------------------------------ toque / mobile ---------------------------- */
 
 .touch {
@@ -808,24 +860,32 @@ kbd {
 
 /* -------------------------------- responsivo ------------------------------ */
 
-@media (pointer: coarse) {
+@media (pointer: coarse), (max-width: 900px) {
   .touch { display: flex; }
   .hints { display: none; }
 }
 
 @media (max-width: 760px) {
   .hud {
-    gap: 8px;
-    padding: 8px 10px;
+    gap: 6px;
+    padding: 6px 8px;
   }
 
   .hud__level { display: none; }
 
-  .stat--score { font-size: 0.6rem; }
+  .stat--score { font-size: 0.55rem; }
+
+  .icon-btn { width: 34px; height: 34px; }
 
   .panel {
-    padding: 16px 14px;
-    gap: 11px;
+    padding: 14px 12px;
+    gap: 10px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .overlay {
+    overflow-y: auto;
   }
 
   .stats--three {

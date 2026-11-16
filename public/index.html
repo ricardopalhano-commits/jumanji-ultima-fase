@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=5.8.0" />
+    <link rel="stylesheet" href="/game.css?v=5.9.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -95,7 +95,7 @@
                     <span class="btn__ico" aria-hidden="true">?</span> COMO JOGAR
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v5.8.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v5.9.0</span></p>
               </div>
             </section>
 
@@ -276,7 +276,15 @@
               </button>
             </div>
           </div>
-        </div>
+                   <!-- DICA DE ROTAÇÃO (mobile) -->
+           <div class="rotate-hint" id="rotate-hint" aria-hidden="true">
+             <div class="rotate-hint__box">
+               <span class="rotate-hint__ico" aria-hidden="true">↻</span>
+               <strong>Gire o aparelho</strong>
+               <small>Para jogar, use a tela na horizontal.</small>
+             </div>
+           </div>
+</div>
 
         <p class="hints">
           <span><kbd>←</kbd><kbd>→</kbd> mover</span>
@@ -287,10 +295,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=5.8.0" defer></script>
+    <script src="/game.js?v=5.9.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '5.8.0';
+        var GAME_VERSION = '5.9.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
