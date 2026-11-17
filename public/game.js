@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.1.4';
+  window.__JUMANJI_VERSION__ = '6.1.5';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -38,7 +38,7 @@
   const BEST_KEY = 'jumanji-tabuleiro-best';
   const MUTE_KEY = 'jumanji-tabuleiro-mute';
   const PROGRESS_KEY = 'jumanji-tabuleiro-progress';
-  const SETTINGS_KEY = 'jumanji-tabuleiro-settings';
+  const SETTINGS_KEY = 'jumanji-tabuleiro-settings-v2';
   const TAU = Math.PI * 2;
 
   /* ----------------------------------- dom ---------------------------------- */
@@ -1619,7 +1619,7 @@
   }
 
   // --------------------------- configurações ---------------------------
-  const DEFAULT_SETTINGS = { music: 80, sfx: 90, vignette: true, scanlines: false, touch: true };
+  const DEFAULT_SETTINGS = { music: 80, sfx: 90, vignette: true, scanlines: true, touch: true };
   let settings = (function () {
     try {
       const raw = readStorage(SETTINGS_KEY, '');
