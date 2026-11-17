@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.0.2';
+  window.__JUMANJI_VERSION__ = '6.1.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -229,6 +229,42 @@
         break;
       case 'ui':
         tone(520, 0, 0.06, 'square', 0.03);
+        break;
+      default:
+        break;
+    }
+  }
+
+  function animalSound(type) {
+    if (muted) return;
+    switch (type) {
+      case 'scorpion':
+        tone(1200, 0, 0.05, 'square', 0.025);
+        tone(900, 0.04, 0.04, 'square', 0.02);
+        break;
+      case 'bandit':
+        tone(180, 0, 0.12, 'sawtooth', 0.04, 120);
+        break;
+      case 'mandril':
+        tone(600, 0, 0.18, 'sawtooth', 0.045, 900);
+        tone(900, 0.1, 0.12, 'square', 0.03, 1200);
+        break;
+      case 'cobra':
+        tone(220, 0, 0.22, 'sawtooth', 0.03, 160);
+        tone(180, 0.15, 0.18, 'sawtooth', 0.025, 140);
+        break;
+      case 'raptor':
+        tone(300, 0, 0.2, 'sawtooth', 0.05, 120);
+        tone(150, 0.12, 0.25, 'square', 0.04, 80);
+        break;
+      case 'wasp':
+        tone(260, 0, 0.06, 'square', 0.02);
+        tone(280, 0.05, 0.06, 'square', 0.02);
+        tone(250, 0.1, 0.06, 'square', 0.02);
+        break;
+      case 'vulture':
+        tone(700, 0, 0.16, 'triangle', 0.035, 1100);
+        tone(1100, 0.1, 0.12, 'triangle', 0.03, 600);
         break;
       default:
         break;
@@ -1004,7 +1040,8 @@
       phase: hash(col, row) * TAU,
       shootTimer: 1.2 + hash(col + 5, row) * 2,
       jumpTimer: 1.2,
-      amp: def.amp != null ? def.amp : 16
+      amp: def.amp != null ? def.amp : 16,
+      soundTimer: 2 + Math.random() * 4
     };
   }
 
@@ -1901,6 +1938,16 @@
       if (!enemy.alive || state !== 'playing') return;
       collideEnemy(enemy);
       if (state !== 'playing') return;
+
+      // sons de animais ocasionais (quando na tela)
+      if (enemy.soundTimer != null) {
+        enemy.soundTimer -= dt;
+        const onScreen = enemy.x - camera > -40 && enemy.x - camera < VIEW_W + 40;
+        if (enemy.soundTimer <= 0 && onScreen) {
+          animalSound(enemy.type);
+          enemy.soundTimer = 3.5 + Math.random() * 4.5;
+        }
+      }
     }
   }
 
