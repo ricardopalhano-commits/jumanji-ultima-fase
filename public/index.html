@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.6.2" />
+    <link rel="stylesheet" href="/game.css?v=6.7.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -130,7 +130,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.6.2</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.7.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -447,7 +447,17 @@
             </section>
           </div>
 
-                     <!-- CARTÃO DE HISTÓRIA (intro) -->
+                                <!-- CUTSCENE DO TABULEIRO -->
+           <div class="cutscene" id="cutscene" hidden aria-live="polite">
+             <div class="cutscene__box">
+               <span class="cutscene__kicker">O TABULEIRO SE PREENCHE</span>
+               <strong class="cutscene__title" id="cutscene-title">Fase concluída</strong>
+               <div class="cutscene__board" id="cutscene-board"></div>
+               <p class="cutscene__text" id="cutscene-text"></p>
+             </div>
+           </div>
+
+<!-- CARTÃO DE HISTÓRIA (intro) -->
            <div class="story-card" id="story-card" hidden aria-live="polite">
              <span class="story-card__kicker" id="story-card-kicker">Fase 1</span>
              <strong class="story-card__title" id="story-card-title">A selva</strong>
@@ -501,10 +511,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.6.2" defer></script>
+    <script src="/game.js?v=6.7.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.6.2';
+        var GAME_VERSION = '6.7.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

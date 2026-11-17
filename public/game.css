@@ -812,6 +812,78 @@ body.scanlines-on .stage::after,
   font-size: 0.5rem;
 }
 
+/* --------------------------- cutscene do tabuleiro ------------------------ */
+
+.cutscene {
+  position: absolute;
+  inset: 0;
+  z-index: 26;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 32px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(2, 8, 5, 0.9), rgba(2, 8, 5, 0.98));
+  backdrop-filter: blur(2px);
+}
+
+.cutscene.is-visible {
+  display: flex;
+}
+
+.cutscene__kicker {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+}
+
+.cutscene__title {
+  font-family: var(--font-pixel);
+  font-size: clamp(0.9rem, 3vw, 1.4rem);
+  color: var(--gold-lt);
+  text-shadow: 0 3px 0 #000;
+  margin: 0;
+}
+
+.cutscene__board {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cutscene__slot {
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--gold-dk);
+  background: rgba(6, 18, 10, 0.7);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--gold-lt);
+  transition: background 0.4s, border-color 0.4s, transform 0.4s;
+}
+
+.cutscene__slot.is-filled {
+  background: var(--gold);
+  border-color: var(--gold-lt);
+  color: #231705;
+  transform: scale(1.05);
+}
+
+.cutscene__text {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--text);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
 /* --------------------------- cartão de história (intro) ------------------- */
 
 .story-card {

@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.6.2';
+  window.__JUMANJI_VERSION__ = '6.7.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1224,6 +1224,7 @@
   let time = 0;
   let introTimer = 0;
   let storyCardVisible = false;
+  let cutsceneCallback = null;
   let shake = 0;
   let hitStop = 0;
   let flash = 0;
@@ -1578,6 +1579,59 @@
     sfx('ui');
   }
 
+  function dismissCutscene() {
+    if (!cutsceneCallback) return;
+    const cb = cutsceneCallback;
+    cutsceneCallback = null;
+    const cut = document.getElementById('cutscene');
+    if (cut) { cut.hidden = true; cut.classList.remove('is-visible'); cut.onclick = null; }
+    cb();
+  }
+
+  function playCutscene(done) {
+    const cut = document.getElementById('cutscene');
+    const titleEl = document.getElementById('cutscene-title');
+    const boardEl = document.getElementById('cutscene-board');
+    const textEl = document.getElementById('cutscene-text');
+    if (!cut || !boardEl) { if (done) done(); return; }
+    cutsceneCallback = done;
+    if (titleEl) titleEl.textContent = 'Fase ' + (levelIndex + 1) + ' concluída';
+    if (textEl) textEl.textContent = 'Um novo fragmento do tabuleiro foi revelado. Kennedito avança!';
+    boardEl.innerHTML = '';
+    const slots = [];
+    for (let i = 0; i < LEVELS.length; i += 1) {
+      const slot = document.createElement('div');
+      slot.className = 'cutscene__slot';
+      slot.textContent = (i + 1);
+      boardEl.appendChild(slot);
+      slots.push(slot);
+    }
+    cut.hidden = false;
+    cut.classList.add('is-visible');
+    cut.onclick = dismissCutscene;
+    let filled = 0;
+    const target = levelIndex + 1;
+    const fillNext = () => {
+      if (!cutsceneCallback) return;
+      if (filled >= target) {
+        setTimeout(() => {
+          if (!cutsceneCallback) return;
+          cut.hidden = true;
+          cut.classList.remove('is-visible');
+          const cb = cutsceneCallback;
+          cutsceneCallback = null;
+          if (cb) cb();
+        }, 1200);
+        return;
+      }
+      slots[filled].classList.add('is-filled');
+      filled += 1;
+      sfx('coin');
+      setTimeout(fillNext, 320);
+    };
+    setTimeout(fillNext, 400);
+  }
+
   function completeLevel() {
     if (state !== 'playing') return;
     saveBest();
@@ -1592,12 +1646,15 @@
       return;
     }
     state = 'clear';
-    clearTitleEl.textContent = level.def.name;
-    clearTextEl.textContent = 'O portal vibrou e abriu passagem para o próximo perigo.';
-    clearGemsEl.textContent = formatScore(gems);
-    clearScoreEl.textContent = formatScore(score);
-    showOverlay('clear');
-    sfx('clear');
+    // cutscene do tabuleiro antes da tela de conclusão
+    playCutscene(() => {
+      clearTitleEl.textContent = level.def.name;
+      clearTextEl.textContent = 'O portal vibrou e abriu passagem para o próximo perigo.';
+      clearGemsEl.textContent = formatScore(gems);
+      clearScoreEl.textContent = formatScore(score);
+      showOverlay('clear');
+      sfx('clear');
+    });
   }
 
   function gameOver() {
@@ -1646,6 +1703,9 @@
     }
     if (state === 'intro' && (code === 'Space' || code === 'Enter') && !event.repeat) {
       dismissStory();
+    }
+    if (cutsceneCallback && (code === 'Space' || code === 'Enter') && !event.repeat) {
+      dismissCutscene();
     }
     ensureAudio();
   });
