@@ -713,6 +713,56 @@ body.scanlines-on .stage::after,
   font-size: 0.72rem;
 }
 
+/* --------------------------- login --------------------------------------- */
+
+.login {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.login__row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: var(--text-soft);
+  text-align: left;
+}
+
+.login__row span {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+}
+
+.login__input {
+  padding: 8px 10px;
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--text);
+  background: rgba(6, 18, 10, 0.7);
+  border: 2px solid var(--gold-dk);
+  outline: none;
+}
+
+.login__input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(242, 177, 60, 0.3);
+}
+
+.login__msg {
+  margin: 0;
+  font-size: 0.65rem;
+  color: var(--danger, #e0554a);
+  text-align: center;
+  min-height: 1.2em;
+}
+
 /* --------------------------- configurações ------------------------------- */
 
 .settings-group {

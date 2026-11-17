@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.4.1" />
+    <link rel="stylesheet" href="/game.css?v=6.5.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -76,6 +76,32 @@
           </div>
 
           <div class="overlay" id="overlay">
+            <!-- LOGIN -->
+            <section class="screen" id="screen-login" data-screen="login">
+              <div class="panel panel--menu">
+                <p class="tag">◄ JOGO DE PLATAFORMA ►</p>
+                <h1 class="logo">
+                  <span class="logo__main">JUMANJI</span>
+                  <span class="logo__sub">O Tabuleiro Selvagem</span>
+                </h1>
+                <div class="login">
+                  <label class="login__row">
+                    <span>Usuário</span>
+                    <input type="text" id="login-user" class="login__input" placeholder="seu nome" autocomplete="username" />
+                  </label>
+                  <label class="login__row">
+                    <span>Senha</span>
+                    <input type="password" id="login-pass" class="login__input" placeholder="••••••" autocomplete="current-password" />
+                  </label>
+                  <p class="login__msg" id="login-msg" hidden></p>
+                  <div class="menu">
+                    <button class="btn btn--gold" type="button" data-action="login">ENTRAR</button>
+                    <button class="btn btn--ghost" type="button" data-action="guest">MODO VISITANTE</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             <!-- MENU PRINCIPAL -->
             <section class="screen" id="screen-title" data-screen="title">
               <div class="panel panel--menu">
@@ -101,7 +127,8 @@
                     <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.4.1</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.5.0</span></p>
+                <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
 
@@ -233,6 +260,18 @@
                   <label class="settings-row">
                     <span>Controles de toque</span>
                     <input type="checkbox" id="settings-touch" checked />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">CONTA</h3>
+                  <label class="settings-row">
+                    <span>Usuário</span>
+                    <strong id="settings-user">visitante</strong>
+                  </label>
+                  <label class="settings-row">
+                    <span>Sair</span>
+                    <button class="btn btn--ghost btn--sm" type="button" data-action="logout">SAIR</button>
                   </label>
                 </div>
 
@@ -402,10 +441,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.4.1" defer></script>
+    <script src="/game.js?v=6.5.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.4.1';
+        var GAME_VERSION = '6.5.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.4.1';
+  window.__JUMANJI_VERSION__ = '6.5.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -39,6 +39,7 @@
   const MUTE_KEY = 'jumanji-tabuleiro-mute';
   const PROGRESS_KEY = 'jumanji-tabuleiro-progress';
   const SETTINGS_KEY = 'jumanji-tabuleiro-settings-v2';
+  const ADMIN_PASSWORD = 'kennedito';
   const TAU = Math.PI * 2;
 
   /* ----------------------------------- dom ---------------------------------- */
@@ -1197,7 +1198,13 @@
   let gems = 0;
   let score = 0;
   let best = Number(readStorage(BEST_KEY, '0')) || 0;
-  let progress = clamp(Number(readStorage(PROGRESS_KEY, '0')) || 0, 0, LEVELS.length - 1);
+  let currentUser = readStorage('jumanji-tabuleiro-user', '');
+  let isAdmin = readStorage('jumanji-tabuleiro-admin', '0') === '1';
+  function progressKey() {
+    if (isAdmin) return PROGRESS_KEY + '-admin';
+    return currentUser ? (PROGRESS_KEY + '-' + currentUser) : PROGRESS_KEY;
+  }
+  let progress = clamp(Number(readStorage(progressKey(), '0')) || 0, 0, LEVELS.length - 1);
   let camera = 0;
   let time = 0;
   let introTimer = 0;
@@ -1399,6 +1406,75 @@
     sfx('start');
   }
 
+  function loadProgressForUser() {
+    progress = clamp(Number(readStorage(progressKey(), '0')) || 0, 0, LEVELS.length - 1);
+    syncLevelSelect();
+  }
+
+  function syncUserUi() {
+    const el = document.getElementById('title-user');
+    if (el) el.textContent = 'USUÁRIO: ' + (currentUser || 'visitante') + (isAdmin ? ' (admin)' : '');
+    const ue = document.getElementById('settings-user');
+    if (ue) ue.textContent = (currentUser || 'visitante') + (isAdmin ? ' (admin)' : '');
+  }
+
+  function doLogin() {
+    const userEl = document.getElementById('login-user');
+    const passEl = document.getElementById('login-pass');
+    const msgEl = document.getElementById('login-msg');
+    const username = (userEl ? userEl.value.trim() : '') || '';
+    const password = passEl ? passEl.value : '';
+    if (!username) {
+      if (msgEl) { msgEl.textContent = 'Digite um usuário.'; msgEl.hidden = false; }
+      return;
+    }
+    if (password === ADMIN_PASSWORD) {
+      currentUser = username;
+      isAdmin = true;
+      writeStorage('jumanji-tabuleiro-user', username);
+      writeStorage('jumanji-tabuleiro-admin', '1');
+      // admin destrava tudo
+      progress = LEVELS.length - 1;
+      writeStorage(progressKey(), String(progress));
+      syncLevelSelect();
+      syncUserUi();
+      if (msgEl) { msgEl.textContent = 'Modo admin: tudo destravado!'; msgEl.hidden = false; }
+      setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
+    } else {
+      currentUser = username;
+      isAdmin = false;
+      writeStorage('jumanji-tabuleiro-user', username);
+      writeStorage('jumanji-tabuleiro-admin', '0');
+      loadProgressForUser();
+      syncUserUi();
+      if (msgEl) { msgEl.textContent = 'Bem-vindo, ' + username + '!'; msgEl.hidden = false; }
+      setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
+    }
+  }
+
+  function doGuest() {
+    currentUser = 'visitante';
+    isAdmin = false;
+    writeStorage('jumanji-tabuleiro-user', 'visitante');
+    writeStorage('jumanji-tabuleiro-admin', '0');
+    loadProgressForUser();
+    syncUserUi();
+    showOverlay('title');
+    state = 'title';
+  }
+
+  function doLogout() {
+    currentUser = '';
+    isAdmin = false;
+    writeStorage('jumanji-tabuleiro-user', '');
+    writeStorage('jumanji-tabuleiro-admin', '0');
+    progress = 0;
+    syncLevelSelect();
+    syncUserUi();
+    showOverlay('login');
+    state = 'title';
+  }
+
   function startNewGame() {
     startAtLevel(0);
   }
@@ -1529,7 +1605,8 @@
       else if (state === 'paused') resumeGame();
     }
     if (code === 'Enter' && !event.repeat) {
-      if (state === 'title' || state === 'over' || state === 'win') startNewGame();
+      if (screens.login && !screens.login.hidden) doLogin();
+      else if (state === 'title' || state === 'over' || state === 'win') startNewGame();
       else if (state === 'clear') nextLevel();
     }
     if (state === 'intro' && (code === 'Space' || code === 'Enter') && !event.repeat) {
@@ -1580,7 +1657,10 @@
     if (!button) return;
     ensureAudio();
     const action = button.dataset.action;
-    if (action === 'start' || action === 'restart') startNewGame();
+    if (action === 'login') doLogin();
+    else if (action === 'guest') doGuest();
+    else if (action === 'logout') doLogout();
+    else if (action === 'start' || action === 'restart') startNewGame();
     else if (action === 'resume') resumeGame();
     else if (action === 'next') nextLevel();
     else if (action === 'menu') goMenu();
@@ -1699,6 +1779,9 @@
     if (scanInput) scanInput.checked = settings.scanlines;
     if (touchInput) touchInput.checked = settings.touch;
     applyMuteUi();
+    const userEl = document.getElementById('settings-user');
+    if (userEl) userEl.textContent = (currentUser || 'visitante') + (isAdmin ? ' (admin)' : '');
+    syncUserUi();
   }
 
   function resetProgress() {
@@ -4167,17 +4250,7 @@
     if (state === 'playing') {
       update(dt);
     } else if (state === 'intro') {
-      introTimer -= dt;
-      if (introTimer <= 0 || !storyCardVisible) {
-        // auto or dismissed
-      }
-      if (introTimer <= 0) {
-        state = 'playing';
-        const sc = document.getElementById('story-card');
-        if (sc) { sc.hidden = true; sc.classList.remove('is-visible'); }
-        banner.hidden = true;
-        storyCardVisible = false;
-      }
+      // avança apenas quando o jogador confirmar (botão/ESPAÇO)
       updateEffects(dt);
     } else if (state === 'title') {
       updateTitle(dt);
@@ -4210,8 +4283,15 @@
 
   applyMuteUi();
   loadLevel(0, { intro: false });
-  state = 'title';
-  showOverlay('title');
+  window.__dismissStory = dismissStory;
+  syncUserUi();
+  if (currentUser) {
+    state = 'title';
+    showOverlay('title');
+  } else {
+    state = 'title';
+    showOverlay('login');
+  }
   syncHud();
   syncBest();
   syncLevelSelect();
