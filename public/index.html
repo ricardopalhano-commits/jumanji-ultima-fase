@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.1.5" />
+    <link rel="stylesheet" href="/game.css?v=6.2.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -94,11 +94,14 @@
                   <button class="btn" type="button" data-action="howto">
                     <span class="btn__ico" aria-hidden="true">?</span> COMO JOGAR
                   </button>
+                  <button class="btn" type="button" data-action="story">
+                    <span class="btn__ico" aria-hidden="true">📖</span> HISTÓRIA
+                  </button>
                   <button class="btn" type="button" data-action="settings">
                     <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.1.5</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.2.0</span></p>
               </div>
             </section>
 
@@ -257,7 +260,30 @@
               </div>
             </section>
 
-                        <!-- PAUSA -->
+                        <!-- HISTÓRIA -->
+            <section class="screen" id="screen-story" data-screen="story" hidden>
+              <div class="panel">
+                <h2 class="panel__title">A HISTÓRIA</h2>
+                <p class="panel__text">
+                  Kennedito era um jovem aventureiro que, junto com seus amigos, encontrou um antigo videogame no porão da escola.
+                  Ao ligarem o console, foram sugados para dentro do mundo de Jumanji, transformados em avatares do jogo.
+                </p>
+                <p class="panel__text">
+                  Para voltar para casa, Kennedito precisa atravessar as fases do tabuleiro selvagem: a selva, o vilarejo,
+                  o templo de Jurgen, o deserto, a fruta do deserto e, por fim, a fronteira. Em cada fase, novos perigos,
+                  inimigos e segredos o aguardam.
+                </p>
+                <p class="panel__text">
+                  A cada fase concluída, Kennedito desbloqueia um fragmento do tabuleiro e se aproxima de casa.
+                  Derrote Jurgen no templo e chegue ao portal dourado da fronteira para vencer o jogo!
+                </p>
+                <button class="btn btn--ghost" type="button" data-action="back">
+                  <span class="btn__ico" aria-hidden="true">◄</span> VOLTAR
+                </button>
+              </div>
+            </section>
+
+            <!-- PAUSA -->
             <section class="screen" id="screen-pause" data-screen="pause" hidden>
               <div class="panel">
                 <h2 class="panel__title">PAUSADO</h2>
@@ -367,10 +393,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.1.5" defer></script>
+    <script src="/game.js?v=6.2.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.1.5';
+        var GAME_VERSION = '6.2.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

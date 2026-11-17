@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.1.5';
+  window.__JUMANJI_VERSION__ = '6.2.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -441,6 +441,7 @@
     {
       name: 'A selva',
       subtitle: 'Cipós, cobras e guardiões de madeira.',
+      story: 'Kennedito e seus amigos foram sugados para dentro do jogo Jumanji. Na selva, ele precisa sobreviver às cobras e aos mandris para encontrar a primeira pista.',
       theme: 'selva',
       cols: 242,
       build(B) {
@@ -541,6 +542,7 @@
     {
       name: 'O vilarejo',
       subtitle: 'Telhados, cipós e guardiões.',
+      story: 'Kennedito chega ao vilarejo escondido na selva. Os guardiões tentam impedi-lo, mas ele segue em frente em busca do próximo fragmento do tabuleiro.',
       theme: 'selva',
       cols: 242,
       build(B) {
@@ -641,6 +643,7 @@
     {
       name: 'O Final',
       subtitle: 'Lava, raptores e o chefão.',
+      story: 'No templo de Jurgen, Kennedito enfrenta lava, raptores e o temido chefe. Derrotá-lo é a única chance de avançar para o próximo capítulo.',
       theme: 'templo',
       cols: 216,
       build(B) {
@@ -746,6 +749,7 @@
     {
       name: 'Deserto',
       subtitle: 'Sol, escorpiões e capangas.',
+      story: 'Kennedito e sua turma são transportados para o deserto. Sob o sol escaldante, escorpiões e capangas de Jurgen os perseguem.',
       theme: 'deserto',
       cols: 236,
       build(B) {
@@ -843,6 +847,7 @@
     {
       name: 'A Fruta do Deserto',
       subtitle: 'Oásis, frutas e escorpiões.',
+      story: 'Kennedito descobre o oásis do deserto e a fruta sagrada. Ela pode ser a chave para cruzar a fronteira.',
       theme: 'deserto',
       cols: 236,
       build(B) {
@@ -931,6 +936,7 @@
     {
       name: 'A Fronteira',
       subtitle: 'Fronteira, capangas e o portal.',
+      story: 'Na fronteira, Kennedito encara a última barreira. O portal dourado brilha ao longe — a liberdade espera do outro lado.',
       theme: 'templo',
       cols: 216,
       build(B) {
@@ -1272,8 +1278,8 @@
       banner.hidden = true;
     } else {
       state = 'intro';
-      introTimer = 1.15;
-      showBanner(`Fase ${levelIndex + 1} de ${LEVELS.length}`, level.def.name, level.def.subtitle);
+      introTimer = 2.6;
+      showBanner(`Fase ${levelIndex + 1} de ${LEVELS.length}`, level.def.name, level.def.story || level.def.subtitle);
     }
   }
 
@@ -1555,6 +1561,7 @@
     else if (action === 'fullscreen') toggleFullscreen();
     else if (action === 'levels') openScreen('levels');
     else if (action === 'howto') openScreen('howto');
+    else if (action === 'story') openScreen('story');
     else if (action === 'settings') openScreen('settings');
     else if (action === 'reset-progress') resetProgress();
     else if (action === 'back') {
