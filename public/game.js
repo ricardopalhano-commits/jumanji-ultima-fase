@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.1.2';
+  window.__JUMANJI_VERSION__ = '6.1.3';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1578,6 +1578,21 @@
       sfx('ui');
       if (state === 'playing' || state === 'intro') startMusic(level.def.theme);
     }
+    showToast(muted ? 'SOM: DESLIGADO' : 'SOM: LIGADO');
+  }
+
+  let toastTimer = null;
+  function showToast(msg) {
+    const el = document.getElementById('toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.hidden = false;
+    el.classList.add('is-visible');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      el.classList.remove('is-visible');
+      setTimeout(() => { el.hidden = true; }, 200);
+    }, 1400);
   }
 
   function applyMuteUi() {
@@ -1672,27 +1687,32 @@
       applySettings();
       saveSettings();
       if (musicGain) musicGain.gain.value = 0.5 * (settings.music / 100);
+      showToast('MÚSICA: ' + settings.music + '%');
     });
     if (sfxInput) sfxInput.addEventListener('input', (e) => {
       settings.sfx = Number(e.target.value);
       applySettings();
       saveSettings();
       sfx('ui');
+      showToast('EFEITOS: ' + settings.sfx + '%');
     });
     if (vigInput) vigInput.addEventListener('change', (e) => {
       settings.vignette = e.target.checked;
       applySettings();
       saveSettings();
+      showToast(settings.vignette ? 'VINHETA: LIGADA' : 'VINHETA: DESLIGADA');
     });
     if (scanInput) scanInput.addEventListener('change', (e) => {
       settings.scanlines = e.target.checked;
       applySettings();
       saveSettings();
+      showToast(settings.scanlines ? 'SCANLINES: LIGADAS' : 'SCANLINES: DESLIGADAS');
     });
     if (touchInput) touchInput.addEventListener('change', (e) => {
       settings.touch = e.target.checked;
       applySettings();
       saveSettings();
+      showToast(settings.touch ? 'TOQUE: LIGADO' : 'TOQUE: DESLIGADO');
     });
     if (settingsMute) settingsMute.addEventListener('click', () => setMuted(!muted));
   })();
