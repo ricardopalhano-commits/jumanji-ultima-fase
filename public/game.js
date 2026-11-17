@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.1.3';
+  window.__JUMANJI_VERSION__ = '6.1.4';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1714,7 +1714,7 @@
       saveSettings();
       showToast(settings.touch ? 'TOQUE: LIGADO' : 'TOQUE: DESLIGADO');
     });
-    if (settingsMute) settingsMute.addEventListener('click', () => setMuted(!muted));
+    // (mute tratado pelo handler global de data-action="mute", que chama setMuted)
   })();
 
   // apply on load
