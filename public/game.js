@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.1.0';
+  window.__JUMANJI_VERSION__ = '6.1.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1623,10 +1623,15 @@
   }
 
   function applySettings() {
+    const stage = document.getElementById('stage');
     // vinheta
+    if (stage) {
+      stage.classList.toggle('no-vignette', !settings.vignette);
+      // scanlines
+      stage.classList.toggle('scanlines-on', !!settings.scanlines);
+    }
     if (document.body) {
       document.body.classList.toggle('no-vignette', !settings.vignette);
-      // scanlines
       document.body.classList.toggle('scanlines-on', !!settings.scanlines);
     }
     // controles de toque
@@ -1671,11 +1676,13 @@
       settings.music = Number(e.target.value);
       applySettings();
       saveSettings();
+      if (musicGain) musicGain.gain.value = 0.5 * (settings.music / 100);
     });
     if (sfxInput) sfxInput.addEventListener('input', (e) => {
       settings.sfx = Number(e.target.value);
       applySettings();
       saveSettings();
+      sfx('ui');
     });
     if (vigInput) vigInput.addEventListener('change', (e) => {
       settings.vignette = e.target.checked;
