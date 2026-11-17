@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.3.0" />
+    <link rel="stylesheet" href="/game.css?v=6.4.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -101,7 +101,7 @@
                     <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.3.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.4.0</span></p>
               </div>
             </section>
 
@@ -348,7 +348,15 @@
             </section>
           </div>
 
-          <!-- CONTROLES DE TOQUE -->
+                     <!-- CARTÃO DE HISTÓRIA (intro) -->
+           <div class="story-card" id="story-card" hidden aria-live="polite">
+             <span class="story-card__kicker" id="story-card-kicker">Fase 1</span>
+             <strong class="story-card__title" id="story-card-title">A selva</strong>
+             <p class="story-card__text" id="story-card-text"></p>
+             <span class="story-card__hint">Clique ou pressione ESPAÇO para continuar</span>
+           </div>
+
+<!-- CONTROLES DE TOQUE -->
           <div class="touch" id="touch" aria-hidden="true">
             <div class="touch__pad">
               <button class="touch__btn" type="button" data-hold="left" aria-label="Mover para a esquerda">
@@ -393,10 +401,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.3.0" defer></script>
+    <script src="/game.js?v=6.4.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.3.0';
+        var GAME_VERSION = '6.4.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

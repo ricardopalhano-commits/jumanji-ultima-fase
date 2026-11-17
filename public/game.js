@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.3.0';
+  window.__JUMANJI_VERSION__ = '6.4.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1201,6 +1201,7 @@
   let camera = 0;
   let time = 0;
   let introTimer = 0;
+  let storyCardVisible = false;
   let shake = 0;
   let hitStop = 0;
   let flash = 0;
@@ -1274,12 +1275,26 @@
     initAmbient();
     syncLevelLabel();
     syncHud();
+    const storyCard = document.getElementById('story-card');
+    const storyKicker = document.getElementById('story-card-kicker');
+    const storyTitle = document.getElementById('story-card-title');
+    const storyText = document.getElementById('story-card-text');
     if (opts.intro === false) {
       banner.hidden = true;
+      if (storyCard) storyCard.hidden = true;
+      storyCardVisible = false;
     } else {
       state = 'intro';
-      introTimer = 2.6;
-      showBanner(`Fase ${levelIndex + 1} de ${LEVELS.length}`, level.def.name, level.def.story || level.def.subtitle);
+      introTimer = 4.0;
+      banner.hidden = true;
+      if (storyCard) {
+        if (storyKicker) storyKicker.textContent = `Fase ${levelIndex + 1} de ${LEVELS.length}`;
+        if (storyTitle) storyTitle.textContent = level.def.name;
+        if (storyText) storyText.textContent = level.def.story || level.def.subtitle;
+        storyCard.hidden = false;
+        storyCard.classList.add('is-visible');
+      }
+      storyCardVisible = true;
     }
   }
 
@@ -1361,6 +1376,16 @@
     held.jump = false;
     held.sprint = false;
     document.querySelectorAll('[data-hold]').forEach((btn) => btn.classList.remove('is-down'));
+  }
+
+  function dismissStory() {
+    if (!storyCardVisible) return;
+    storyCardVisible = false;
+    introTimer = 0;
+    state = 'playing';
+    const sc = document.getElementById('story-card');
+    if (sc) { sc.hidden = true; sc.classList.remove('is-visible'); }
+    banner.hidden = true;
   }
 
   function startAtLevel(index) {
@@ -1506,6 +1531,9 @@
     if (code === 'Enter' && !event.repeat) {
       if (state === 'title' || state === 'over' || state === 'win') startNewGame();
       else if (state === 'clear') nextLevel();
+    }
+    if (state === 'intro' && (code === 'Space' || code === 'Enter') && !event.repeat) {
+      dismissStory();
     }
     ensureAudio();
   });
@@ -1733,6 +1761,9 @@
   // redefine tone to apply sfxVolume
   // (tone is function declaration, can't redefine const easily; instead wrap calls is invasive. Use a global multiplier variable read inside tone.)
   // Add sfxVolume scaling inside tone by editing? We'll instead set a global and modify tone via redefinition below is not possible. Skip scaling tone; keep sfx volume as stored for future.
+
+  const storyCardEl = document.getElementById('story-card');
+  if (storyCardEl) storyCardEl.addEventListener('click', dismissStory);
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && (state === 'playing' || state === 'intro')) pauseGame();
@@ -4136,9 +4167,15 @@
       update(dt);
     } else if (state === 'intro') {
       introTimer -= dt;
+      if (introTimer <= 0 || !storyCardVisible) {
+        // auto or dismissed
+      }
       if (introTimer <= 0) {
         state = 'playing';
+        const sc = document.getElementById('story-card');
+        if (sc) { sc.hidden = true; sc.classList.remove('is-visible'); }
         banner.hidden = true;
+        storyCardVisible = false;
       }
       updateEffects(dt);
     } else if (state === 'title') {
