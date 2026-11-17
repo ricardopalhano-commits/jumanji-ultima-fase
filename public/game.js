@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.6.1';
+  window.__JUMANJI_VERSION__ = '6.6.2';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1433,6 +1433,8 @@
     if (ue) ue.textContent = (currentUser || 'visitante') + (isAdmin ? ' (admin)' : '');
     const ab = document.getElementById('btn-admin');
     if (ab) ab.hidden = !isAdmin;
+    const abp = document.getElementById('btn-admin-pause');
+    if (abp) abp.hidden = !isAdmin;
   }
 
   function doLogin() {
