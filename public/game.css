@@ -920,6 +920,135 @@ body.scanlines-on .stage::after,
   line-height: 1.6;
 }
 
+/* --------------------------- cutscene épica (libertação) ------------------ */
+
+.epic {
+  position: absolute;
+  inset: 0;
+  z-index: 27;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 32px;
+  text-align: center;
+  background: radial-gradient(circle at 50% 40%, rgba(242, 177, 60, 0.15), rgba(2, 8, 5, 0.95) 70%);
+  backdrop-filter: blur(3px);
+  overflow: hidden;
+}
+
+.epic.is-visible {
+  display: flex;
+}
+
+.epic__kicker {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--gold);
+  letter-spacing: 0.14em;
+  animation: epicPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes epicPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+.epic__title {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.1rem, 4vw, 2rem);
+  color: var(--gold-lt);
+  text-shadow: 0 0 18px rgba(242, 177, 60, 0.8), 0 4px 0 #000;
+  margin: 0;
+  animation: epicTitle 2s ease-out;
+}
+
+@keyframes epicTitle {
+  0% { opacity: 0; transform: translateY(20px) scale(0.8); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.epic__board {
+  position: relative;
+  width: min(400px, 85vw);
+  height: 240px;
+  margin: 12px 0;
+  background: linear-gradient(180deg, #1a1208, #0a0804);
+  border: 4px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px #000, 0 0 40px rgba(242, 177, 60, 0.5), inset 0 0 50px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.epic__crystal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff7d6, #ffe6a6 30%, #f2b13c 55%, #8a5a2e 80%, #3a2410);
+  box-shadow: 0 0 0 4px var(--gold), 0 0 40px rgba(255, 230, 166, 0.9), inset 0 0 16px rgba(255, 255, 255, 0.5);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  color: #3a2410;
+  text-align: center;
+  letter-spacing: 0.05em;
+  animation: epicCrystal 1.8s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes epicCrystal {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 4px var(--gold), 0 0 40px rgba(255, 230, 166, 0.9), inset 0 0 16px rgba(255, 255, 255, 0.5); }
+  50% { transform: translate(-50%, -50%) scale(1.12); box-shadow: 0 0 0 4px var(--gold), 0 0 70px rgba(255, 230, 166, 1), inset 0 0 24px rgba(255, 255, 255, 0.7); }
+}
+
+.epic__slot {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 2px solid var(--gold-dk);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #3a2a16, #1a1208);
+  box-shadow: 0 0 0 1px #000, inset 0 0 6px rgba(0, 0, 0, 0.6);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--gold-lt);
+  transition: background 0.4s, border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+  z-index: 3;
+}
+
+.epic__slot.is-filled {
+  background: radial-gradient(circle at 35% 35%, #fff7d6, #ffe6a6 40%, #f2b13c 65%, #8a5a2e);
+  border-color: var(--gold-lt);
+  color: #231705;
+  box-shadow: 0 0 0 1px #000, 0 0 18px rgba(255, 230, 166, 1), inset 0 0 8px rgba(255, 255, 255, 0.4);
+  transform: scale(1.15);
+}
+
+.epic__text {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--text);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.epic__hint {
+  margin-top: 8px;
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  color: var(--muted);
+  animation: blink 1.4s steps(2) infinite;
+}
+
 /* --------------------------- cartão de história (intro) ------------------- */
 
 .story-card {

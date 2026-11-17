@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.8.0';
+  window.__JUMANJI_VERSION__ = '6.9.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1644,6 +1644,71 @@
     setTimeout(fillNext, 400);
   }
 
+  let epicCallback = null;
+  function dismissEpic() {
+    if (!epicCallback) return;
+    const cb = epicCallback;
+    epicCallback = null;
+    const el = document.getElementById('epic');
+    if (el) { el.hidden = true; el.classList.remove('is-visible'); }
+    cb();
+  }
+
+  function playEpicCutscene(done) {
+    const el = document.getElementById('epic');
+    const boardEl = document.getElementById('epic-board');
+    if (!el || !boardEl) { if (done) done(); return; }
+    epicCallback = done;
+    boardEl.innerHTML = '';
+    const crystal = document.createElement('div');
+    crystal.className = 'epic__crystal';
+    crystal.textContent = 'JUMANJI';
+    boardEl.appendChild(crystal);
+    const slots = [];
+    const positions = [
+      { x: 12, y: 12 }, { x: 50, y: 6 }, { x: 88, y: 12 },
+      { x: 88, y: 88 }, { x: 50, y: 94 }, { x: 12, y: 88 }
+    ];
+    for (let i = 0; i < LEVELS.length; i += 1) {
+      const slot = document.createElement('div');
+      slot.className = 'epic__slot';
+      slot.textContent = (i + 1);
+      slot.style.left = positions[i].x + '%';
+      slot.style.top = positions[i].y + '%';
+      boardEl.appendChild(slot);
+      slots.push(slot);
+    }
+    el.hidden = false;
+    el.classList.add('is-visible');
+    el.onclick = dismissEpic;
+    let filled = 0;
+    const target = LEVELS.length;
+    const fillNext = () => {
+      if (!epicCallback) return;
+      if (filled >= target) {
+        setTimeout(() => {
+          if (!epicCallback) return;
+          // toque épico final
+          sfx('win');
+          setTimeout(() => {
+            if (!epicCallback) return;
+            el.hidden = true;
+            el.classList.remove('is-visible');
+            const cb = epicCallback;
+            epicCallback = null;
+            if (cb) cb();
+          }, 1600);
+        }, 600);
+        return;
+      }
+      slots[filled].classList.add('is-filled');
+      filled += 1;
+      sfx('coin');
+      setTimeout(fillNext, 260);
+    };
+    setTimeout(fillNext, 500);
+  }
+
   function completeLevel() {
     if (state !== 'playing') return;
     saveBest();
@@ -1651,10 +1716,13 @@
     stopMusic();
     if (levelIndex >= LEVELS.length - 1) {
       state = 'win';
-      winScoreEl.textContent = formatScore(score);
-      winGemsEl.textContent = formatScore(gems);
-      showOverlay('win');
-      sfx('win');
+      // cutscene épica antes da vitória
+      playEpicCutscene(() => {
+        winScoreEl.textContent = formatScore(score);
+        winGemsEl.textContent = formatScore(gems);
+        showOverlay('win');
+        sfx('win');
+      });
       return;
     }
     state = 'clear';
@@ -1718,6 +1786,9 @@
     }
     if (cutsceneCallback && (code === 'Space' || code === 'Enter') && !event.repeat) {
       dismissCutscene();
+    }
+    if (epicCallback && (code === 'Space' || code === 'Enter') && !event.repeat) {
+      dismissEpic();
     }
     ensureAudio();
   });

@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.8.0" />
+    <link rel="stylesheet" href="/game.css?v=6.9.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -130,7 +130,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.8.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.9.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -466,6 +466,17 @@
              <span class="story-card__hint">ou pressione ESPAÇO</span>
            </div>
 
+           <!-- CUTSCENE ÉPICA (libertação) -->
+           <div class="epic" id="epic" hidden aria-live="polite">
+             <div class="epic__box">
+               <span class="epic__kicker">O TABULEIRO SE COMPLETA</span>
+               <strong class="epic__title">KENNEDITO FOI LIBERTADO!</strong>
+               <div class="epic__board" id="epic-board"></div>
+               <p class="epic__text">Todos os seis fragmentos foram reunidos. O portal dourado se abre e Kennedito retorna para casa, livre do tabuleiro selvagem.</p>
+               <span class="epic__hint">Clique ou pressione ESPAÇO para continuar</span>
+             </div>
+           </div>
+
 <!-- CONTROLES DE TOQUE -->
           <div class="touch" id="touch" aria-hidden="true">
             <div class="touch__pad">
@@ -511,10 +522,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.8.0" defer></script>
+    <script src="/game.js?v=6.9.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.8.0';
+        var GAME_VERSION = '6.9.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
