@@ -264,7 +264,7 @@ kbd {
   inset: 0;
   z-index: 8;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0 0 60px rgba(0, 0, 0, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
 }
 
 body.no-vignette .stage::before,
@@ -760,6 +760,29 @@ body.scanlines-on .stage::after,
 .btn--sm {
   padding: 6px 10px;
   font-size: 0.5rem;
+}
+
+/* --------------------------- efeitos visuais (config) --------------------- */
+
+.fx-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25), inset 0 0 60px rgba(0, 0, 0, 0.18);
+}
+
+.fx-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.4) 0 2px,
+    transparent 2px 4px
+  );
 }
 
 /* --------------------------- dica de rotação (mobile) --------------------- */

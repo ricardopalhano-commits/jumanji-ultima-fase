@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.1.1';
+  window.__JUMANJI_VERSION__ = '6.1.2';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1623,17 +1623,12 @@
   }
 
   function applySettings() {
-    const stage = document.getElementById('stage');
     // vinheta
-    if (stage) {
-      stage.classList.toggle('no-vignette', !settings.vignette);
-      // scanlines
-      stage.classList.toggle('scanlines-on', !!settings.scanlines);
-    }
-    if (document.body) {
-      document.body.classList.toggle('no-vignette', !settings.vignette);
-      document.body.classList.toggle('scanlines-on', !!settings.scanlines);
-    }
+    const vigEl = document.getElementById('fx-vignette');
+    if (vigEl) vigEl.style.display = settings.vignette ? '' : 'none';
+    // scanlines
+    const scanEl = document.getElementById('fx-scanlines');
+    if (scanEl) scanEl.style.opacity = settings.scanlines ? '0.07' : '0';
     // controles de toque
     const touchEl = document.getElementById('touch');
     if (touchEl) touchEl.style.display = settings.touch ? '' : 'none';
