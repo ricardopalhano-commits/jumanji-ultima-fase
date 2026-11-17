@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.7.0';
+  window.__JUMANJI_VERSION__ = '6.8.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1598,11 +1598,23 @@
     if (titleEl) titleEl.textContent = 'Fase ' + (levelIndex + 1) + ' concluída';
     if (textEl) textEl.textContent = 'Um novo fragmento do tabuleiro foi revelado. Kennedito avança!';
     boardEl.innerHTML = '';
+    // cristal central do tabuleiro
+    const crystal = document.createElement('div');
+    crystal.className = 'cutscene__crystal';
+    crystal.textContent = 'JUMANJI';
+    boardEl.appendChild(crystal);
+    // casas do tabuleiro dispostas em caminho (3 cima, 3 baixo)
     const slots = [];
+    const positions = [
+      { x: 10, y: 10 }, { x: 50, y: 5 }, { x: 90, y: 10 },
+      { x: 90, y: 85 }, { x: 50, y: 90 }, { x: 10, y: 85 }
+    ];
     for (let i = 0; i < LEVELS.length; i += 1) {
       const slot = document.createElement('div');
       slot.className = 'cutscene__slot';
       slot.textContent = (i + 1);
+      slot.style.left = positions[i].x + '%';
+      slot.style.top = positions[i].y + '%';
       boardEl.appendChild(slot);
       slots.push(slot);
     }
