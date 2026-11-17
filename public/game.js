@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.5.0';
+  window.__JUMANJI_VERSION__ = '6.6.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1200,6 +1200,21 @@
   let best = Number(readStorage(BEST_KEY, '0')) || 0;
   let currentUser = readStorage('jumanji-tabuleiro-user', '');
   let isAdmin = readStorage('jumanji-tabuleiro-admin', '0') === '1';
+  const ADMIN_BUFFS_KEY = 'jumanji-admin-buffs';
+  let adminSpeedMult = 1;
+  let adminJumpMult = 1;
+  let adminInvincible = false;
+  (function loadAdminBuffs() {
+    try {
+      const raw = readStorage(ADMIN_BUFFS_KEY, '');
+      if (raw) {
+        const b = JSON.parse(raw);
+        adminSpeedMult = b.speed || 1;
+        adminJumpMult = b.jump || 1;
+        adminInvincible = !!b.invincible;
+      }
+    } catch (e) { /* ignore */ }
+  })();
   function progressKey() {
     if (isAdmin) return PROGRESS_KEY + '-admin';
     return currentUser ? (PROGRESS_KEY + '-' + currentUser) : PROGRESS_KEY;
@@ -1416,6 +1431,8 @@
     if (el) el.textContent = 'USUÁRIO: ' + (currentUser || 'visitante') + (isAdmin ? ' (admin)' : '');
     const ue = document.getElementById('settings-user');
     if (ue) ue.textContent = (currentUser || 'visitante') + (isAdmin ? ' (admin)' : '');
+    const ab = document.getElementById('btn-admin');
+    if (ab) ab.hidden = !isAdmin;
   }
 
   function doLogin() {
@@ -1482,6 +1499,14 @@
   function openScreen(name) {
     if (name === 'levels') syncLevelSelect();
     if (name === 'settings') applySettings();
+    if (name === 'admin') {
+      const li = document.getElementById('admin-lives');
+      const gi = document.getElementById('admin-gems');
+      const si = document.getElementById('admin-score');
+      if (li) li.value = lives;
+      if (gi) gi.value = gems;
+      if (si) si.value = score;
+    }
     showOverlay(name);
   }
 
@@ -1672,6 +1697,13 @@
     else if (action === 'story') openScreen('story');
     else if (action === 'dismiss-story') dismissStory();
     else if (action === 'settings') openScreen('settings');
+    else if (action === 'admin') openScreen('admin');
+    else if (action === 'admin-unlock') {
+      progress = LEVELS.length - 1;
+      writeStorage(progressKey(), String(progress));
+      syncLevelSelect();
+      showToast('TUDO DESTRavado');
+    }
     else if (action === 'reset-progress') resetProgress();
     else if (action === 'back') {
       if (state === 'paused') showOverlay('pause');
@@ -1849,6 +1881,72 @@
   const storyCardEl = document.getElementById('story-card');
   if (storyCardEl) storyCardEl.addEventListener('click', dismissStory);
 
+  // botão admin visível apenas para admin
+  const adminBtn = document.getElementById('btn-admin');
+  if (adminBtn) adminBtn.hidden = !isAdmin;
+
+  // painel admin
+  (function wireAdmin() {
+    if (!isAdmin) return;
+    const livesInput = document.getElementById('admin-lives');
+    const speedInput = document.getElementById('admin-speed');
+    const jumpInput = document.getElementById('admin-jump');
+    const invInput = document.getElementById('admin-invincible');
+    const gemsInput = document.getElementById('admin-gems');
+    const scoreInput = document.getElementById('admin-score');
+
+    function saveBuffs() {
+      writeStorage(ADMIN_BUFFS_KEY, JSON.stringify({ speed: adminSpeedMult, jump: adminJumpMult, invincible: adminInvincible }));
+    }
+
+    if (livesInput) {
+      livesInput.value = lives;
+      livesInput.addEventListener('change', (e) => {
+        lives = clamp(Number(e.target.value) || 1, 1, 99);
+        syncHud();
+        showToast('VIDAS: ' + lives);
+      });
+    }
+    if (speedInput) {
+      speedInput.value = adminSpeedMult;
+      speedInput.addEventListener('input', (e) => {
+        adminSpeedMult = Number(e.target.value);
+        saveBuffs();
+        showToast('VELOCIDADE: ' + adminSpeedMult.toFixed(1) + 'x');
+      });
+    }
+    if (jumpInput) {
+      jumpInput.value = adminJumpMult;
+      jumpInput.addEventListener('input', (e) => {
+        adminJumpMult = Number(e.target.value);
+        saveBuffs();
+        showToast('PULO: ' + adminJumpMult.toFixed(1) + 'x');
+      });
+    }
+    if (invInput) {
+      invInput.checked = adminInvincible;
+      invInput.addEventListener('change', (e) => {
+        adminInvincible = e.target.checked;
+        saveBuffs();
+        showToast(adminInvincible ? 'INVENCÍVEL: LIGADO' : 'INVENCÍVEL: DESLIGADO');
+      });
+    }
+    if (gemsInput) {
+      gemsInput.addEventListener('change', (e) => {
+        gems = clamp(Number(e.target.value) || 0, 0, 9999);
+        syncHud();
+        showToast('GEMAS: ' + gems);
+      });
+    }
+    if (scoreInput) {
+      scoreInput.addEventListener('change', (e) => {
+        score = clamp(Number(e.target.value) || 0, 0, 999999);
+        syncHud();
+        showToast('PONTOS: ' + score);
+      });
+    }
+  })();
+
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && (state === 'playing' || state === 'intro')) pauseGame();
   });
@@ -1931,6 +2029,7 @@
 
   function hurtPlayer(respawn) {
     if (state !== 'playing') return;
+    if (isAdmin && adminInvincible && !respawn) return;
     if (player.invuln > 0 && !respawn) return;
     lives -= 1;
     shake = 13;
@@ -1977,7 +2076,7 @@
     p.star = Math.max(0, p.star - dt);
 
     const dir = (held.right ? 1 : 0) - (held.left ? 1 : 0);
-    const maxSpeed = held.sprint ? DASH_SPEED : RUN_SPEED;
+    const maxSpeed = (held.sprint ? DASH_SPEED : RUN_SPEED) * (isAdmin ? adminSpeedMult : 1);
     if (dir !== 0) {
       const accel = p.grounded ? ACCEL : AIR_ACCEL;
       p.vx = clamp(p.vx + dir * accel * dt, -maxSpeed, maxSpeed);
@@ -1996,7 +2095,7 @@
     p.coyote = p.grounded ? COYOTE_TIME : Math.max(0, p.coyote - dt);
     if (press.jumpBuffer > 0) {
       if (p.grounded || p.coyote > 0) {
-        p.vy = JUMP_VY;
+        p.vy = JUMP_VY * (isAdmin ? adminJumpMult : 1);
         p.grounded = false;
         p.coyote = 0;
         press.jumpBuffer = 0;

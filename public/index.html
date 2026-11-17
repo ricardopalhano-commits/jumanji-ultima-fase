@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.5.0" />
+    <link rel="stylesheet" href="/game.css?v=6.6.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -126,8 +126,11 @@
                   <button class="btn" type="button" data-action="settings">
                     <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
                   </button>
+                  <button class="btn btn--gold" type="button" data-action="admin" id="btn-admin" hidden>
+                    <span class="btn__ico" aria-hidden="true">★</span> ADMIN
+                  </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.5.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.6.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -322,6 +325,62 @@
               </div>
             </section>
 
+            <!-- ADMIN -->
+            <section class="screen" id="screen-admin" data-screen="admin" hidden>
+              <div class="panel">
+                <h2 class="panel__title">PAINEL ADMIN</h2>
+                <p class="panel__text">Buffar Kennedito (apenas modo admin).</p>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">VIDAS</h3>
+                  <label class="settings-row">
+                    <span>Vidas atuais</span>
+                    <input type="number" id="admin-lives" min="1" max="99" value="5" />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">BUFFS</h3>
+                  <label class="settings-row">
+                    <span>Velocidade (x)</span>
+                    <input type="range" id="admin-speed" min="1" max="4" step="0.1" value="1" />
+                  </label>
+                  <label class="settings-row">
+                    <span>Pulo (x)</span>
+                    <input type="range" id="admin-jump" min="1" max="3" step="0.1" value="1" />
+                  </label>
+                  <label class="settings-row">
+                    <span>Invencível</span>
+                    <input type="checkbox" id="admin-invincible" />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">RECURSOS</h3>
+                  <label class="settings-row">
+                    <span>Gemas</span>
+                    <input type="number" id="admin-gems" min="0" max="9999" value="0" />
+                  </label>
+                  <label class="settings-row">
+                    <span>Pontos</span>
+                    <input type="number" id="admin-score" min="0" max="999999" value="0" />
+                  </label>
+                </div>
+
+                <div class="settings-group">
+                  <h3 class="settings-group__title">PROGRESSO</h3>
+                  <label class="settings-row">
+                    <span>Destravar tudo</span>
+                    <button class="btn btn--ghost btn--sm" type="button" data-action="admin-unlock">DESTRavar</button>
+                  </label>
+                </div>
+
+                <button class="btn btn--ghost" type="button" data-action="back">
+                  <span class="btn__ico" aria-hidden="true">◄</span> VOLTAR
+                </button>
+              </div>
+            </section>
+
             <!-- PAUSA -->
             <section class="screen" id="screen-pause" data-screen="pause" hidden>
               <div class="panel">
@@ -441,10 +500,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.5.0" defer></script>
+    <script src="/game.js?v=6.6.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.5.0';
+        var GAME_VERSION = '6.6.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
