@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.6.0';
+  window.__JUMANJI_VERSION__ = '6.6.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1455,6 +1455,7 @@
       writeStorage(progressKey(), String(progress));
       syncLevelSelect();
       syncUserUi();
+      wireAdmin();
       if (msgEl) { msgEl.textContent = 'Modo admin: tudo destravado!'; msgEl.hidden = false; }
       setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
     } else {
@@ -1500,12 +1501,19 @@
     if (name === 'levels') syncLevelSelect();
     if (name === 'settings') applySettings();
     if (name === 'admin') {
+      wireAdmin();
       const li = document.getElementById('admin-lives');
       const gi = document.getElementById('admin-gems');
       const si = document.getElementById('admin-score');
+      const si2 = document.getElementById('admin-speed');
+      const ji = document.getElementById('admin-jump');
+      const ii = document.getElementById('admin-invincible');
       if (li) li.value = lives;
       if (gi) gi.value = gems;
       if (si) si.value = score;
+      if (si2) si2.value = adminSpeedMult;
+      if (ji) ji.value = adminJumpMult;
+      if (ii) ii.checked = adminInvincible;
     }
     showOverlay(name);
   }
@@ -1886,8 +1894,11 @@
   if (adminBtn) adminBtn.hidden = !isAdmin;
 
   // painel admin
-  (function wireAdmin() {
+  let adminWired = false;
+  function wireAdmin() {
     if (!isAdmin) return;
+    if (adminWired) return;
+    adminWired = true;
     const livesInput = document.getElementById('admin-lives');
     const speedInput = document.getElementById('admin-speed');
     const jumpInput = document.getElementById('admin-jump');
@@ -1945,7 +1956,7 @@
         showToast('PONTOS: ' + score);
       });
     }
-  })();
+  }
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden && (state === 'playing' || state === 'intro')) pauseGame();
@@ -4384,6 +4395,7 @@
   loadLevel(0, { intro: false });
   window.__dismissStory = dismissStory;
   syncUserUi();
+  if (isAdmin) wireAdmin();
   if (currentUser) {
     state = 'title';
     showOverlay('title');
