@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.0.1" />
+    <link rel="stylesheet" href="/game.css?v=6.0.2" />
   </head>
   <body>
     <main class="cabinet">
@@ -98,7 +98,7 @@
                     <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.0.1</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.0.2</span></p>
               </div>
             </section>
 
@@ -257,12 +257,13 @@
               </div>
             </section>
 
-            <!-- PAUSA -->
+                        <!-- PAUSA -->
             <section class="screen" id="screen-pause" data-screen="pause" hidden>
               <div class="panel">
                 <h2 class="panel__title">PAUSADO</h2>
                 <div class="menu">
                   <button class="btn btn--gold" type="button" data-action="resume">CONTINUAR</button>
+                  <button class="btn" type="button" data-action="settings">CONFIGURAÇÕES</button>
                   <button class="btn" type="button" data-action="restart">RECOMEÇAR</button>
                   <button class="btn btn--ghost" type="button" data-action="menu">MENU</button>
                 </div>
@@ -359,10 +360,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.0.1" defer></script>
+    <script src="/game.js?v=6.0.2" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.0.1';
+        var GAME_VERSION = '6.0.2';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.0.1';
+  window.__JUMANJI_VERSION__ = '6.0.2';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1520,7 +1520,10 @@
     else if (action === 'howto') openScreen('howto');
     else if (action === 'settings') openScreen('settings');
     else if (action === 'reset-progress') resetProgress();
-    else if (action === 'back') showOverlay('title');
+    else if (action === 'back') {
+      if (state === 'paused') showOverlay('pause');
+      else showOverlay('title');
+    }
     else if (action === 'level') {
       const index = Number(button.dataset.level);
       if (index <= progress) startAtLevel(index);
