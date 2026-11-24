@@ -1,4 +1,4 @@
-const base = 'https://jumanji-ultima-fase.onrender.com/api';
+const base = 'https://aetheria-ultima-fase.onrender.com/api';
 
 async function req(path, options = {}) {
   const res = await fetch(base + path, {

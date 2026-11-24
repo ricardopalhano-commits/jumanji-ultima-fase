@@ -10,7 +10,7 @@
 
 services:
   - type: web
-    name: jumanji-ultima-fase
+    name: aetheria-ultima-fase
     runtime: node
     plan: free
     region: oregon

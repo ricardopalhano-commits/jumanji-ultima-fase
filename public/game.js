@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__AETHERIA_VERSION__ = '7.0.0';
+  window.__AETHERIA_VERSION__ = '7.1.0';
 
   /* ---------------------------------- base --------------------------------- */
 

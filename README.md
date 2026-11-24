@@ -19,8 +19,8 @@
 
 | O que | Link |
 | --- | --- |
-| 🎮 Jogar agora (Render) | [jumanji-ultima-fase.onrender.com](https://jumanji-ultima-fase.onrender.com) |
-| 💻 Repositório público (GitHub) | [github.com/ricardopalhano-commits/jumanji-ultima-fase](https://github.com/ricardopalhano-commits/jumanji-ultima-fase) |
+| 🎮 Jogar agora (Render) | [aetheria-ultima-fase.onrender.com](https://aetheria-ultima-fase.onrender.com) |
+| 💻 Repositório público (GitHub) | [github.com/ricardopalhano-commits/aetheria-ultima-fase](https://github.com/ricardopalhano-commits/aetheria-ultima-fase) |
 
 > **Nota:** no plano gratuito do Render o serviço "hiberna" após alguns minutos sem acesso; a primeira visita pode levar de 30 a 60 segundos para acordar.
 
@@ -159,8 +159,8 @@ Derrote **Jurgen, o Brutal** (3 pontos de vida) no Templo para abrir o **portal 
 
 ```bash
 # 1. clone o repositório
-git clone https://github.com/ricardopalhano-commits/jumanji-ultima-fase.git
-cd jumanji-ultima-fase
+git clone https://github.com/ricardopalhano-commits/aetheria-ultima-fase.git
+cd aetheria-ultima-fase
 
 # 2. instale as dependências
 npm install
@@ -212,14 +212,14 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
 ## ☁️ Publicar no Render
 
-O deploy já está configurado pelo `render.yaml` (serviço web `jumanji-ultima-fase`, runtime Node, plano free, região `oregon`).
+O deploy já está configurado pelo `render.yaml` (serviço web `aetheria-ultima-fase`, runtime Node, plano free, região `oregon`).
 
 ### Blueprint (recomendado)
 
 1. Publique o código no GitHub.
 2. No painel do Render: **New +** → **Blueprint** → selecione o repositório → **Connect**.
-3. Confirme o serviço `jumanji-ultima-fase` e clique em **Apply**.
-4. Aguarde o build (`npm ci`) e o deploy. A URL será `https://jumanji-ultima-fase.onrender.com`.
+3. Confirme o serviço `aetheria-ultima-fase` e clique em **Apply**.
+4. Aguarde o build (`npm ci`) e o deploy. A URL será `https://aetheria-ultima-fase.onrender.com`.
 5. Confirme `https://SUA-URL/healthz` → `{"status":"ok", ...}` e abra a raiz para jogar.
 
 ### Variáveis de ambiente
@@ -239,7 +239,7 @@ O deploy já está configurado pelo `render.yaml` (serviço web `jumanji-ultima-
 
 O código está publicado em um repositório público:
 
-**https://github.com/ricardopalhano-commits/jumanji-ultima-fase**
+**https://github.com/ricardopalhano-commits/aetheria-ultima-fase**
 
 ```bash
 git add .
