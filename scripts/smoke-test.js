@@ -115,7 +115,7 @@ const playerPayload = { name: 'Aventureiro Teste', avatar: 'ruby' };
 let missionId = null;
 let playerId = null;
 
-console.log(`\nJumanji: A Última Fase • teste de fumaça (porta ${port})\n`);
+console.log(`\nAetheria: A Última Fase • teste de fumaça (porta ${port})\n`);
 
 try {
   startServer();
@@ -130,8 +130,8 @@ try {
   const home = await fetch(base);
   const homeHtml = await home.text();
   check(
-    'página inicial entrega o app shell do Jumanji',
-    home.status === 200 && homeHtml.includes('Jumanji')
+    'página inicial entrega o app shell do Aetheria',
+    home.status === 200 && homeHtml.includes('Aetheria')
   );
   check('manifest.json do PWA acessível', (await fetch(`${base}/manifest.json`)).ok);
   check('service worker acessível', (await fetch(`${base}/sw.js`)).ok);

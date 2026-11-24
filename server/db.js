@@ -1,5 +1,5 @@
 /**
- * Camada de acesso ao banco de dados do Jumanji: A Última Fase.
+ * Camada de acesso ao banco de dados do Aetheria: A Última Fase.
  *
  * - Em produção (Render) usa PostgreSQL via DATABASE_URL.
  * - Em desenvolvimento, sem DATABASE_URL, usa SQLite nativo do Node,

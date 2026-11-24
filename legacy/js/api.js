@@ -1,5 +1,5 @@
 /**
- * Cliente da API REST do Jumanji.
+ * Cliente da API REST do Aetheria.
  * Centraliza fetch, tratamento de erros e invalidação do cache offline.
  */
 export class ApiError extends Error {

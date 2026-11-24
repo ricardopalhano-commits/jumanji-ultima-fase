@@ -1,12 +1,12 @@
 /* eslint-env serviceworker */
 /**
- * Service Worker do Jumanji: O Tabuleiro Selvagem (jogo de plataforma).
+ * Service Worker do Aetheria: O Tabuleiro Selvagem (jogo de plataforma).
  * - App shell (jogo) em cache para abrir instantaneamente e funcionar offline.
  * - Navegações: network-first com fallback para index.html / offline.html.
  * - APIs de leitura: network-first com cópia em cache (dados do último acesso).
  * - Assets estáticos: stale-while-revalidate.
  */
-const VERSION = 'v6.22.1';
+const VERSION = 'v7.0.0';
 const STATIC_CACHE = `jumanji-static-${VERSION}`;
 const API_CACHE = `jumanji-api-${VERSION}`;
 const OFFLINE_URL = '/offline.html';

@@ -1,6 +1,6 @@
-# 🎮 Jumanji: O Tabuleiro Selvagem
+# 🎮 Aetheria: O Tabuleiro Selvagem
 
-**Jogo de plataforma 2D** em pixel-art, inspirado nos clássicos de 16 bits (estilo *Super Mario World*), com o mundo de **Jumanji**: deserto, selva e o templo de Jurgen. Feito em **HTML + CSS + JavaScript puro** (Canvas + Web Audio), **sem dependências externas** no jogo — sprites e sons são 100% procedurais.
+**Jogo de plataforma 2D** em pixel-art, inspirado nos clássicos de 16 bits (estilo *Super Mario World*), com o mundo de **Aetheria**: deserto, selva e o templo de Jurgen. Feito em **HTML + CSS + JavaScript puro** (Canvas + Web Audio), **sem dependências externas** no jogo — sprites e sons são 100% procedurais.
 
 > Projeto acadêmico desenvolvido com apoio do **OpenCode (IA)** como ferramenta de desenvolvimento.
 

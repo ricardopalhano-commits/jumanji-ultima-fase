@@ -1,14 +1,14 @@
 /* ==========================================================================
-   Jumanji: O Tabuleiro Selvagem
+   Aetheria: O Tabuleiro Selvagem
    Jogo de plataforma 2D (canvas) inspirado nos clássicos de plataforma,
-   com cenários, personagem e inimigos do universo de Jumanji.
+   com cenários, personagem e inimigos do universo de Aetheria.
    ========================================================================== */
 
 (() => {
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.13.1';
+  window.__AETHERIA_VERSION__ = '7.0.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -448,7 +448,7 @@
     {
       name: 'A selva',
       subtitle: 'Cipós, cobras e guardiões de madeira.',
-      story: 'Kennedito e seus amigos foram sugados para dentro do jogo Jumanji. Na selva, ele precisa sobreviver às cobras e aos mandris para encontrar a primeira pista.',
+      story: 'Kennedito e seus amigos foram sugados para dentro do jogo Aetheria. Na selva, ele precisa sobreviver às cobras e aos mandris para encontrar a primeira pista.',
       theme: 'selva',
       cols: 242,
       build(B) {

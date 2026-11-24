@@ -1,6 +1,6 @@
 /**
  * Conteúdo inicial do jogo: capítulos inspirados na jornada de
- * "Jumanji: Próxima Fase" e três aventureiros de exemplo.
+ * "Aetheria: Próxima Fase" e três aventureiros de exemplo.
  */
 
 export const DEMO_MISSIONS = [
@@ -109,4 +109,4 @@ export const DEMO_PLAYERS = [
 ];
 
 export const VICTORY_TEXT =
-  'O portal se abre sobre o deserto e o tabuleiro desaparece. Vocês voltaram para casa com a história mais improvável de todas — e com a certeza de que Jumanji nunca é só um jogo.';
+  'O portal se abre sobre o deserto e o tabuleiro desaparece. Vocês voltaram para casa com a história mais improvável de todas — e com a certeza de que Aetheria nunca é só um jogo.';

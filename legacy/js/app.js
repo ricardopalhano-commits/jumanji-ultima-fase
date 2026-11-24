@@ -569,7 +569,7 @@ function renderMission() {
     els.missionPanel.innerHTML = `
       <div class="outcome-card">
         <span class="outcome-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg></span>
-        <h2 class="outcome-card__title">Você venceu Jumanji</h2>
+        <h2 class="outcome-card__title">Você venceu Aetheria</h2>
         <p class="outcome-card__text">${escapeHtml(
           journey.epilogue || 'O portal dourado se abriu e o tabuleiro desapareceu.'
         )}</p>
@@ -1463,7 +1463,7 @@ async function showResult(outcome, mission) {
   els.resultNumber.textContent = String(outcome.roll);
   els.resultDice.className = `dice ${outcome.success ? 'is-success' : 'is-fail'}`;
   els.resultTitle.textContent = outcome.victory
-    ? 'Jumanji vencido!'
+    ? 'Aetheria vencido!'
     : outcome.success
       ? 'Vitória!'
       : outcome.eliminated
@@ -1494,7 +1494,7 @@ async function showResult(outcome, mission) {
   }
   if (outcome.victory) {
     rewards.push(
-      `<li class="is-gold"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg>Jumanji vencido</li>`
+      `<li class="is-gold"><svg class="icon" aria-hidden="true"><use href="#i-trophy"></use></svg>Aetheria vencido</li>`
     );
   }
   if (outcome.recommended) {

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-    <title>Jumanji: O Tabuleiro Selvagem — jogo de plataforma</title>
+    <title>Aetheria: O Tabuleiro Selvagem — jogo de plataforma</title>
     <meta
       name="description"
       content="Jogo de plataforma 2D em pixel-art inspirado nos clássicos de 16 bits: corra pelas dunas, salte entre templos, esmague inimigos e derrote Jurgen. Jogue agora no navegador."
@@ -13,7 +13,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Jumanji" />
+    <meta name="apple-mobile-web-app-title" content="Aetheria" />
 
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
@@ -26,11 +26,11 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.13.1" />
+    <link rel="stylesheet" href="/game.css?v=7.0.0" />
   </head>
   <body>
     <main class="cabinet">
-      <section class="game" aria-label="Jumanji: O Tabuleiro Selvagem">
+      <section class="game" aria-label="Aetheria: O Tabuleiro Selvagem">
         <!-- ------------------------------- HUD ------------------------------- -->
         <header class="hud" id="hud">
           <div class="hud__side">
@@ -172,7 +172,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.13.1</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v7.0.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -337,7 +337,7 @@
 
                 <div class="settings-group">
                   <h3 class="settings-group__title">SOBRE</h3>
-                  <p class="panel__text">Jumanji: O Tabuleiro Selvagem — v5.9.0</p>
+                  <p class="panel__text">Aetheria: O Tabuleiro Selvagem - v7.0.0</p>
                   <p class="panel__text">Jogo de plataforma em pixel art. Feito com ♥.</p>
                 </div>
 
@@ -353,7 +353,7 @@
                 <h2 class="panel__title">A HISTÓRIA</h2>
                 <p class="panel__text">
                   Kennedito era um jovem aventureiro que, junto com seus amigos, encontrou um antigo videogame no porão da escola.
-                  Ao ligarem o console, foram sugados para dentro do mundo de Jumanji, transformados em avatares do jogo.
+                  Ao ligarem o console, foram sugados para dentro do mundo de Aetheria, transformados em avatares do jogo.
                 </p>
                 <p class="panel__text">
                   Para voltar para casa, Kennedito precisa atravessar as fases do tabuleiro selvagem: a selva, o vilarejo,
@@ -568,17 +568,17 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.13.1" defer></script>
+    <script src="/game.js?v=7.0.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.13.1';
+        var GAME_VERSION = '7.0.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
         // É isso que garante que uma atualização nunca fique "presa".
         window.addEventListener('load', function () {
           setTimeout(async function () {
-            if (window.__JUMANJI_VERSION__ === GAME_VERSION) return;
+            if (window.__AETHERIA_VERSION__ === GAME_VERSION) return;
             if (location.search.indexOf('fresh=') !== -1) return;
             try {
               if ('serviceWorker' in navigator) {

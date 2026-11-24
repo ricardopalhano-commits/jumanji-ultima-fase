@@ -2,7 +2,7 @@
   "name": "jumanji-ultima-fase",
   "version": "1.0.0",
   "private": true,
-  "description": "Jumanji: A Última Fase - jogo de aventura narrativa com CRUD de aventureiros e fases, banco de dados, API REST e PWA instalável.",
+  "description": "Aetheria: A Última Fase - jogo de aventura narrativa com CRUD de aventureiros e fases, banco de dados, API REST e PWA instalável.",
   "type": "module",
   "main": "server/index.js",
   "engines": {

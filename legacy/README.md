@@ -2,7 +2,7 @@
 
 Esta pasta guarda a **primeira versão** do projeto: uma aventura narrativa com CRUD de aventureiros e fases, rolagem de dado e ranking.
 
-Ela foi **aposentada** quando o jogo de plataforma (*Jumanji: O Tabuleiro Selvagem*) passou a ser a interface principal do site. Os arquivos ficam aqui apenas como referência histórica e **não são servidos** pelo servidor (o Express só publica a pasta `public/`).
+Ela foi **aposentada** quando o jogo de plataforma (*Aetheria: O Tabuleiro Selvagem*) passou a ser a interface principal do site. Os arquivos ficam aqui apenas como referência histórica e **não são servidos** pelo servidor (o Express só publica a pasta `public/`).
 
 | Arquivo | O que era |
 | --- | --- |

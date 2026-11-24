@@ -63,7 +63,7 @@ function setupInstall() {
     broadcast({
       type: 'success',
       title: 'Jogo instalado!',
-      message: 'Jumanji: A Última Fase já está na sua tela inicial e abre em tela cheia.',
+      message: 'Aetheria: A Última Fase já está na sua tela inicial e abre em tela cheia.',
       timeout: 6000
     });
   });

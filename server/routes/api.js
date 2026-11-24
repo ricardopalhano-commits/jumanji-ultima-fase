@@ -1,5 +1,5 @@
 /**
- * API REST do Jumanji: A Última Fase.
+ * API REST do Aetheria: A Última Fase.
  *
  * Aventureiros (CRUD)  → /api/players
  * Fases da história    → /api/missions
@@ -525,7 +525,7 @@ router.get(
 
 router.get('/', (_req, res) => {
   res.json({
-    name: 'Jumanji: A Última Fase — API',
+    name: 'Aetheria: A Última Fase — API',
     version: '1.0.0',
     database: driver,
     endpoints: [
@@ -577,7 +577,7 @@ router.post('/send-reset-code', async (req, res) => {
     await transporter.sendMail({
       from: smtpFrom,
       to: email,
-      subject: 'Código de recuperação - Jumanji',
+      subject: 'Código de recuperação - Aetheria',
       text: 'Seu código de recuperação é: ' + code + '\\n\\nEle expira em 10 minutos.',
       html: '<p>Seu código de recuperação é: <strong>' + code + '</strong></p><p>Ele expira em 10 minutos.</p>'
     });

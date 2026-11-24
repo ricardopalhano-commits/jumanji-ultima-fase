@@ -68,7 +68,7 @@ async function start() {
     console.log(`[db] conectado (${driver})`);
 
     const server = app.listen(PORT, '0.0.0.0', () => {
-      console.log(`Jumanji: A Última Fase disponível em http://localhost:${PORT}`);
+      console.log(`Aetheria: A Última Fase disponível em http://localhost:${PORT}`);
     });
 
     const shutdown = (signal) => {

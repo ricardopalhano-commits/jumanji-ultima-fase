@@ -1,9 +1,9 @@
 /**
- * Mundo Jumanji — "A Última Fase" (modo de plataforma).
+ * Mundo Aetheria — "A Última Fase" (modo de plataforma).
  *
  * Fase lado a lado inspirada no clássico de Mario: o aventureiro corre, pula,
  * esmaga inimigos com quedas e desvia de obstáculos rumo ao portal dourado —
- * tudo com a temática de Jumanji (dunas, mandris, raptor, T-Rex de Jurgen).
+ * tudo com a temática de Aetheria (dunas, mandris, raptor, T-Rex de Jurgen).
  */
 
 const TILE = 32;
