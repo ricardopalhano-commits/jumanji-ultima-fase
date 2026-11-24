@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.12.1';
+  window.__JUMANJI_VERSION__ = '6.13.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1511,94 +1511,86 @@
     setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
   }
 
-  let pendingReset = null; // { username, code, expires }
+  let captchaAnswer = '';
 
-  async function sendResetCode() {
+  function generateCaptcha() {
+    const canvas = document.getElementById('captcha-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, h = canvas.height;
+    // fundo
+    ctx.fillStyle = '#f4f1d8';
+    ctx.fillRect(0, 0, w, h);
+    // texto aleatório (letras + números, sem caracteres ambíguos)
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let code = '';
+    for (let i = 0; i < 5; i++) code += chars[Math.floor(Math.random() * chars.length)];
+    captchaAnswer = code;
+    // distorção: desenha cada letra com rotação e posição aleatória
+    ctx.font = 'bold 32px monospace';
+    ctx.textBaseline = 'middle';
+    for (let i = 0; i < code.length; i++) {
+      const ch = code[i];
+      const x = 18 + i * 30;
+      const y = h / 2 + (Math.random() * 8 - 4);
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate((Math.random() * 0.6) - 0.3);
+      ctx.fillStyle = ['#2b1a0c', '#7d1712', '#1a3a5c', '#3a5c1a'][Math.floor(Math.random() * 4)];
+      ctx.fillText(ch, 0, 0);
+      ctx.restore();
+    }
+    // linhas de ruído
+    for (let i = 0; i < 4; i++) {
+      ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(Math.random() * w, Math.random() * h);
+      ctx.lineTo(Math.random() * w, Math.random() * h);
+      ctx.stroke();
+    }
+    // pontos de ruído
+    for (let i = 0; i < 30; i++) {
+      ctx.fillStyle = 'rgba(0,0,0,0.15)';
+      ctx.fillRect(Math.random() * w, Math.random() * h, 2, 2);
+    }
+  }
+
+  function resetPassword() {
     const userEl = document.getElementById('forgot-user');
-    const emailEl = document.getElementById('forgot-email');
+    const captchaEl = document.getElementById('forgot-captcha');
+    const passEl = document.getElementById('forgot-pass');
     const msgEl = document.getElementById('forgot-msg');
     const username = userEl ? userEl.value.trim() : '';
-    const email = emailEl ? emailEl.value.trim() : '';
-    if (!username || !email) {
-      if (msgEl) { msgEl.textContent = 'Preencha usuário e email.'; msgEl.hidden = false; }
+    const answer = captchaEl ? captchaEl.value.trim().toUpperCase() : '';
+    const newPass = passEl ? passEl.value : '';
+    if (!username) {
+      if (msgEl) { msgEl.textContent = 'Digite o usuário.'; msgEl.hidden = false; }
       return;
     }
     const accounts = getAccounts();
     const acc = accounts[username];
-    const storedEmail = (typeof acc === 'object') ? (acc && acc.email) : '';
     if (!acc) {
       if (msgEl) { msgEl.textContent = 'Usuário não encontrado.'; msgEl.hidden = false; }
+      generateCaptcha();
       return;
     }
-    if (storedEmail && storedEmail.toLowerCase() !== email.toLowerCase()) {
-      if (msgEl) { msgEl.textContent = 'Email não confere com o cadastrado.'; msgEl.hidden = false; }
-      return;
-    }
-    // gera código de 6 dígitos
-    const code = String(Math.floor(100000 + Math.random() * 900000));
-    pendingReset = { username, code, expires: Date.now() + 10 * 60 * 1000 };
-    // tenta enviar por email via backend
-    let devCode = null;
-    let sent = false;
-    try {
-      const res = await fetch('/api/send-reset-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, code })
-      });
-      const data = await res.json();
-      if (data && data.ok) {
-        sent = true;
-        if (data.dev) devCode = data.code || code;
-      }
-    } catch (e) {
-      devCode = code;
-      sent = true;
-    }
-    if (msgEl) {
-      if (devCode) {
-        msgEl.textContent = 'Modo dev: código ' + devCode + ' (configure SMTP para email real).';
-      } else {
-        msgEl.textContent = 'Código enviado para ' + email + '. Verifique sua caixa de entrada (e spam).';
-      }
-      msgEl.hidden = false;
-    }
-    const block = document.getElementById('reset-block');
-    if (block) block.hidden = false;
-  }
-
-  function resetPassword() {
-    const codeEl = document.getElementById('reset-code');
-    const passEl = document.getElementById('reset-pass');
-    const msgEl = document.getElementById('reset-msg');
-    const code = codeEl ? codeEl.value.trim() : '';
-    const newPass = passEl ? passEl.value : '';
-    if (!pendingReset) {
-      if (msgEl) { msgEl.textContent = 'Solicite um código primeiro.'; msgEl.hidden = false; }
-      return;
-    }
-    if (Date.now() > pendingReset.expires) {
-      if (msgEl) { msgEl.textContent = 'Código expirado. Solicite novamente.'; msgEl.hidden = false; }
-      pendingReset = null;
-      return;
-    }
-    if (code !== pendingReset.code) {
-      if (msgEl) { msgEl.textContent = 'Código incorreto.'; msgEl.hidden = false; }
+    if (answer !== captchaAnswer) {
+      if (msgEl) { msgEl.textContent = 'Código CAPTCHA incorreto.'; msgEl.hidden = false; }
+      generateCaptcha();
+      if (captchaEl) captchaEl.value = '';
       return;
     }
     if (!newPass) {
       if (msgEl) { msgEl.textContent = 'Digite a nova senha.'; msgEl.hidden = false; }
       return;
     }
-    const accounts = getAccounts();
-    const username = pendingReset.username;
-    const acc = accounts[username];
     if (typeof acc === 'object') acc.password = newPass;
     else accounts[username] = newPass;
     saveAccounts(accounts);
-    pendingReset = null;
     if (msgEl) { msgEl.textContent = 'Senha redefinida! Faça login.'; msgEl.hidden = false; }
-    setTimeout(() => { openScreen('login'); }, 800);
+    generateCaptcha();
+    setTimeout(() => { openScreen('login'); }, 900);
   }
 
   function doGuest() {
@@ -1979,8 +1971,8 @@
     else if (action === 'howto') openScreen('howto');
     else if (action === 'story') openScreen('story');
     else if (action === 'dismiss-story') dismissStory();
-    else if (action === 'forgot') openScreen('forgot');
-    else if (action === 'send-code') sendResetCode();
+    else if (action === 'forgot') { openScreen('forgot'); generateCaptcha(); }
+
     else if (action === 'reset-password') resetPassword();
     else if (action === 'settings') openScreen('settings');
     else if (action === 'admin') openScreen('admin');
@@ -2169,6 +2161,9 @@
 
   const storyCardEl = document.getElementById('story-card');
   if (storyCardEl) storyCardEl.addEventListener('click', dismissStory);
+
+  const captchaRefresh = document.getElementById('captcha-refresh');
+  if (captchaRefresh) captchaRefresh.addEventListener('click', generateCaptcha);
 
   // botão admin visível apenas para admin
   const adminBtn = document.getElementById('btn-admin');

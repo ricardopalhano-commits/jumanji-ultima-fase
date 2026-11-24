@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.12.1" />
+    <link rel="stylesheet" href="/game.css?v=6.13.1" />
   </head>
   <body>
     <main class="cabinet">
@@ -85,26 +85,21 @@
                     <span>Usuário</span>
                     <input type="text" id="forgot-user" class="login__input" placeholder="seu nome" />
                   </label>
-                  <label class="login__row">
-                    <span>Email cadastrado</span>
-                    <input type="email" id="forgot-email" class="login__input" placeholder="seu@email.com" />
-                  </label>
-                  <p class="login__msg" id="forgot-msg" hidden></p>
-                  <div class="menu">
-                    <button class="btn btn--gold" type="button" data-action="send-code">ENVIAR CÓDIGO</button>
-                  </div>
-                </div>
 
-                <div class="login" id="reset-block" hidden>
+                  <div class="captcha-box">
+                    <canvas id="captcha-canvas" width="180" height="60" aria-label="CAPTCHA"></canvas>
+                    <button class="btn btn--ghost btn--sm" type="button" id="captcha-refresh" aria-label="Novo código">↻</button>
+                  </div>
                   <label class="login__row">
-                    <span>Código recebido</span>
-                    <input type="text" id="reset-code" class="login__input" placeholder="123456" />
+                    <span>Digite o código acima</span>
+                    <input type="text" id="forgot-captcha" class="login__input" placeholder="código" autocomplete="off" />
                   </label>
+
                   <label class="login__row">
                     <span>Nova senha</span>
-                    <input type="password" id="reset-pass" class="login__input" placeholder="••••••" />
+                    <input type="password" id="forgot-pass" class="login__input" placeholder="••••••" />
                   </label>
-                  <p class="login__msg" id="reset-msg" hidden></p>
+                  <p class="login__msg" id="forgot-msg" hidden></p>
                   <div class="menu">
                     <button class="btn btn--gold" type="button" data-action="reset-password">REDEFINIR SENHA</button>
                   </div>
@@ -133,10 +128,7 @@
                     <span>Senha</span>
                     <input type="password" id="login-pass" class="login__input" placeholder="••••••" autocomplete="current-password" />
                   </label>
-                  <label class="login__row" id="login-email-row">
-                    <span>Email (para recuperação)</span>
-                    <input type="email" id="login-email" class="login__input" placeholder="seu@email.com" autocomplete="email" />
-                  </label>
+
                   <p class="login__msg" id="login-msg" hidden></p>
                   <div class="menu">
                     <button class="btn btn--gold" type="button" data-action="login">ENTRAR</button>
@@ -180,7 +172,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.12.1</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.13.1</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -576,10 +568,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.12.1" defer></script>
+    <script src="/game.js?v=6.13.1" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.12.1';
+        var GAME_VERSION = '6.13.1';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

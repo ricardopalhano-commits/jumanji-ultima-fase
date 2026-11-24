@@ -715,6 +715,21 @@ body.scanlines-on .stage::after,
   font-size: 0.72rem;
 }
 
+/* --------------------------- captcha ------------------------------------- */
+
+.captcha-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.captcha-box canvas {
+  border: 2px solid var(--gold-dk);
+  background: #f4f1d8;
+  image-rendering: auto;
+}
+
 /* --------------------------- login --------------------------------------- */
 
 .login {
