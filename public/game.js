@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.9.0';
+  window.__JUMANJI_VERSION__ = '6.10.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -160,6 +160,12 @@
     if (!audio) audio = new Ctx();
     if (audio.state === 'suspended') audio.resume().catch(() => {});
     return audio;
+  }
+
+  function vibrate(ms) {
+    try {
+      if (navigator && typeof navigator.vibrate === 'function') navigator.vibrate(ms);
+    } catch (e) { /* ignore */ }
   }
 
   function tone(freq, delay, dur, type, vol, endFreq) {
@@ -1533,7 +1539,9 @@
     levelCards.forEach((card) => {
       const index = Number(card.dataset.level);
       const locked = index > progress;
+      const completed = index < progress;
       card.classList.toggle('is-locked', locked);
+      card.classList.toggle('is-complete', completed);
       card.setAttribute('aria-disabled', locked ? 'true' : 'false');
       if (locked) card.setAttribute('tabindex', '-1');
       else card.removeAttribute('tabindex');
@@ -1970,10 +1978,12 @@
   }
 
   function resetProgress() {
+    if (!window.confirm('Zerar o progresso de ' + (currentUser || 'visitante') + '?')) return;
     progress = 0;
-    writeStorage(PROGRESS_KEY, '0');
+    writeStorage(progressKey(), '0');
     syncLevelSelect();
     sfx('ui');
+    showToast('PROGRESSO ZERADO');
     showOverlay('title');
   }
 
@@ -2195,6 +2205,7 @@
     combo = 0;
     comboTimer = 0;
     sfx('hurt');
+    vibrate([40, 30, 40]);
     addFloater(player.x + player.w / 2, player.y - 4, '-1 ♥', '#ff9e93');
     spawnBurst(player.x + player.w / 2, player.y + player.h / 2, '#e0554a', 14);
     if (lives <= 0) {
@@ -2259,6 +2270,7 @@
         p.stretch = 0.2;
         spawnDust(p.x + p.w / 2, p.y + p.h, 6);
         sfx('jump');
+        vibrate(12);
       } else if (p.doubleJump && !p.usedDouble) {
         p.usedDouble = true;
         p.vy = JUMP_VY * 0.84;
@@ -2493,6 +2505,7 @@
       player.grounded = false;
       shake = Math.max(shake, 5);
       sfx('stomp');
+      vibrate(20);
     } else {
       hurtPlayer(false);
     }

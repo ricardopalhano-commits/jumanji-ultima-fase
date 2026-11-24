@@ -2,7 +2,7 @@
 <html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>Jumanji: O Tabuleiro Selvagem — jogo de plataforma</title>
     <meta
       name="description"
@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.9.0" />
+    <link rel="stylesheet" href="/game.css?v=6.10.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -130,7 +130,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.9.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.10.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -218,6 +218,9 @@
                   <li><kbd>Shift</kbd> correr</li>
                   <li><kbd>Esc</kbd> pausar</li>
                 </ul>
+                <p class="panel__text">
+                  No celular: use os botões na parte inferior da tela. Gire para a horizontal para jogar.
+                </p>
                 <p class="panel__text">
                   Pule na <strong>cabeça</strong> dos inimigos para esmagá-los. Junte gemas, pegue o
                   <strong>coração</strong> para recuperar vida e a <strong>máscara</strong> para ficar invencível.
@@ -522,10 +525,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.9.0" defer></script>
+    <script src="/game.js?v=6.10.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.9.0';
+        var GAME_VERSION = '6.10.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
