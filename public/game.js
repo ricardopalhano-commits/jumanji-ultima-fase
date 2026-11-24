@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__AETHERIA_VERSION__ = '7.1.0';
+  window.__AETHERIA_VERSION__ = '7.1.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1723,7 +1723,7 @@
     // cristal central do tabuleiro
     const crystal = document.createElement('div');
     crystal.className = 'cutscene__crystal';
-    crystal.textContent = 'JUMANJI';
+    crystal.textContent = 'AETHERIA';
     boardEl.appendChild(crystal);
     // casas do tabuleiro dispostas em caminho (3 cima, 3 baixo)
     const slots = [];
@@ -1784,7 +1784,7 @@
     boardEl.innerHTML = '';
     const crystal = document.createElement('div');
     crystal.className = 'epic__crystal';
-    crystal.textContent = 'JUMANJI';
+    crystal.textContent = 'AETHERIA';
     boardEl.appendChild(crystal);
     const slots = [];
     const positions = [
