@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.11.1';
+  window.__JUMANJI_VERSION__ = '6.12.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1482,13 +1482,23 @@
     // conta normal: verifica/cria
     const accounts = getAccounts();
     if (accounts[username]) {
-      if (accounts[username] !== password) {
+      const acc = accounts[username];
+      const storedPass = (typeof acc === 'string') ? acc : (acc && acc.password);
+      if (storedPass !== password) {
         if (msgEl) { msgEl.textContent = 'Senha incorreta.'; msgEl.hidden = false; }
         return;
       }
+      // atualiza email se fornecido
+      const emailEl = document.getElementById('login-email');
+      const email = emailEl ? emailEl.value.trim() : '';
+      if (email && typeof acc === 'object') acc.email = email;
+      if (email && typeof acc === 'string') accounts[username] = { password: acc, email };
+      saveAccounts(accounts);
     } else {
-      // cria conta nova
-      accounts[username] = password;
+      // cria conta nova (armazena senha + email)
+      const emailEl = document.getElementById('login-email');
+      const email = emailEl ? emailEl.value.trim() : '';
+      accounts[username] = { password, email };
       saveAccounts(accounts);
     }
     currentUser = username;
@@ -1499,6 +1509,85 @@
     syncUserUi();
     if (msgEl) { msgEl.textContent = 'Bem-vindo, ' + username + '!'; msgEl.hidden = false; }
     setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
+  }
+
+  let pendingReset = null; // { username, code, expires }
+
+  async function sendResetCode() {
+    const userEl = document.getElementById('forgot-user');
+    const emailEl = document.getElementById('forgot-email');
+    const msgEl = document.getElementById('forgot-msg');
+    const username = userEl ? userEl.value.trim() : '';
+    const email = emailEl ? emailEl.value.trim() : '';
+    if (!username || !email) {
+      if (msgEl) { msgEl.textContent = 'Preencha usuário e email.'; msgEl.hidden = false; }
+      return;
+    }
+    const accounts = getAccounts();
+    const acc = accounts[username];
+    const storedEmail = (typeof acc === 'object') ? (acc && acc.email) : '';
+    if (!acc) {
+      if (msgEl) { msgEl.textContent = 'Usuário não encontrado.'; msgEl.hidden = false; }
+      return;
+    }
+    if (storedEmail && storedEmail.toLowerCase() !== email.toLowerCase()) {
+      if (msgEl) { msgEl.textContent = 'Email não confere com o cadastrado.'; msgEl.hidden = false; }
+      return;
+    }
+    // gera código de 6 dígitos
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    pendingReset = { username, code, expires: Date.now() + 10 * 60 * 1000 };
+    // tenta enviar por email via backend
+    let devCode = null;
+    try {
+      const res = await fetch('/api/send-reset-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code })
+      });
+      const data = await res.json();
+      if (data && data.dev) devCode = data.code;
+    } catch (e) { devCode = code; }
+    if (msgEl) {
+      msgEl.textContent = 'Código enviado para ' + email + (devCode ? ' (dev: ' + devCode + ')' : '') + '.';
+      msgEl.hidden = false;
+    }
+    const block = document.getElementById('reset-block');
+    if (block) block.hidden = false;
+  }
+
+  function resetPassword() {
+    const codeEl = document.getElementById('reset-code');
+    const passEl = document.getElementById('reset-pass');
+    const msgEl = document.getElementById('reset-msg');
+    const code = codeEl ? codeEl.value.trim() : '';
+    const newPass = passEl ? passEl.value : '';
+    if (!pendingReset) {
+      if (msgEl) { msgEl.textContent = 'Solicite um código primeiro.'; msgEl.hidden = false; }
+      return;
+    }
+    if (Date.now() > pendingReset.expires) {
+      if (msgEl) { msgEl.textContent = 'Código expirado. Solicite novamente.'; msgEl.hidden = false; }
+      pendingReset = null;
+      return;
+    }
+    if (code !== pendingReset.code) {
+      if (msgEl) { msgEl.textContent = 'Código incorreto.'; msgEl.hidden = false; }
+      return;
+    }
+    if (!newPass) {
+      if (msgEl) { msgEl.textContent = 'Digite a nova senha.'; msgEl.hidden = false; }
+      return;
+    }
+    const accounts = getAccounts();
+    const username = pendingReset.username;
+    const acc = accounts[username];
+    if (typeof acc === 'object') acc.password = newPass;
+    else accounts[username] = newPass;
+    saveAccounts(accounts);
+    pendingReset = null;
+    if (msgEl) { msgEl.textContent = 'Senha redefinida! Faça login.'; msgEl.hidden = false; }
+    setTimeout(() => { openScreen('login'); }, 800);
   }
 
   function doGuest() {
@@ -1879,6 +1968,9 @@
     else if (action === 'howto') openScreen('howto');
     else if (action === 'story') openScreen('story');
     else if (action === 'dismiss-story') dismissStory();
+    else if (action === 'forgot') openScreen('forgot');
+    else if (action === 'send-code') sendResetCode();
+    else if (action === 'reset-password') resetPassword();
     else if (action === 'settings') openScreen('settings');
     else if (action === 'admin') openScreen('admin');
     else if (action === 'admin-unlock') {
@@ -1890,6 +1982,7 @@
     else if (action === 'reset-progress') resetProgress();
     else if (action === 'back') {
       if (state === 'paused') showOverlay('pause');
+      else if (screens.forgot && !screens.forgot.hidden) showOverlay('login');
       else showOverlay('title');
     }
     else if (action === 'level') {

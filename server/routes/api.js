@@ -548,6 +548,46 @@ router.get('/', (_req, res) => {
   });
 });
 
+// Envio de código de recuperação de senha (email)
+router.post('/send-reset-code', async (req, res) => {
+  const { email, code } = req.body || {};
+  if (!email || !code) {
+    return res.status(400).json({ error: 'Email e código são obrigatórios.' });
+  }
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const smtpFrom = process.env.SMTP_FROM || smtpUser;
+  const smtpPort = Number(process.env.SMTP_PORT) || 587;
+
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    // Modo dev: sem SMTP configurado, retorna o código na resposta
+    console.log('[reset-code] (dev) email=' + email + ' code=' + code);
+    return res.json({ ok: true, dev: true, code });
+  }
+
+  try {
+    const nodemailer = await import('nodemailer');
+    const transporter = nodemailer.default.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: { user: smtpUser, pass: smtpPass }
+    });
+    await transporter.sendMail({
+      from: smtpFrom,
+      to: email,
+      subject: 'Código de recuperação - Jumanji',
+      text: 'Seu código de recuperação é: ' + code + '\\n\\nEle expira em 10 minutos.',
+      html: '<p>Seu código de recuperação é: <strong>' + code + '</strong></p><p>Ele expira em 10 minutos.</p>'
+    });
+    return res.json({ ok: true });
+  } catch (err) {
+    console.error('[send-reset-code]', err);
+    return res.status(500).json({ error: 'Falha ao enviar email.' });
+  }
+});
+
 router.use((_req, res) => {
   res.status(404).json({ error: 'Rota da API não encontrada.' });
 });

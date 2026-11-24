@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.11.1" />
+    <link rel="stylesheet" href="/game.css?v=6.12.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -76,6 +76,46 @@
           </div>
 
           <div class="overlay" id="overlay">
+            <!-- RECUPERAR SENHA -->
+            <section class="screen" id="screen-forgot" data-screen="forgot" hidden>
+              <div class="panel">
+                <h2 class="panel__title">RECUPERAR SENHA</h2>
+                <div class="login">
+                  <label class="login__row">
+                    <span>Usuário</span>
+                    <input type="text" id="forgot-user" class="login__input" placeholder="seu nome" />
+                  </label>
+                  <label class="login__row">
+                    <span>Email cadastrado</span>
+                    <input type="email" id="forgot-email" class="login__input" placeholder="seu@email.com" />
+                  </label>
+                  <p class="login__msg" id="forgot-msg" hidden></p>
+                  <div class="menu">
+                    <button class="btn btn--gold" type="button" data-action="send-code">ENVIAR CÓDIGO</button>
+                  </div>
+                </div>
+
+                <div class="login" id="reset-block" hidden>
+                  <label class="login__row">
+                    <span>Código recebido</span>
+                    <input type="text" id="reset-code" class="login__input" placeholder="123456" />
+                  </label>
+                  <label class="login__row">
+                    <span>Nova senha</span>
+                    <input type="password" id="reset-pass" class="login__input" placeholder="••••••" />
+                  </label>
+                  <p class="login__msg" id="reset-msg" hidden></p>
+                  <div class="menu">
+                    <button class="btn btn--gold" type="button" data-action="reset-password">REDEFINIR SENHA</button>
+                  </div>
+                </div>
+
+                <button class="btn btn--ghost" type="button" data-action="back">
+                  <span class="btn__ico" aria-hidden="true">◄</span> VOLTAR
+                </button>
+              </div>
+            </section>
+
             <!-- LOGIN -->
             <section class="screen" id="screen-login" data-screen="login">
               <div class="panel panel--menu">
@@ -93,12 +133,17 @@
                     <span>Senha</span>
                     <input type="password" id="login-pass" class="login__input" placeholder="••••••" autocomplete="current-password" />
                   </label>
+                  <label class="login__row" id="login-email-row">
+                    <span>Email (para recuperação)</span>
+                    <input type="email" id="login-email" class="login__input" placeholder="seu@email.com" autocomplete="email" />
+                  </label>
                   <p class="login__msg" id="login-msg" hidden></p>
                   <div class="menu">
                     <button class="btn btn--gold" type="button" data-action="login">ENTRAR</button>
                   </div>
+                  <button class="btn btn--ghost btn--sm" type="button" data-action="forgot" style="align-self:center;">ESQUECI A SENHA</button>
                   <p class="panel__text" style="font-size:0.6rem; text-align:center; margin-top:4px;">
-                    Novo usuário? Digite nome e senha e clique em ENTRAR para criar a conta.
+                    Novo usuário? Digite nome, senha e email e clique em ENTRAR para criar a conta.
                   </p>
                 </div>
               </div>
@@ -135,7 +180,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.11.1</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.12.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -531,10 +576,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.11.1" defer></script>
+    <script src="/game.js?v=6.12.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.11.1';
+        var GAME_VERSION = '6.12.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
