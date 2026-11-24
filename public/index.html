@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.10.0" />
+    <link rel="stylesheet" href="/game.css?v=6.11.0" />
   </head>
   <body>
     <main class="cabinet">
@@ -96,8 +96,10 @@
                   <p class="login__msg" id="login-msg" hidden></p>
                   <div class="menu">
                     <button class="btn btn--gold" type="button" data-action="login">ENTRAR</button>
-                    <button class="btn btn--ghost" type="button" data-action="guest">MODO VISITANTE</button>
                   </div>
+                  <p class="panel__text" style="font-size:0.6rem; text-align:center; margin-top:4px;">
+                    Novo usuário? Digite nome e senha e clique em ENTRAR para criar a conta.
+                  </p>
                 </div>
               </div>
             </section>
@@ -130,7 +132,7 @@
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.10.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.11.0</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -525,10 +527,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.10.0" defer></script>
+    <script src="/game.js?v=6.11.0" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.10.0';
+        var GAME_VERSION = '6.11.0';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.

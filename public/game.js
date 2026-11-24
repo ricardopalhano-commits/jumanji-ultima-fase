@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.10.0';
+  window.__JUMANJI_VERSION__ = '6.11.0';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1444,6 +1444,12 @@
     if (abp) abp.hidden = !isAdmin;
   }
 
+  const ACCOUNTS_KEY = 'jumanji-accounts';
+  function getAccounts() {
+    try { return JSON.parse(readStorage(ACCOUNTS_KEY, '{}')) || {}; } catch (e) { return {}; }
+  }
+  function saveAccounts(a) { writeStorage(ACCOUNTS_KEY, JSON.stringify(a)); }
+
   function doLogin() {
     const userEl = document.getElementById('login-user');
     const passEl = document.getElementById('login-pass');
@@ -1454,12 +1460,16 @@
       if (msgEl) { msgEl.textContent = 'Digite um usuário.'; msgEl.hidden = false; }
       return;
     }
+    if (!password) {
+      if (msgEl) { msgEl.textContent = 'Digite uma senha.'; msgEl.hidden = false; }
+      return;
+    }
+    // senha admin destrava tudo
     if (password === ADMIN_PASSWORD) {
       currentUser = username;
       isAdmin = true;
       writeStorage('jumanji-tabuleiro-user', username);
       writeStorage('jumanji-tabuleiro-admin', '1');
-      // admin destrava tudo
       progress = LEVELS.length - 1;
       writeStorage(progressKey(), String(progress));
       syncLevelSelect();
@@ -1467,16 +1477,28 @@
       wireAdmin();
       if (msgEl) { msgEl.textContent = 'Modo admin: tudo destravado!'; msgEl.hidden = false; }
       setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
-    } else {
-      currentUser = username;
-      isAdmin = false;
-      writeStorage('jumanji-tabuleiro-user', username);
-      writeStorage('jumanji-tabuleiro-admin', '0');
-      loadProgressForUser();
-      syncUserUi();
-      if (msgEl) { msgEl.textContent = 'Bem-vindo, ' + username + '!'; msgEl.hidden = false; }
-      setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
+      return;
     }
+    // conta normal: verifica/cria
+    const accounts = getAccounts();
+    if (accounts[username]) {
+      if (accounts[username] !== password) {
+        if (msgEl) { msgEl.textContent = 'Senha incorreta.'; msgEl.hidden = false; }
+        return;
+      }
+    } else {
+      // cria conta nova
+      accounts[username] = password;
+      saveAccounts(accounts);
+    }
+    currentUser = username;
+    isAdmin = false;
+    writeStorage('jumanji-tabuleiro-user', username);
+    writeStorage('jumanji-tabuleiro-admin', '0');
+    loadProgressForUser();
+    syncUserUi();
+    if (msgEl) { msgEl.textContent = 'Bem-vindo, ' + username + '!'; msgEl.hidden = false; }
+    setTimeout(() => { showOverlay('title'); state = 'title'; syncUserUi(); }, 600);
   }
 
   function doGuest() {
