@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/game.css?v=6.11.0" />
+    <link rel="stylesheet" href="/game.css?v=6.11.1" />
   </head>
   <body>
     <main class="cabinet">
@@ -128,11 +128,14 @@
                   <button class="btn" type="button" data-action="settings">
                     <span class="btn__ico" aria-hidden="true">⚙</span> CONFIGURAÇÕES
                   </button>
+                  <button class="btn btn--ghost" type="button" data-action="logout">
+                    <span class="btn__ico" aria-hidden="true">◄</span> SAIR
+                  </button>
                   <button class="btn btn--gold" type="button" data-action="admin" id="btn-admin" hidden>
                     <span class="btn__ico" aria-hidden="true">★</span> ADMIN
                   </button>
                 </nav>
-                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.11.0</span></p>
+                <p class="best">RECORDE <strong id="title-best">0</strong><span class="ver">PIXEL ART · v6.11.1</span></p>
                 <p class="best" id="title-user">USUÁRIO: visitante</p>
               </div>
             </section>
@@ -395,6 +398,7 @@
                   <button class="btn" type="button" data-action="settings">CONFIGURAÇÕES</button>
                   <button class="btn" type="button" data-action="admin" id="btn-admin-pause" hidden>ADMIN</button>
                   <button class="btn" type="button" data-action="restart">RECOMEÇAR</button>
+                  <button class="btn btn--ghost" type="button" data-action="logout">SAIR</button>
                   <button class="btn btn--ghost" type="button" data-action="menu">MENU</button>
                 </div>
               </div>
@@ -527,10 +531,10 @@
       </section>
     </main>
 
-    <script src="/game.js?v=6.11.0" defer></script>
+    <script src="/game.js?v=6.11.1" defer></script>
     <script>
       (function () {
-        var GAME_VERSION = '6.11.0';
+        var GAME_VERSION = '6.11.1';
 
         // Recuperação de cache antigo: se o game.js servido não for a versão
         // esperada, limpa Service Worker + caches e recarrega forçado uma vez.
