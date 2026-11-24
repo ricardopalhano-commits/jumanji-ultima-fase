@@ -8,7 +8,7 @@
   'use strict';
 
   // Versão do jogo: usada para detectar cache antigo e forçar atualização.
-  window.__JUMANJI_VERSION__ = '6.12.0';
+  window.__JUMANJI_VERSION__ = '6.12.1';
 
   /* ---------------------------------- base --------------------------------- */
 
@@ -1539,6 +1539,7 @@
     pendingReset = { username, code, expires: Date.now() + 10 * 60 * 1000 };
     // tenta enviar por email via backend
     let devCode = null;
+    let sent = false;
     try {
       const res = await fetch('/api/send-reset-code', {
         method: 'POST',
@@ -1546,10 +1547,20 @@
         body: JSON.stringify({ email, code })
       });
       const data = await res.json();
-      if (data && data.dev) devCode = data.code;
-    } catch (e) { devCode = code; }
+      if (data && data.ok) {
+        sent = true;
+        if (data.dev) devCode = data.code || code;
+      }
+    } catch (e) {
+      devCode = code;
+      sent = true;
+    }
     if (msgEl) {
-      msgEl.textContent = 'Código enviado para ' + email + (devCode ? ' (dev: ' + devCode + ')' : '') + '.';
+      if (devCode) {
+        msgEl.textContent = 'Modo dev: código ' + devCode + ' (configure SMTP para email real).';
+      } else {
+        msgEl.textContent = 'Código enviado para ' + email + '. Verifique sua caixa de entrada (e spam).';
+      }
       msgEl.hidden = false;
     }
     const block = document.getElementById('reset-block');
